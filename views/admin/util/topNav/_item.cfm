@@ -13,14 +13,16 @@
 <cfoutput>
 	<cfif !separator>
 		<cfif !hasSubmenu>
-			<li class="#itemClass#">
-				<a href="#itemLink#"<cfif active> class="active"</cfif>>
-					<cfif showMenuIcons && Len( Trim( itemIcon ) )>
-						<i class="fa fa-fw #itemIcon#"></i>&nbsp;
-					</cfif>
-					#itemTitle#
-				</a>
-			</li>
+			<cfif len( trim( itemLink ) )>
+				<li class="#itemClass#">
+					<a href="#itemLink#"<cfif active> class="active"</cfif>>
+						<cfif showMenuIcons && Len( Trim( itemIcon ) )>
+							<i class="fa fa-fw #itemIcon#"></i>&nbsp;
+						</cfif>
+						#itemTitle#
+					</a>
+				</li>
+			</cfif>
 		<cfelse>
 			<li class="#itemClass#">
 				<a href="##" data-toggle="preside-dropdown" class="dropdown-toggle<cfif active> active</cfif>">
