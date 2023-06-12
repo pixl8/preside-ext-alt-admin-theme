@@ -1,10 +1,11 @@
 <cfscript>
 	body             = renderView();
-	navbar           = renderView( 'admin/util/topNav' );
-	siteAlerts       = renderViewlet( 'admin.layout.siteAlerts' );
-	breadcrumbs      = renderView( 'admin/layout/breadcrumbs' );
+	navbar           = renderView( "admin/util/topNav" );
+	siteAlerts       = renderViewlet( "admin.layout.siteAlerts" );
+	breadcrumbs      = renderView( "admin/layout/breadcrumbs" );
 	adminSidebar     = renderViewlet( "admin.layout.renderAdminSidebar" );
-	notifications    = renderView( 'admin/general/notifications' );
+	adminFooter      = renderViewlet( "admin.general.footer" );
+	notifications    = renderView( "admin/general/notifications" );
 	secondaryNav     = prc.secondaryNav    ?: "";
 	topRightButtons  = prc.topRightButtons ?: "";
 	pageHeader       = IsTrue( prc.displayPageHeader ?: true ) ? renderView( view="admin/util/pageTitle", args={
@@ -98,6 +99,8 @@
 					</div>
 				</div>
 			</div>
+
+			#adminFooter#
 		</div>
 
 		#notifications#
