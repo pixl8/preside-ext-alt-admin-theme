@@ -12,7 +12,7 @@ jobs:
           branch=${GITHUB_REF##*/}
           publish=false
           if [[ "{{ env.event.name }}" != "pull_request" ]] ; then
-            if [[ $branch == v* ]] ; then
+            if [[ $branch == release-* ]] || [[ $branch == v* ]] ; then
               publish=true
             fi
           fi
@@ -102,9 +102,9 @@ jobs:
         env:
           DOWNLOAD_URL: ${{ steps.upload.outputs.browser_download_url }}
 
-      # - name: Publish to forgebox
-      #   if: "env.PUBLISH == 'true'"
-      #   uses: pixl8/github-action-box-publish@v3
-      #   with:
-      #     forgebox_user: ${{ secrets.FORGEBOX_USER }}
-      #     forgebox_pass: ${{ secrets.FORGEBOX_PASS }}
+      - name: Publish to forgebox
+        if: "env.PUBLISH == 'true'"
+        uses: pixl8/github-action-box-publish@v3
+        with:
+          forgebox_user: ${{ secrets.FORGEBOX_USER }}
+          forgebox_pass: ${{ secrets.FORGEBOX_PASS }}
