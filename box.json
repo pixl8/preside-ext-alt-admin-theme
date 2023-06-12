@@ -2,7 +2,7 @@
     "name":"Preside Extension: Alternate Admin Theme",
     "type":"preside-extensions",
     "version":"$VERSION_NUMBER",
-    "location":"$DOWNLOAD_LOCATION",
+    "location":"$DOWNLOAD_URL",
     "private":false,
     "author":"Pixl8 Group",
     "directory":"application/extensions",
