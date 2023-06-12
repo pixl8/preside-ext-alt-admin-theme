@@ -1,0 +1,223 @@
+@import url( "../lessglobals/globals.less" );
+
+.presidecms {
+	.btn {
+		display       : inline-block;
+		border-radius : var( --button-border-radius );
+		border        : var( --button-border-width ) solid transparent !important;
+		font-size     : var( --font-size-button );
+		line-height   : 1.4286em !important;
+		padding       : var( --button-padding-vertical ) var( --button-padding-horizontal ) !important;
+		text-shadow   : none;
+
+		.secondary-button( neutral );
+
+		+ .dropdown-menu {
+			margin-top: 2px;
+			border-radius: var( --button-border-radius ) !important;
+			padding-top: 5px;
+			padding-bottom: 5px;
+		}
+	}
+	.btn-group-sm > .btn,
+	.btn-sm {
+		font-size : var( --font-size-button-sm );
+	}
+
+	.top-right-button-group {
+		position        : static;
+		display         : flex;
+		flex            : 1 auto;
+		align-items     : flex-start;
+		justify-content : right;
+		flex-wrap       : wrap;
+		gap             : 6px;
+		margin-bottom   : 15px;
+
+		.btn,
+		.btn-group button.btn {
+			margin: 0;
+		}
+
+		> * {
+			order : 1;
+		}
+		> .pull-right {
+			float    : none !important;
+			position : relative;
+		}
+		> ul.dropdown-menu.pull-right {
+			top      : ~"calc( 100% - 16px )";
+			position : absolute;
+		}
+
+		.toprightpullrightbutton( @counter:10 ) when ( @counter > 0 ) {
+  			.toprightpullrightbutton( (@counter - 1) );
+			> .pull-right:nth-child(@{counter}) {
+				order : 11-@counter;
+			}
+		}
+		.toprightpullrightbutton();
+
+		> .btn:only-child,
+		> .btn-group:only-child > .btn,
+		> .btn-group.open:only-child > .btn {
+			.primary-button();
+			&.btn-danger {
+				.primary-button( danger );
+			}
+			&.btn-warn {
+				.secondary-button( danger );
+			}
+		}
+	}
+
+
+	.btn.btn-primary,
+	.btn.btn-success,
+	.btn.btn-primarybtn-group.primary-action-with-dropdow.dropdown-toggle,
+	.btn.btn-success.dropdown-toggle {
+		.primary-button();
+	}
+	.btn.btn-default,
+	.btn.btn-default.dropdown-toggle {
+		.primary-button( neutral );
+	}
+	.btn.btn-danger,
+	.btn.btn-danger.dropdown-toggle {
+		.primary-button( danger );
+	}
+
+	.btn.btn-info,
+	.btn.btn-info.dropdown-toggle {
+		.secondary-button();
+	}
+	.btn.btn-warning,
+	.btn.btn-warning.dropdown-toggle {
+		.secondary-button( danger );
+	}
+
+	// Generic legacy fallbacks
+	.btn[type=submit] {
+		.primary-button();
+	}
+	.btn[value=savedraft] {
+		.secondary-button();
+	}
+	.btn[data-global-key=c],
+	.btn[data-bb-handler=cancel] {
+		.text-button( neutral );
+	}
+	.btn[data-global-key=d] {
+		.primary-button( danger );
+	}
+	.btn[data-global-key=p] {
+		.secondary-button( neutral );
+	}
+	.multi-action-buttons .btn {
+		.tertiary-button();
+
+		&[data-global-key=d] {
+			.tertiary-button( danger );
+		}
+	}
+	.top-right-button-group > a:not(.btn):not(.inline),
+	.top-right-button-group > div > a:not(.btn):not(.inline) {
+		&:extend( .presidecms .btn );
+		&:extend( .presidecms .btn-sm );
+		.text-button();
+	}
+	.chosen-container ~ .btn {
+		.primary-button( formcontrol );
+		line-height : 46px !important;
+		padding     : 0 !important;
+	}
+
+	// Newly-added classes, take precedence over above
+	.btn.btn-primary-default   { .primary-button() }
+	.btn.btn-primary-neutral   { .primary-button( neutral ) }
+	.btn.btn-primary-danger    { .primary-button( danger ) }
+	.btn.btn-secondary-default { .secondary-button() }
+	.btn.btn-secondary-neutral { .secondary-button( neutral ) }
+	.btn.btn-secondary-danger  { .secondary-button( danger ) }
+	.btn.btn-tertiary-default  { .tertiary-button() }
+	.btn.btn-tertiary-neutral  { .tertiary-button( neutral ) }
+	.btn.btn-tertiary-danger   { .tertiary-button( danger ) }
+	.btn.btn-text-default      { .text-button() }
+	.btn.btn-text-neutral      { .text-button( neutral ) }
+	.btn.btn-text-danger       { .text-button( danger ) }
+
+	.open > .btn.dropdown-toggle {
+		&.btn-primary-default, &.btn-primary, &.btn-success { .primary-button() }
+		&.btn-primary-neutral, &.btn-default { .primary-button( neutral ) }
+		&.btn-primary-danger, &.btn-danger   { .primary-button( danger ) }
+		&.btn-secondary-default, &.btn-info { .secondary-button() }
+		&.btn-secondary-neutral { .secondary-button( neutral ) }
+		&.btn-secondary-danger  { .secondary-button( danger ) }
+		&.btn-tertiary-default  { .tertiary-button() }
+		&.btn-tertiary-neutral  { .tertiary-button( neutral ) }
+		&.btn-tertiary-danger   { .tertiary-button( danger ) }
+		&.btn-text-default      { .text-button() }
+		&.btn-text-neutral      { .text-button( neutral ) }
+		&.btn-text-danger       { .text-button( danger ) }
+	}
+
+	.btn.disabled,
+	.btn[disabled],
+	fieldset[disabled] .btn {
+		opacity : .5;
+	}
+
+
+	.chosen-container ~ .btn {
+		border-radius : 0;
+
+		&:last-child {
+  			border-radius             : var( --button-border-radius );
+  			border-bottom-left-radius : 0;
+  			border-top-left-radius    : 0;
+		}
+	}
+
+	.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+  		border-bottom-right-radius : var( --button-border-radius );
+  		border-top-right-radius    : var( --button-border-radius );
+  	}
+
+  	.btn-group.primary-action-with-dropdown {
+		display     : flex;
+		white-space : nowrap;
+
+  		> .btn:first-child {
+  			border-bottom-right-radius : 0 !important;
+  			border-top-right-radius    : 0 !important;
+  		}
+
+  		> .btn.dropdown-toggle {
+  			margin-left               : 0 !important;
+  			border-radius             : var( --button-border-radius );
+  			border-bottom-left-radius : 0 !important;
+  			border-top-left-radius    : 0 !important;
+  		}
+  	}
+
+  	.btn-group .dropdown-menu .divider {
+  		margin: 5px 2px;
+  	}
+
+// specific page patches, etc.
+	// main site tree page, make edit sites button a primary action
+  	.sitetree-index {
+  		.top-right-button-group {
+  			a:first-child > .btn {
+  				.primary-button();
+  			}
+  		}
+  	}
+
+  	// data table export dialog, make "save" secondary action (download is primary)
+  	.modal-dialog .modal-footer .btn[data-bb-handler="save"] {
+  		.secondary-button();
+  	}
+
+}

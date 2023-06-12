@@ -1,0 +1,117 @@
+@import url( "../../lessglobals/globals.less" );
+
+html.presidecms {
+	background-color      : var( --login-bg-color ) !important;
+	background-image      : var( --login-bg-image ) !important;
+	background-repeat     : var( --login-bg-repeat ) !important;
+	background-position   : var( --login-bg-position ) !important;
+	background-attachment : var( --login-bg-attachment ) !important;
+	background-size       : var( --login-bg-size ) !important;
+
+	.login-layout {
+		.login-container {
+			width : var( --login-container-width );
+
+			.admin-locale-picker-container > a {
+				color : var( --login-locale-font-color) !important;
+			}
+
+			.login-box {
+				background    : var( --login-box-color );
+				border        : var( --login-box-border );
+				border-radius : var( --login-box-border-radius );
+				color         : var( --login-box-font-color );
+				margin        : 0;
+
+				.widget-body {
+					background : transparent;
+				}
+
+				.widget-main {
+					padding          : 26px;
+					background-color : transparent;
+
+					form + .cms-version {
+						margin: 20px 0 0;
+					}
+
+					.cms-brand {
+						text-indent         : -9999em;
+						background-image    : var( --login-logo );
+						background-repeat   : no-repeat;
+						background-position : center center;
+						background-size     : var( --login-logo-width );
+						width               : var( --login-logo-width );
+						height              : var( --login-logo-height );
+						margin              : var( --login-logo-margin );
+					}
+
+					a {
+						color : var( --login-box-link-color );
+					}
+
+					.checkbox {
+						margin : 20px 0;
+						label {
+							margin : 0;
+							span {
+								color : var( --login-box-font-color );
+							}
+						}
+						input[type=checkbox] {
+							accent-color : var( --form-control-accent-color );
+						}
+					}
+
+					.space {
+						margin : 11px 0;
+					}
+
+					.row-fluid {
+						text-align : center;
+					}
+
+					.btn {
+						.primary-button();
+						font-size : var( --login-button-font-size );
+						width     : 100%;
+						.fa {
+							display : none;
+						}
+					}
+
+					.pull-right {
+						float      : none !important;
+						display    : block;
+						margin-top : 25px;
+					}
+
+					.input-icon {
+						input:focus {
+							border-color : var( --color-secondary-100 );
+
+							+ .fa {
+								color : var( --color-secondary-100 );
+							}
+						}
+
+						&.input-icon-right  {
+							.fa {
+								right : 9px;
+							}
+
+							.form-control {
+								border-radius : 6px !important;
+								padding       : 8px 32px 8px 12px;
+								height        : 35px;
+							}
+						}
+					}
+
+				}
+			}
+
+		}
+
+	}
+}

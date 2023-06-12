@@ -1,0 +1,179 @@
+/****************************************************************************************************
+	Contains bootstrap override style
+****************************************************************************************************/
+
+@import url( "../lessglobals/globals.less" );
+
+.presidecms .page-content, .presidecms.login {
+
+	.btn-group + .btn-sm,
+	.btn-group > .btn-sm {
+		border-width : 4px;
+	}
+
+	.dropdown-menu {
+		.reset-list();
+
+		li {
+			margin-bottom : 0;
+
+			&:before {
+				display : none;
+			}
+
+		}
+
+	}
+
+	// Alerts
+	.alert {
+		.border-radius(0);
+		border        : none;
+		position      : relative;
+		margin-bottom : 39px;
+
+		&.alert-warning {
+			background-color : var( --color-warning-5 );
+			color            : var( --color-warning-110 );
+			.fa {
+				color : var( --color-warning-100 );
+			}
+			.btn .fa {
+				color : inherit;
+			}
+			.btn.btn-warning {
+				background-color : var( --color-warning-100 );
+				border-color     : var( --color-warning-100 );
+			}
+		}
+
+		&.alert-success {
+			background-color : var( --color-success-5 );
+			color            : var( --color-success-110 );
+			.fa {
+				color : var( --color-success-100 );
+			}
+			.btn .fa {
+				color : inherit;
+			}
+			.btn.btn-success {
+				background-color : var( --color-success-100 );
+				border-color     : var( --color-success-100 );
+			}
+		}
+
+		&.alert-danger {
+			background-color : var( --color-error-5 );
+			color            : var( --color-error-110 );
+			.fa {
+				color : var( --color-error-100 );
+			}
+			.btn .fa {
+				color : inherit;
+			}
+			.btn.btn-danger {
+				background-color : var( --color-error-100 );
+				border-color     : var( --color-error-100 );
+			}
+		}
+
+		&.alert-info {
+			background-color : var( --color-info-5 );
+			color            : var( --color-info-110 );
+			.fa {
+				color : var( --color-info-100 );
+			}
+			.btn .fa {
+				color : inherit;
+			}
+			.btn.btn-info {
+				background-color : var( --color-info-100 );
+				border-color     : var( --color-info-100 );
+			}
+		}
+
+		a {
+			color         : inherit;
+			border-bottom : 1px dotted;
+
+			&:hover {
+				border-bottom : 1px solid;
+			}
+		}
+
+	}
+
+
+	// Progress
+	.progress {
+		.border-radius(100px);
+		background-color : @grey-light-7;
+		height           : 46px;
+
+		.progress-bar {
+			color       : @white;
+			font-size   : 13px;
+			font-weight : 700;
+			line-height : 46px;
+			position    : relative;
+			z-index     : 10;
+
+			&.progress-bar-success {
+				background-color : @green-dark;
+			}
+
+			&.progress-bar-warning {
+				background-color : @green;
+			}
+
+			&.progress-bar-danger {
+				background-color : @orange;
+			}
+
+			&.progress-bar-default {
+				background-color : @grey-light-7;
+				color            : @green-dark;
+				margin-left      : 0;
+			}
+
+			+ .progress-bar {
+
+				&:before {
+					background : inherit;
+					content    : "";
+					height     : 100%;
+					width      : 18px;
+					position   : relative;
+					top        : 0;
+					right      : 100%;
+					z-index    : 1;
+				}
+
+			}
+
+		}
+
+	}
+
+	.table {
+		> thead > tr > th,
+		> tbody > tr > td {
+			font-size : var( --font-size-body );
+			padding-top : 8px;
+			padding-bottom : 8px;
+		}
+	}
+}
+
+.presidecms.mis {
+	.btn {
+		&.btn-primary, &.btn-success {
+			background-color : @pink !important;
+			border-color : @pink !important;
+
+			&:hover {
+				background-color : darken( @pink, 7% ) !important;
+			}
+		}
+	}
+}

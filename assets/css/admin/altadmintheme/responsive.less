@@ -1,0 +1,271 @@
+@import url( "../lessglobals/globals.less" );
+
+// RESPONSIVE LAYOUT UPDATES
+.presidecms {
+	.preside-theme {
+		.navbar {
+			@media @md {
+				// padding-bottom: 45px;
+			}
+		}
+		.mobile-nav {
+			@media @lg-min {
+				display : block !important;
+				height  : auto !important;
+			}
+			@media @md {
+				height     : 0px;
+				position   : absolute;
+				top        : 60px;
+				float      : none !important;
+				width      : auto;
+				left       : 0;
+				right      : 0;
+				overflow   : hidden;
+			}
+			@media @md-min {
+				padding-left  : 15px;
+				padding-right : 15px;
+			}
+
+			&.in {
+				overflow: initial;
+			}
+
+			.ace-nav {
+				> li {
+
+					@media @xs {
+						width  : 100%;
+						float  : none !important;
+						height : auto;
+					}
+
+					> a {
+						@media @md {
+							margin : 0 3px !important;
+						}
+
+						@media @xs {
+							margin        : 0 !important;
+							display       : inline-block !important;
+							width         : 100%;
+							text-align    : left;
+							line-height   : 30px;
+							height        : auto;
+							padding-left  : 15px !important;
+							padding-right : 15px !important;
+						}
+
+						.fa-caret-down {
+							@media @xs {
+								float    : right;
+								top      : 6px;
+								position : relative;
+							}
+						}
+					}
+
+					.dropdown-menu {
+						@media @xs {
+							position : relative;
+							border   : none;
+							right    : 0 !important;
+							left     : 0 !important;
+							top      : 0;
+							width    : 100%;
+							margin   : 0;
+							float    : none;
+
+						}
+
+						> li {
+							@media @xs {
+								margin : 0 10px;
+							}
+						}
+					}
+				}
+
+			}
+		}
+		.launcher-menu-container {
+			.ace-nav {
+				> li {
+
+					&.launcher-menu {
+						&.active {
+
+							.launcher-menu-input,
+							.twitter-typeahead {
+								@media @xs-portrait-wider {
+									width: 310px;
+								}
+
+							}
+
+						}
+
+						.tt-dropdown-menu {
+							width: 100%;
+						}
+
+					}
+				}
+			}
+		}
+	}
+	.page-content {
+
+		.table-responsive {
+			.table > tbody > tr > td,
+			.table > thead > tr > th {
+				white-space: nowrap;
+			}
+		}
+	}
+}
+
+
+// MOBILE (480px) overrides from preside
+@media  only screen and (max-width: 479px) {
+	.presidecms .navbar:not(.navbar-collapse) {
+		.navbar-header {
+			&.pull-left {
+		    	float: left !important;
+			}
+			&.pull-right {
+				float: right !important;
+			}
+
+			&.launcher-menu-container {
+				// position: absolute;
+				// top: 0;
+				// left: 0;
+				// right: 0;
+				// width: auto;
+				// z-index: 2;
+				margin-right: -20px !important;
+			}
+
+			&.mobile-trigger {
+				position: relative;
+				z-index: 4;
+
+				.ace-nav {
+					> li {
+						> a {
+							margin: 0;
+
+							&:last-child {
+								margin-right: 6px;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		.ace-nav {
+			display    : block;
+			text-align : left;
+			background : none;
+			border     : none;
+
+			> li {
+				float : left !important;
+
+				&:first-child,
+				&:last-child {
+					border : none;
+				}
+
+				&:nth-last-child(2) > .dropdown-menu.dropdown-menu-right {
+					left: auto;
+					right: 5px;
+				}
+
+				&.launcher-menu {
+					float : none !important;
+					width : auto;
+					left  : 87px;
+
+					&.active {
+						width         : 100%;
+						top           : 45px;
+						right         : 0;
+						left          : 0;
+						padding-left  : 24px;
+						padding-right : 15px;
+
+						.launcher-menu-icon {
+							position : absolute;
+							top      : 0;
+							left     : 0;
+						}
+						.launcher-menu-input,
+						.twitter-typeahead {
+							width: 100%;
+
+							&:focus {
+								outline: none;
+							}
+						}
+
+					}
+					.launcher-menu-input,
+					.twitter-typeahead {
+						-webkit-transition: none;
+    					transition: none;
+					}
+
+					.tt-dropdown-menu {
+						width: 100%;
+					}
+				}
+			}
+		}
+	}
+}
+@media  only screen and (max-width: 390px) {
+	.presidecms .navbar:not(.navbar-collapse) {
+		min-height: 90px;
+
+		.navbar-header {
+			&.launcher-menu-container {
+				width: 10px;
+			}
+			&.mobile-nav {
+				top: 90px;
+			}
+			&.mobile-trigger {
+				z-index: 1024;
+			}
+		}
+
+		.ace-nav {
+
+			> li {
+				&.launcher-menu {
+					width         : 100%;
+					top           : 45px;
+					right         : 0;
+					left          : 0;
+					padding-left  : 24px;
+					padding-right : 15px;
+
+					.launcher-menu-icon {
+						position : absolute;
+						top      : 0;
+						left     : 0;
+					}
+					.launcher-menu-input,
+					.twitter-typeahead {
+						width: 100%;
+					}
+
+				}
+			}
+		}
+	}
+}

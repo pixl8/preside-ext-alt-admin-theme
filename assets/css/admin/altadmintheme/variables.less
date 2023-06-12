@@ -1,0 +1,189 @@
+@import url( "../lessglobals/globals.less" );
+
+:root {
+	// GENERIC
+
+	--font-family-base     : "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	--font-family-heading  : "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	--font-family-subtitle : "Poppins", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+	--font-color-base : var( --color-neutral-80 );
+	--font-color-h1   : var( --font-color-base );
+	--font-color-h2   : var( --font-color-base );
+	--font-color-h3   : var( --font-color-base );
+	--font-color-h4   : var( --font-color-base );
+	--font-color-h5   : var( --font-color-base );
+	--font-color-h6   : var( --font-color-base );
+
+	--font-size-base       : 13px;
+	--font-size-body       : 1rem;
+	--font-size-body-sm    : 0.9231rem;
+	--font-size-body-lg    : 1.0769rem;
+	--font-size-h1         : 1.7143rem;
+	--font-size-h2         : 1.4286rem;
+	--font-size-h3         : 1.2857rem;
+	--font-size-h4         : 1.1429rem;
+	--font-size-h5         : 1.0714rem;
+	--font-size-h6         : 1rem;
+	--font-size-subtitle   : 1rem;
+	--font-size-subtitle-2 : 0.8571rem;
+	--font-size-button     : 1rem;
+	--font-size-button-sm  : 0.9286rem;
+	--font-size-button-lg  : 1.1429rem;
+
+	--font-weight-base     : 400;
+	--font-weight-bold     : 600;
+	--font-weight-h1       : var( --font-weight-bold );
+	--font-weight-h2       : var( --font-weight-bold );
+	--font-weight-h3       : var( --font-weight-bold );
+	--font-weight-h4       : var( --font-weight-bold );
+	--font-weight-h5       : var( --font-weight-bold );
+	--font-weight-h6       : var( --font-weight-bold );
+	--font-weight-subtitle : var( --font-weight-bold );
+
+	--color-success-100 : #347d63;
+	--color-success-90  : #50b793;
+	--color-success-10  : #9ae3ca;
+	--color-success-5   : #e5faf2;
+	--color-success-110 : #1d634a;
+
+	--color-warning-100 : #f7b538;
+	--color-warning-90  : #fbc666;
+	--color-warning-10  : #fff9e6;
+	--color-warning-5   : #fff9ee;
+	--color-warning-110 : #624816;
+
+	--color-error-100 : #db2b39;
+	--color-error-90  : #e35662;
+	--color-error-10  : #ffe2e5;
+	--color-error-5   : #ffeef0;
+	--color-error-110 : #bb101e;
+
+	--color-info-100 : #429ae5;
+	--color-info-90  : #6eb2ec;
+	--color-info-10  : #d5edff;
+	--color-info-5   : #eef8ff;
+	--color-info-110 : #095393;
+
+	--color-white       : #ffffff;
+	--color-neutral-5   : #f6f7f5;
+	--color-neutral-10  : #e8e9ea;
+	--color-neutral-20  : #d2d3d5;
+	--color-neutral-40  : #a4a7aa;
+	--color-neutral-60  : #757b80;
+	--color-neutral-80  : #494f55;
+	--color-neutral-100 : #21262b;
+	--color-black       : #000000;
+
+	--color-link            : var( --color-accent-100 );
+	--color-breadcrumb      : var( --font-color-base );
+	--color-breadcrumb-link : var( --color-link );
+
+	--button-border-radius      : 4px;
+	--button-border-width       : 1px;
+	--button-padding-vertical   : 0.5rem;
+	--button-padding-horizontal : 0.8333rem;
+
+	--button-default-100 : #1b74c1;
+	--button-default-110 : #095393;
+	--button-default-90  : #429ae5;
+	--button-default-10  : #d5edff;
+	--button-default-5   : #eef8ff;
+
+	--button-neutral-100 : #494f55;
+	--button-neutral-110 : #21262b;
+	--button-neutral-90  : #767b81;
+	--button-neutral-10  : #d2d3d5;
+	--button-neutral-5   : #f6f7f5;
+
+	--button-danger-100 : #db2b39;
+	--button-danger-110 : #bb101e;
+	--button-danger-90  : #e35662;
+	--button-danger-10  : #f8d7da;
+	--button-danger-5   : #fcedee;
+
+	--button-formcontrol-100 : #888888;
+	--button-formcontrol-110 : #777777;
+	--button-formcontrol-90  : #666666;
+	--button-formcontrol-10  : #dddddd;
+	--button-formcontrol-5   : #eeeeee;
+
+	--form-control-accent-color : var( --button-default-100 );
+
+	// BRANDING
+
+	--color-primary-100 : #012e62;
+	--color-primary-90  : #013E83;
+	--color-primary-10  : #C2DEFE;
+	--color-primary-5   : #DBECFF;
+	--color-primary-110 : #012247;
+
+	--color-secondary-100 : var( --color-neutral-60 );
+	--color-secondary-90  : var( --color-neutral-40 );
+	--color-secondary-10  : var( --color-neutral-10 );
+	--color-secondary-5   : var( --color-neutral-5 );
+	--color-secondary-110 : var( --color-neutral-80 );
+
+	--color-tertiary-100 : var( --color-neutral-60 );
+	--color-tertiary-90  : var( --color-neutral-40 );
+	--color-tertiary-10  : var( --color-neutral-10 );
+	--color-tertiary-5   : var( --color-neutral-5 );
+	--color-tertiary-110 : var( --color-neutral-80 );
+
+	--color-accent-100 : #429ae5;
+	--color-accent-90  : #6eb2ec;
+	--color-accent-10  : #d5edff;
+	--color-accent-5   : #eef8ff;
+	--color-accent-110 : #095393;
+
+
+	--navbar-color                    : #012e62;
+	--navbar-icon-color               : white;
+	--navbar-active-color             : var( --color-neutral-20 );
+	--navbar-hover-color              : var( --color-neutral-10 );
+	--navbar-active-text-color        : var( --font-color-base );
+	--navbar-hover-text-color         : var( --font-color-base );
+	--navbar-settings-menu-color      : var( --color-primary-90 );
+	--navbar-logo-image               : url( "/preside/system/assets/images/logos/preside-logo-admin-header.png" );
+	--navbar-logo-bg-size             : 36px;
+	--navbar-logo-width               : 110px;
+	--navbar-logo-height              : 45px;
+	--navbar-logo-margin              : 5px 0 0 0;
+	--navbar-logo-padding             : 0;
+	--navbar-logo-border              : none;
+	--navbar-logo-border-radius       : 0;
+	--navbar-notification-badge-color : var( --color-error-100 );
+	--presidebar-text-color           : white;
+
+	--sidebar-submenu-active-color : var( --color-neutral-20 );
+	--sidebar-submenu-color        : var( --color-neutral-10 );
+
+	--sidebar-width            : 300px;
+	--sidebar-submenu-indent   : 15px;
+	--sidebar-h-padding        : 30px;
+	--sidebar-v-padding        : 10px;
+	--sidebar-header-h-padding : 30px;
+	--sidebar-header-v-padding : 20px;
+
+	--login-bg-image          : url( "/preside/system/assets/images/backgrounds/login-puffin.jpg" );
+	--login-bg-color          : #2c3d4e;
+	--login-bg-repeat         : no-repeat;
+	--login-bg-position       : center center;
+	--login-bg-attachment     : fixed;
+	--login-bg-size           : cover;
+
+	--login-logo              : url( "/preside/system/assets/images/logos/preside-logo-login.png" );
+	--login-logo-width        : 138px;
+	--login-logo-height       : 48px;
+	--login-logo-margin       : 0px auto 20px;
+
+	--login-locale-font-color : var( --color-link );
+
+	--login-container-width   : 370px;
+	--login-box-color         : #f7f7f7;
+	--login-box-border        : 10px solid white;
+	--login-box-border-radius : 0;
+	--login-box-font-color    : var( --font-color-base );
+	--login-box-link-color    : var( --color-link );
+	--login-button-font-size  : var( --font-size-body-lg );
+}

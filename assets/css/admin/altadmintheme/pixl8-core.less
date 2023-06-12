@@ -1,0 +1,103 @@
+@import url( "../lessglobals/globals.less" );
+
+.presidecms {
+
+	body.admin-richeditor-preview {
+		background-color : transparent;
+	}
+
+	.preside-theme {
+		.navbar-brand {
+			// background-image : url( ../../../../images/logos/header-logo.png );
+			// width            : 180px;
+		}
+	}
+
+	.table.no-border {
+		border-top : none;
+	}
+
+	.client-list {
+		.client {
+			margin-bottom : 10px;
+
+			a:focus {
+				outline : 0;
+				background-color: #dff0d8 !important;
+				color : #2A6496 !important;
+			}
+
+			&.active {
+				a:focus {
+					font-weight : bold;
+				}
+			}
+		}
+	}
+
+	.contact-card {
+		.contact-details-list {
+			border-top : 1px dashed #ddd;
+			padding-top : 2em;
+
+			li {
+				margin-bottom : 0.2em;
+			}
+		}
+	}
+
+	// .page-header.with-info-card {
+	// 	padding: 10px 20px;
+	// 	border-radius: 5px;
+	// 	background-color: @grey-light-panel;
+
+	// 	> h1 {
+	// 		float:left;
+	// 	}
+	// 	> .top-right-button-group {
+	// 		float: right;
+	// 		position: static;
+	// 	}
+
+	// 	+ .row .view-record-detail-card {
+	// 		margin-top: -25px;
+	// 		border-top-right-radius: 0;
+	// 		border-top-left-radius: 0;
+	// 	}
+
+	// }
+
+	.view-record-detail-card {
+		margin-top    : -5px;
+		margin-bottom : 20px;
+		padding: 10px 20px 0;
+		border-radius: 5px;
+		background-color: @grey-light-panel;
+	}
+
+	.nav-tabs .hidden-xs {
+		display : inline-block !important;
+	}
+
+	.form-horizontal .survey-field {
+
+		label {
+			display       : block;
+			text-align    : left;
+			margin-bottom : 1em;
+		}
+
+		&.survey-field-question-end {
+			margin-bottom : 3em;
+		}
+	}
+}
+
+
+@media  only screen and (max-width: 767px) {
+	.presidecms {
+		.nav-tabs .hidden-xs {
+			display : none !important;
+		}
+	}
+}

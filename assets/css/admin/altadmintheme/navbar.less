@@ -1,0 +1,421 @@
+@import url( "../lessglobals/globals.less" );
+
+
+html {
+	margin-top : 60px !important;
+
+	.preside-admin-toolbar {
+		box-sizing: border-box;
+	}
+
+	&.presidecms {
+		margin-top : 0 !important;
+	}
+}
+
+
+.presidecms {
+	.preside-theme {
+		.navbar-brand, #preside-admin-toolbar h1 {
+			background-image    : var( --navbar-logo-image );
+			background-size     : var( --navbar-logo-size );
+			background-position : center;
+			width               : var( --navbar-logo-width );
+			height              : var( --navbar-logo-height );
+			margin              : var( --navbar-logo-margin );
+			padding             : var( --navbar-logo-padding );
+			border              : var( --navbar-logo-border );
+			border-radius       : var( --navbar-logo-border-radius );
+		}
+
+		#preside-admin-toolbar {
+			&.navbar {
+				padding : 0 0 0 10px;
+			}
+
+			h1 {
+				margin-right : 11px;
+			}
+
+			.edit-mode-toggle-container label {
+				font-weight : 700;
+			}
+
+			.ace-nav > li > a {
+				background-color : transparent !important;
+
+				&#notificationBar,
+				&#systemAlertsNavBarItem {
+					.setting-icon();
+					.badge {
+						.notification-badge();
+					}
+					margin-left : 1rem;
+				}
+
+				.nav-user-photo {
+					width        : 35px;
+					height       : 35px;
+					border-width : 2px;
+				}
+
+				.fa-times {
+					color : var( --color-white );
+				}
+			}
+		}
+
+		.mobile-nav {
+			background-color : var( --navbar-color );
+			top              : 0;
+		}
+
+		.site-picker {
+			.fa {
+				margin : 0;
+			}
+			.current-site .fa-globe {
+				color : var( --navbar-icon-color );
+				margin-right : 3px;
+			}
+		}
+
+		.mobile-trigger .ace-nav {
+			> li, > li.open {
+				margin-left : 10px;
+
+				> a {
+					.setting-icon();
+
+					.fa-caret-down {
+						display : none;
+					}
+
+					.badge {
+						.notification-badge();
+					}
+				}
+			}
+		}
+
+		.navbar {
+			min-height       : 60px;
+			padding          : 0 20px;
+			background-color : var( --navbar-color ) !important;
+
+			.navbar-container {
+				padding : 0;
+			}
+
+			.ace-nav > li {
+				height      : 60px;
+				line-height : 60px;
+
+				&:after {
+					border : 0 none;
+				}
+
+				&:last-child > a {
+					border : 0 none;
+				}
+
+				&.launcher-menu {
+					background-color : transparent !important;
+				}
+
+				> a {
+					font-size: 14px;
+
+					> .fa.fa-fw {
+						color : var( --navbar-icon-color );
+					}
+
+					.nav-user-photo {
+						width        : 35px;
+						height       : 35px;
+						border-width : 2px;
+						margin-right : 0;
+					}
+				}
+			}
+		}
+
+		.ace-nav {
+			> li, > li.open {
+				border: 0 none;
+
+				&::after {
+					border: 0 none;
+				}
+
+				&:last-child {
+					border: 0 none;
+
+					a {
+						border-right : none;
+					}
+				}
+
+				> a {
+					padding          : 6px 4px 6px 10px;
+					margin           : 0 3px;
+					background-color : transparent !important;
+					border-radius    : 3px;
+					transition       : background-color 150ms linear, color 150ms linear, border 150ms linear;
+
+					&:active, &:hover, &:focus {
+						background-color : rgba( 255, 255, 255, 0.1 )!important;
+						color            : #fff;
+					}
+					&.active {
+						background-color : rgba( 255, 255, 255, 0.2 )!important;
+						color            : #fff;
+					}
+
+					.fa-caret-down {
+						margin-left : -3px;
+					}
+				}
+			}
+		}
+
+
+		.dropdown-menu {
+			&.dropdown-menu-left {
+				left: 5px;
+			}
+
+			> .dropdown-hover {
+				.dropdown-menu {
+					left: 99%;
+				}
+			}
+
+			> li {
+				margin : 0 5px;
+
+				&.spacer hr {
+					margin : 5px 12px;
+				}
+
+				&.divider {
+					margin-top: 5px;
+					margin-bottom: 5px;
+				}
+
+				a {
+					display: flex;
+					align-items: center;
+
+					> i:first-child {
+						margin-right: 5px;
+					}
+
+					.dropdown-menu-title {
+						flex: 1 1 auto;
+					}
+
+					.dropdown-menu-caret {
+						margin-left: 16px;
+					}
+				}
+
+				&:hover, &:active, &:focus {
+					> a {
+						background-color : var( --navbar-hover-color );
+						color            : var( --navbar-hover-text-color );
+					}
+				}
+				&.active {
+					> a {
+						background-color : var( --navbar-active-color );
+						color            : var( --navbar-active-text-color );
+					}
+				}
+			}
+		}
+
+		.nav-list {
+			> li {
+				&.active.sideMenu {
+					border-color : var( --navbar-color );
+
+					> a, > a:hover, a:active, a:focus {
+						border-color     : var( --navbar-color );
+						background-color : var( --navbar-color );
+					}
+				}
+
+				> .submenu {
+					background-color : var( --navbar-color ) !important;
+
+					> li,
+					> li:before,
+					> li > a,
+					> li > a:hover,
+					> li > a:active,
+					> li > a:focus,
+					> li.active > a,
+					> li.active > a:hover,
+					> li.active > a:active,
+					> li.active > a:focus,
+					> li.active.open,
+					> li.active.open > a,
+					> li.active.open > a:hover,
+					> li.active.open > a:active,
+					> li.active.open > a:focus,
+					> li > .submenu > li,
+					> li > .submenu > li > a,
+					> li > .submenu > li > a:hover {
+						background-color : var( --sidebar-submenu-color ) !important;
+						border-color     : var( --sidebar-submenu-color ) !important;
+					}
+					> li > .submenu > li.active > a {
+						background-color : var( --sidebar-submenu-active-color ) !important;
+						border-color     : var( --sidebar-submenu-active-color ) !important;
+						color            : inherit !important;
+					}
+					li::before {
+						border-color : var( --sidebar-submenu-color ) !important;
+					}
+				}
+			}
+
+			li, > li {
+				> a > .arrow,
+				> a > .arrow:hover,
+				> a > .arrow:focus,
+				> a > .arrow:active {
+					color : var( --color-secondary-100 ) !important;
+				}
+			}
+		}
+
+		input[type="color"]:focus,
+		input[type="date"]:focus,
+		input[type="datetime-local"]:focus,
+		input[type="datetime"]:focus,
+		input[type="email"]:focus,
+		input[type="month"]:focus,
+		input[type="number"]:focus,
+		input[type="password"]:focus,
+		input[type="search"]:focus,
+		input[type="tel"]:focus,
+		input[type="text"]:focus,
+		input[type="time"]:focus,
+		input[type="url"]:focus,
+		input[type="week"]:focus,
+		textarea:focus,
+		.chosen-container-active .chosen-single,
+		.chosen-container-single .chosen-drop {
+			border-color : var( --color-secondary-100 ) !important;
+		}
+
+		.nav-tabs {
+			li.active {
+				> a, > a:focus, > a:hover, > a:active {
+					border-top-color:var( --color-secondary-100 );
+				}
+			}
+		}
+
+		.page-content {
+			a {
+				&.chosen-default {
+					color : #666;
+				}
+
+				&.chosen-single > span {
+					color : #333;
+				}
+			}
+		}
+
+		.rectangleIcon {
+			color : var( --color-primary-100 );
+		}
+
+		.rectangleCount {
+			color : var( --color-primary-110 );
+		}
+
+		.rectangleText {
+			color : var( --color-primary-110 );
+		}
+
+		.page-content {
+			.table-responsive {
+				.table > tbody > tr > td,
+				.table > thead > tr > th {
+					white-space : initial;
+
+					.text-nowrap {
+						white-space : nowrap;
+					}
+				}
+			}
+		}
+
+		#notificationDropDown.dropdown-menu {
+			width : max-content;
+
+			> li {
+				&:first-child {
+					margin      : 0 16px !important;
+					font-size   : 13px;
+					line-height : 26px;
+				}
+			}
+
+			.pull-right.badge-info {
+				margin-left : 5px;
+			}
+		}
+	}
+
+	&.preside-admin-toolbar{
+		background-color : var( --navbar-color ) !important;
+	}
+
+	.data-table-grouped-favourites .data-table-favourite-group.open .dropdown-menu {
+		top: ~"calc(100% + 5px)";
+	}
+
+	.navbar-header {
+		&.launcher-menu-container {
+			height: 45px;
+		}
+	}
+}
+
+
+.content-editor-editor-container {
+	font-size   : var( --font-size-body );
+	font-family : var( --font-family-base );
+	color       : var( --font-color-base );
+
+	.content-editor-editor-buttons {
+		background-color : var( --navbar-color );
+
+		.content-editor-editor-notifications {
+			color : var( --presidebar-text-color );
+		}
+
+		.version-history-link {
+			color : var( --presidebar-text-color );
+		}
+
+		.editor-btn-save {
+			.secondary-button();
+			font-size : var( --font-size-base );
+		}
+		.editor-btn-publish {
+			.primary-button();
+			font-size : var( --font-size-base );
+		}
+		.editor-btn-cancel {
+			.secondary-button( neutral );
+			font-size : var( --font-size-base );
+		}
+	}
+}

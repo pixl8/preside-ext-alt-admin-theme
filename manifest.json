@@ -1,0 +1,7 @@
+{
+	  "id"        : "preside-ext-alt-admin-theme"
+	, "title"     : "Alternate Admin Theme"
+	, "author"    : "Pixl8 Group"
+	, "version"   : "$VERSION_NUMBER"
+	, "dependsOn" : [ "preside-ext-launcher" ]
+}

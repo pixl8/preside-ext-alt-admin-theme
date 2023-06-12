@@ -1,0 +1,91 @@
+/*****************************************************************
+	Contains helper utility classes
+*****************************************************************/
+
+@import url( "../lessglobals/globals.less" );
+
+// Helper classes
+.u-underline {
+	text-decoration : underline;
+}
+
+.u-round-borders {
+	.border-radius();
+}
+
+.u-perfect-round {
+	.border-radius(100px);
+}
+
+.u-aligned-center {
+	text-align : center;
+}
+
+.u-aligned-right {
+	text-align : right;
+}
+
+.u-aligned-left {
+	text-align : left;
+}
+
+.u-aligned-justify {
+	text-align : justify;
+}
+
+.u-uppercase {
+	text-transform : uppercase;
+}
+
+.u-lowercase {
+	text-transform : lowercase;
+}
+
+.u-centered {
+	display      : block;
+	margin-left  : auto;
+	margin-right : auto;
+}
+
+.u-full-width {
+	width : 100%;
+}
+
+.display-table {
+	display : table;
+	height  : 100%;
+	width   : 100%;
+
+	&-cell {
+		display        : table-cell;
+		height         : 100%;
+		vertical-align : middle;
+	}
+
+}
+
+img {
+
+	&.u-aligned-right {
+		float       : right;
+		margin-left : 20px;
+
+		@media @xs {
+			float       : none;
+			margin-left : 0;
+		}
+
+	}
+
+	&.u-aligned-left {
+		float        : left;
+		margin-right : 20px;
+
+		@media @xs {
+			float        : none;
+			margin-right : 0;
+		}
+
+	}
+
+}
