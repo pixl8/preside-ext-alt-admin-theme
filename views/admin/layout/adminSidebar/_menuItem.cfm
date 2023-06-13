@@ -41,6 +41,9 @@
 	<cfoutput>
 		<li <cfif args.active && !hasSubMenu>class="active"</cfif>>
 			<a href="<cfif hasSubMenu>##<cfelse>#args.link#</cfif>"<cfif ArrayLen( itemClasses )> class="#ArrayToList( itemClasses, " " )#"</cfif>>
+				<cfif not isEmptyString( args.icon )>
+					<i class="fa fa-fw #args.icon#"></i>&nbsp;
+				</cfif>
 				<span>#args.title#</span>
 				<cfif len( Trim( args.badge ) )>
 					<span class="badge<cfif Len( Trim( args.badgeClass ) )> badge-#Trim( args.badgeClass )#</cfif>">#args.badge#</span>
