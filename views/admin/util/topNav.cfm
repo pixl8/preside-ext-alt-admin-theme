@@ -44,7 +44,7 @@
 					#dependencyTrackerLink#
 					#systemMenu#
 					#systemAlertsMenu#
-					#notificationsMenu#
+					<li>#notificationsMenu#</li>
 					<li>#userMenu#</li>
 				</ul>
 			</div>
