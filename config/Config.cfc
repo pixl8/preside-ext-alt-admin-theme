@@ -14,7 +14,7 @@ component {
 
 
 	private void function _setupFeatures( settings ) {
-		settings.features.siteSwitcher.enabled = false;
+		settings.features.siteSwitcher.enabled = true;
 	}
 
 	private void function _setupPermissionsAndRoles( settings ) {
@@ -41,21 +41,18 @@ component {
 
 	private void function _setupNavigation( settings ) {
 		settings.admin.topNavItems = [
-			  "cms"
+			  "sitetree"
+			, "assetmanager"
+			, "datamanager"
+			, "websiteusers"
+			, "formbuilder"
 			, "emailcenter"
 		];
 
-		settings.adminMenuItems.cms = {
-			subMenuItems = [
-				  "sitetree"
-				, "assetmanager"
-				, "datamanager"
-				, "websiteusers"
-				, "formbuilder"
-				, "-"
-				, "sitemanager"
-			]
-		};
+		settings.adminMenuItems.assetmanager.title = "admin.menuitem:assetmanager.title";
+		settings.adminMenuItems.datamanager.title  = "admin.menuitem:datamanager.title";
+		settings.adminMenuItems.formbuilder.title  = "admin.menuitem:formbuilder.title";
+		settings.adminMenuItems.emailcenter.title  = "admin.menuitem:emailcenter.title";
 
 		settings.adminMenuItems.siteManager = {
 			  buildLinkArgs = { linkto="sites.manage" }
