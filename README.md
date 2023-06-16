@@ -6,11 +6,11 @@ The most obvious change is that the main admin menu has moved from the left side
 
 Before:
 
-![Before: the default Preside admin theme](docs/before.png)
+![Before: the default Preside admin theme](https://raw.githubusercontent.com/pixl8/preside-ext-alt-admin-theme/stable/docs/before.png)
 
 After:
 
-![After: with the Alternate Admin Theme applied](docs/after.png)
+![After: with the Alternate Admin Theme applied](https://raw.githubusercontent.com/pixl8/preside-ext-alt-admin-theme/stable/docs/after.png)
 
 The base font has also changed, as well as the look and feel of many buttons and components.
 
@@ -81,7 +81,7 @@ For a full list of the CSS properties available for you to use, look at the sour
 
 With the main navigation moved to the top of the page, this frees up the side of the page for secondary navigation. Basic functionality is provided to insert your content in here; an example of this is built in to the extension's customisation of the admin user Edit Profile page:
 
-![Admin user edit profile page showing the admin sidebar](docs/edit-profile.png)
+![Admin user edit profile page showing the admin sidebar](https://raw.githubusercontent.com/pixl8/preside-ext-alt-admin-theme/stable/docs/edit-profile.png)
 
 Set an array of menu items ([defined as per the main menus](https://docs.preside.org/devguides/adminMenuItems.html)) into `prc.adminSidebarItems`, and the menu will be rendered in the sidebar. These menus can be nested several levels deep, and will auto-expand when clicked. Note that the parent of children will not itself be a link; it just acts as a title and open/close trigger for the child menu.
 
