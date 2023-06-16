@@ -188,7 +188,7 @@
 				&.launcher-menu {
 					float : none !important;
 					width : auto;
-					left  : 87px;
+					left  : ~"calc( var(--navbar-logo-width) + 25px )";
 
 					&.active {
 						width         : 100%;
@@ -232,11 +232,15 @@
 		min-height: 90px;
 
 		.navbar-header {
+			&.pull-left {
+				float : none !important;
+			}
+
 			&.launcher-menu-container {
 				width: 10px;
 			}
 			&.mobile-nav {
-				top: 90px;
+				top: 100%;
 			}
 			&.mobile-trigger {
 				z-index: 1024;
