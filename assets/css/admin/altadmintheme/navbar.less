@@ -155,11 +155,15 @@ html {
 				}
 
 				> a {
-					padding          : 6px 4px 6px 10px;
+					padding          : 6px 8px;
 					margin           : 0 3px;
 					background-color : transparent !important;
 					border-radius    : 3px;
 					transition       : background-color 150ms linear, color 150ms linear, border 150ms linear;
+
+					&.dropdown-toggle {
+						padding : 6px 4px 6px 8px;
+					}
 
 					&:active, &:hover, &:focus {
 						background-color : rgba( 255, 255, 255, 0.1 )!important;
