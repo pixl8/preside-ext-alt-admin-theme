@@ -6,6 +6,7 @@
     "private":false,
     "author":"Pixl8 Group",
     "directory":"application/extensions",
+	"summary":"The Alternate Admin Theme extension provides a refresh to the original Preside core admin layout and styling, and also adds customisation options.",
     "repository":{
         "type":"git",
         "URL":"https://github.com/pixl8/preside-ext-alt-admin-theme"
