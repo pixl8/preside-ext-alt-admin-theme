@@ -132,7 +132,7 @@ html {
 						width        : 35px;
 						height       : 35px;
 						border-width : 2px;
-						margin       : -12px 0 0 -8px;
+						margin-right : 0;
 					}
 				}
 			}
@@ -155,15 +155,11 @@ html {
 				}
 
 				> a {
-					padding          : 6px 8px;
+					padding          : 6px 4px 6px 10px;
 					margin           : 0 3px;
 					background-color : transparent !important;
 					border-radius    : 3px;
 					transition       : background-color 150ms linear, color 150ms linear, border 150ms linear;
-
-					&.dropdown-toggle {
-						padding : 6px 4px 6px 8px;
-					}
 
 					&:active, &:hover, &:focus {
 						background-color : rgba( 255, 255, 255, 0.1 )!important;
@@ -180,7 +176,15 @@ html {
 				}
 			}
 		}
-
+		#topLevelNav {
+			.ace-nav {
+				> li, > li.open {
+					> a:not( .dropdown-toggle ) {
+						padding-right : 8px;
+					}
+				}
+			}
+		}
 
 		.dropdown-menu {
 			&.dropdown-menu-left {
