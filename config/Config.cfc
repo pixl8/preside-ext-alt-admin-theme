@@ -33,7 +33,7 @@ component {
 		settings.admin = {
 			  topNavItems     = []
 			, topNavMenuIcons = true
-			, favicon         = "/preside/system/assets/images/logos/favicon.png"
+			, favicon         = "/preside/system/assets/extension/preside-ext-alt-admin-theme/assets/images/preside-favicon.png"
 			, adminAvatarSize = 56
 			, customCss       = []
 		};
