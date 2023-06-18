@@ -25,15 +25,14 @@ component {
 	}
 
 	private void function _setupInterceptors( conf ) {
-		conf.interceptorSettings.customInterceptionPoints.append( "preRenderAdminLayout" );
-		conf.interceptorSettings.customInterceptionPoints.append( "preRenderAdminLoginLayout" );
+		ArrayAppend( conf.interceptors, { class="app.extensions.preside-ext-alt-admin-theme.interceptors.AltAdminThemeInterceptors", properties={} } );
 	}
 
 	private void function _configureAdminTheme( settings ) {
 		settings.admin = {
 			  topNavItems     = []
 			, topNavMenuIcons = true
-			, favicon         = "/preside/system/assets/images/logos/favicon.png"
+			, favicon         = "/preside/system/assets/extension/preside-ext-alt-admin-theme/assets/images/preside-favicon.png"
 			, adminAvatarSize = 56
 			, customCss       = []
 		};

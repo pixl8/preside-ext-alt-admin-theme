@@ -1,8 +1,6 @@
 <cfscript>
 	body = args.content ?: "";
 
-	event.include( "/css/admin/altadmintheme/" );
-	event.include( "/css/admin/theme/", false );
 	event.include( "/css/admin/core/" );
 	event.include( "/js/admin/presidecore/" );
 
