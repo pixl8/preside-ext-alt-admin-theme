@@ -19,9 +19,7 @@
 	currentAction  = event.getCurrentAction();
 	pageSlug       = Replace( ListRest( event.getCurrentEvent(), "." ), ".", "-", "all" );
 
-	event.include( "/css/admin/altadmintheme/" );
 	event.include( "/css/admin/core/" );
-	renderViewlet( "admin.layout.customAdminCss" );
 	event.include( "/css/admin/specific/#currentHandler#/", false );
 	event.include( "/css/admin/specific/#currentHandler#/#currentAction#/", false );
 	event.include( "/js/admin/presidecore/" );

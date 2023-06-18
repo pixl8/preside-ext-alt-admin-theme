@@ -1,14 +1,9 @@
 <cfscript>
-	announceInterception( "preRenderAdminLoginLayout" );
-
 	body          = renderView();
 	notifications = renderView( 'admin/general/notifications' );
 
 	event.include( "/css/admin/core/" );
 	event.include( "/css/admin/specific/login/" );
-	event.include( "/css/admin/altadmintheme/" );
-	event.include( "/css/admin/altadmintheme/login/" );
-	renderViewlet( "admin.layout.customAdminCss" );
 	event.include( "/js/admin/presidecore/" );
 	event.include( "/js/admin/specific/login/" );
 	event.include( "i18n-resource-bundle" );

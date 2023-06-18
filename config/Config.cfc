@@ -25,8 +25,7 @@ component {
 	}
 
 	private void function _setupInterceptors( conf ) {
-		conf.interceptorSettings.customInterceptionPoints.append( "preRenderAdminLayout" );
-		conf.interceptorSettings.customInterceptionPoints.append( "preRenderAdminLoginLayout" );
+		ArrayAppend( conf.interceptors, { class="app.extensions.preside-ext-alt-admin-theme.interceptors.AltAdminThemeInterceptors", properties={} } );
 	}
 
 	private void function _configureAdminTheme( settings ) {

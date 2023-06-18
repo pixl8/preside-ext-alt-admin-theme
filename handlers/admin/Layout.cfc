@@ -1,15 +1,5 @@
 component {
 
-	public string function customAdminCss( event, rc, prc, args={} ) {
-		var cssFiles = getSetting( "admin.customCss" );
-
-		for( var cssFile in cssFiles ) {
-			event.include( cssFile, false );
-		}
-
-		return "";
-	}
-
 	public string function renderAdminSidebar( event, rc, prc, args={} ) {
 		var adminSidebarItems   = prc.adminSidebarItems  ?: [];
 		var adminSidebarHeader  = prc.adminSidebarHeader ?: "";
