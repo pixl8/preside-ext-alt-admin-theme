@@ -17,4 +17,17 @@ component extends="coldbox.system.Interceptor" {
 			}
 		}
 	}
+
+	public void function postLayoutRender( event, interceptData={} ) {
+
+		if ( event.getCurrentLayout() == "adminLogin.cfm" ) {
+			var bgVideo = getSystemSetting( "admin-login-security", "video_background" );
+
+			var adminLoginContent = Trim( renderView( view="/admin/general/adminLoginContent", args={ bgVideo = bgVideo } ) );
+			interceptData.renderedLayout = reReplaceNoCase( interceptData.renderedLayout ?: "", "<head(.*?)>", "<head\1>#chr(10)##adminLoginContent#" );
+
+		}
+
+	}
+
 }

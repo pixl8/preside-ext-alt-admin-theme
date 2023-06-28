@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<form i18nBaseUri="system-config.admin-login-security:" >
+	<tab id="display" sortorder="30">
+		<fieldset id="background" sortorder="10">
+			<field sortorder="10" name="video_background"        control="textarea"   required="false" />
+		</fieldset>
+	</tab>
+
+</form>
