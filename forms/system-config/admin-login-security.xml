@@ -3,7 +3,7 @@
 <form i18nBaseUri="system-config.admin-login-security:" >
 	<tab id="display" sortorder="30">
 		<fieldset id="background" sortorder="10">
-			<field sortorder="10" name="video_background"        control="textarea"   required="false" />
+			<field sortorder="10" name="video_background"        control="textinput"   required="false" />
 		</fieldset>
 	</tab>
 
