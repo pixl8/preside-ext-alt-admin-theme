@@ -1,11 +1,13 @@
 <cfscript>
 	topLevelNav       = renderView( view="/admin/util/topNavItems" );
-	userMenu          = renderView( view="/admin/util/userMenu" );
+	userMenu          = renderView( view="/admin/util/userMenu", cache=true, cacheSuffix=event.getAdminUserId() );
 	applicationNav    = renderViewlet( event="admin.layout.applicationNav", cache=true, cacheSuffix=event.getAdminUserId() );
 	systemMenu        = renderView( view="/admin/util/topnav/system", cache=true, cacheSuffix=event.getAdminUserId() );
 	notificationsMenu = renderViewlet( "admin.notifications.notificationNavPromo" );
 	systemAlertsMenu  = renderViewlet( "admin.systemAlerts.systemAlertsMenuItem" );
 	sitePicker        = isFeatureEnabled( "siteSwitcher" ) ? renderViewlet( "admin.sites.sitePicker" ) : "";
+
+	userMenu = Replace( userMenu, "{{userhomepage}}", EncodeForUrl( event.getCurrentUrl() ), "all" );
 
 	if ( isFeatureEnabled( "launcherExtension" ) ) {
 		launcher = renderViewlet( event="admin.layout.launcher" );
