@@ -30,11 +30,14 @@ component {
 
 	private void function _configureAdminTheme( settings ) {
 		settings.admin = {
-			  topNavItems     = []
-			, topNavMenuIcons = true
-			, favicon         = "/preside/system/assets/extension/preside-ext-alt-admin-theme/assets/images/preside-favicon.png"
-			, adminAvatarSize = 56
-			, customCss       = []
+			  topNavItems       = []
+			, topNavMenuIcons   = true
+			, favicon           = "/preside/system/assets/extension/preside-ext-alt-admin-theme/assets/images/preside-favicon.png"
+			, adminAvatarSize   = 56
+			, customCss         = []
+			, topNavCacheSuffix = function( event, args={} ){
+				return event.getAdminUserId();
+			}
 		};
 	}
 
