@@ -1,6 +1,6 @@
 <cfscript>
 	topLevelNav       = renderView( view="/admin/util/topNavItems" );
-	userMenu          = renderView( view="/admin/util/userMenu", cache=true, cacheSuffix=event.getAdminUserId() );
+	userMenu          = renderView( view="/admin/util/userMenu" );
 	applicationNav    = renderViewlet( event="admin.layout.applicationNav", cache=true, cacheSuffix=event.getAdminUserId() );
 	systemMenu        = renderView( view="/admin/util/topnav/system", cache=true, cacheSuffix=event.getAdminUserId() );
 	notificationsMenu = renderViewlet( "admin.notifications.notificationNavPromo" );
