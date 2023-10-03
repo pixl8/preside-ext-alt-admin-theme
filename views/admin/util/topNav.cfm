@@ -13,6 +13,8 @@
 	systemAlertsMenu  = renderViewlet( "admin.systemAlerts.systemAlertsMenuItem" );
 	sitePicker        = isFeatureEnabled( "siteSwitcher" ) ? renderViewlet( "admin.sites.sitePicker" ) : "";
 
+	userMenu = Replace( userMenu, "{{userhomepage}}", EncodeForUrl( event.getCurrentUrl() ), "all" );
+
 	if ( isFeatureEnabled( "launcherExtension" ) ) {
 		launcher = renderViewlet( event="admin.layout.launcher" );
 		event.include( "/js/admin/specific/launcher/" )
