@@ -1,8 +1,14 @@
 <cfscript>
+	cacheSuffix = getSetting( name="admin.topNavCacheSuffix", defaultValue=event.getAdminUserId() );
+
+	if ( isClosure( cacheSuffix ) || isCustomFunction( cacheSuffix ) ) {
+		cacheSuffix = cacheSuffix( event, args );
+	}
+
 	topLevelNav       = renderView( view="/admin/util/topNavItems" );
-	userMenu          = renderView( view="/admin/util/userMenu", cache=true, cacheSuffix=event.getAdminUserId() );
-	applicationNav    = renderViewlet( event="admin.layout.applicationNav", cache=true, cacheSuffix=event.getAdminUserId() );
-	systemMenu        = renderView( view="/admin/util/topnav/system", cache=true, cacheSuffix=event.getAdminUserId() );
+	userMenu          = renderView( view="/admin/util/userMenu", cache=true, cacheSuffix=cacheSuffix );
+	applicationNav    = renderViewlet( event="admin.layout.applicationNav", cache=true, cacheSuffix=cacheSuffix );
+	systemMenu        = renderView( view="/admin/util/topnav/system", cache=true, cacheSuffix=cacheSuffix );
 	notificationsMenu = renderViewlet( "admin.notifications.notificationNavPromo" );
 	systemAlertsMenu  = renderViewlet( "admin.systemAlerts.systemAlertsMenuItem" );
 	sitePicker        = isFeatureEnabled( "siteSwitcher" ) ? renderViewlet( "admin.sites.sitePicker" ) : "";
