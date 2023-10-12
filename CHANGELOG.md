@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.2
+
+* Fix caching issue with 'make this my homepage' link in admin navigation
+
 ## v1.0.1
 
 * Allow top nav cache suffix customisation for data tenanting (e.g. site tenanted rules engine). Defaults to admin user ID
