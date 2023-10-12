@@ -17,7 +17,7 @@
 	<ul class="user-menu dropdown-menu dropdown-yellow dropdown-close dropdown-menu-right">
 		<cfif event.isAdminRequest() and !isEmptyString( homepageText )>
 			<li>
-				<a href="#event.buildAdminLink( linkTo="editProfile.setUserHomepageAction", queryString="url=#EncodeForUrl( event.getCurrentUrl() )#" )#" >
+				<a href="#event.buildAdminLink( linkTo="editProfile.setUserHomepageAction", queryString="url={{userhomepage}}" )#" >
 					<i class="fa fa-home"></i>
 					#homepageText#
 				</a>
