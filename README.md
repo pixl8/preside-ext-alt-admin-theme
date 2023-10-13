@@ -86,3 +86,19 @@ With the main navigation moved to the top of the page, this frees up the side of
 Set an array of menu items ([defined as per the main menus](https://docs.preside.org/devguides/adminMenuItems.html)) into `prc.adminSidebarItems`, and the menu will be rendered in the sidebar. These menus can be nested several levels deep, and will auto-expand when clicked. Note that the parent of children will not itself be a link; it just acts as a title and open/close trigger for the child menu.
 
 If displaying a sidebar menu, you may optionally specify a header panel by setting rendered HTML into `prc.adminSidebarHeader`. This might contain basic information about a record, for instance.
+
+## Login
+
+You can replace the background image with a video, by speciying it in the Admin login security within the system settings. The URL should be the embed link of the video, but it is recommended to add additional parameters to ensure the video autoruns and repeats.
+
+e.g. using a Youtube video
+
+```
+https://www.youtube.com/embed/-cAjp7fiVvA?controls=0&autoplay=1&mute=1&loop=1
+```
+
+and for a Vimeo video add
+
+```
+?background=1&autoplay=1&loop=1&byline=0&title=0
+```
