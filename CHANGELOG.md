@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.3
+
+* Fix corner rounding on first button of group
+
 ## v1.0.2
 
 * Fix caching issue with 'make this my homepage' link in admin navigation
