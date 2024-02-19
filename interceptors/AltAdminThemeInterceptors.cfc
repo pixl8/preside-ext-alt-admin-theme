@@ -5,6 +5,14 @@ component extends="coldbox.system.Interceptor" {
 
 	public void function preLayoutRender( event, interceptData ) {
 		if( event.isAdminRequest() || event.isAdminUser() ) {
+			if ( !event.isAdminRequest() ) {
+				var prc = event.getCollection( private=true );
+				prc.adminToolbarDisplayMode = prc.adminToolbarDisplayMode ?: getSystemSetting( "admin-users", "admin_toolbar_mode", "fixed" );
+				if ( prc.adminToolbarDisplayMode == "none" ) {
+					return;
+				}
+			}
+
 			var cssFiles = getSetting( "admin.customCss" );
 
 			event.include( "/css/admin/altadmintheme/" );
