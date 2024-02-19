@@ -1,13 +1,13 @@
 @import url( "../lessglobals/globals.less" );
 
+:root {
+	--adminToolbarHeight : 60px;
+}
 
 html {
-	margin-top : 60px !important;
-
 	.preside-admin-toolbar {
 		box-sizing: border-box;
 	}
-
 	&.presidecms {
 		margin-top : 0 !important;
 	}
@@ -19,7 +19,7 @@ html {
 		.navbar-brand, #preside-admin-toolbar h1 {
 			background-image    : var( --navbar-logo-image );
 			background-size     : var( --navbar-logo-bg-size );
-			background-position : center;
+			background-position : var( --navbar-logo-position );
 			width               : var( --navbar-logo-width );
 			height              : var( --navbar-logo-height );
 			margin              : var( --navbar-logo-margin );
@@ -393,6 +393,20 @@ html {
 		}
 	}
 }
+#presideAdminToolbarReveal {
+	left                : var( --navbar-logo-icon-left );
+	background-image    : var( --navbar-logo-image );
+	background-size     : var( --navbar-logo-bg-size );
+	background-position : var( --navbar-logo-position );
+	width               : var( --navbar-logo-icon-width );
+	height              : var( --navbar-logo-icon-height );
+	margin              : var( --navbar-logo-margin );
+	padding             : var( --navbar-logo-padding );
+	border              : var( --navbar-logo-border );
+	border-radius       : var( --navbar-logo-border-radius );
+	opacity             : var( --navbar-logo-icon-opacity );
+}
+
 
 
 .content-editor-editor-container {
