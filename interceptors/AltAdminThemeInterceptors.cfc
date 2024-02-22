@@ -7,7 +7,7 @@ component extends="coldbox.system.Interceptor" {
 		if( event.isAdminRequest() || event.isAdminUser() ) {
 			if ( !event.isAdminRequest() ) {
 				var prc = event.getCollection( private=true );
-				prc.adminToolbarDisplayMode = prc.adminToolbarDisplayMode ?: getSystemSetting( "admin-users", "admin_toolbar_mode", "fixed" );
+				prc.adminToolbarDisplayMode = prc.adminToolbarDisplayMode ?: getSystemSetting( "frontend-editing", "admin_toolbar_mode", "fixed" );
 				if ( prc.adminToolbarDisplayMode == "none" ) {
 					return;
 				}
