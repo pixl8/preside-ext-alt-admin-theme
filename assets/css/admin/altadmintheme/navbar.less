@@ -69,7 +69,7 @@ html {
 				margin : 0;
 			}
 			.current-site .fa-globe {
-				color : var( --navbar-icon-color );
+				color : var( --navbar-sitepicker-icon-color );
 				margin-right : 3px;
 			}
 		}
@@ -135,6 +135,7 @@ html {
 						margin-right : 0;
 					}
 				}
+
 			}
 		}
 
@@ -157,21 +158,36 @@ html {
 				> a {
 					padding          : 6px 4px 6px 10px;
 					margin           : 0 3px;
-					background-color : transparent !important;
+					background-color : var( --navbar-menuitem-color ) !important;
+					color            : var( --navbar-menuitem-text-color );
 					border-radius    : 3px;
 					transition       : background-color 150ms linear, color 150ms linear, border 150ms linear;
 
 					&:active, &:hover, &:focus {
-						background-color : rgba( 255, 255, 255, 0.1 )!important;
-						color            : #fff;
+						background-color : var( --navbar-menuitem-hover-color ) !important;
+						color            : var( --navbar-menuitem-text-color ) !important;
 					}
 					&.active {
-						background-color : rgba( 255, 255, 255, 0.2 )!important;
-						color            : #fff;
+						background-color : var( --navbar-menuitem-active-color ) !important;
+						color            : var( --navbar-menuitem-text-color ) !important;
 					}
 
 					.fa-caret-down {
 						margin-left : -3px;
+						color       : inherit;
+					}
+				}
+
+				&.site-picker {
+					> a {
+						background-color : var( --navbar-sitepicker-color ) !important;
+						color            : var( --navbar-sitepicker-text-color ) !important;
+					}
+					&:hover, &:active, &:focus {
+						> a {
+							background-color : var( --navbar-sitepicker-hover-color ) !important;
+							color            : var( --navbar-sitepicker-text-color ) !important;
+						}
 					}
 				}
 			}

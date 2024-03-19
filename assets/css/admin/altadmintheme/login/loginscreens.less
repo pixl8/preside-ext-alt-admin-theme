@@ -72,7 +72,26 @@ html.presidecms {
 					}
 
 					.btn {
-						.primary-button();
+						background-color : var( --login-button-color ) !important;
+						border-color     : var( --login-button-color ) !important;
+						color            : var( --login-button-text-color ) !important;
+
+						&:hover {
+							background-color : var( --login-button-color-hover ) !important;
+							border-color     : var( --login-button-color-hover ) !important;
+							color            : var( --login-button-text-color ) !important;
+						}
+						&:focus {
+							background-color : var( --login-button-color-hover ) !important;
+							border-color     : var( --login-button-color-hover ) !important;
+							color            : var( --login-button-text-color ) !important;
+						}
+						&:active {
+							background-color : var( --login-button-color-active ) !important;
+							border-color     : var( --login-button-color-active ) !important;
+							color            : var( --login-button-text-color ) !important;
+						}
+
 						font-size : var( --login-button-font-size );
 						width     : 100%;
 						.fa {
