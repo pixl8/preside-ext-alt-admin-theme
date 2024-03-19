@@ -84,23 +84,26 @@
 	--button-padding-vertical   : 0.5rem;
 	--button-padding-horizontal : 0.8333rem;
 
-	--button-default-100 : #1b74c1;
-	--button-default-110 : #095393;
-	--button-default-90  : #429ae5;
-	--button-default-10  : #d5edff;
-	--button-default-5   : #eef8ff;
+	--button-default-100  : #1b74c1;
+	--button-default-110  : #095393;
+	--button-default-90   : #429ae5;
+	--button-default-10   : #d5edff;
+	--button-default-5    : #eef8ff;
+	--button-default-text : var( --color-white );
 
-	--button-neutral-100 : #494f55;
-	--button-neutral-110 : #21262b;
-	--button-neutral-90  : #767b81;
-	--button-neutral-10  : #d2d3d5;
-	--button-neutral-5   : #f6f7f5;
+	--button-neutral-100  : #494f55;
+	--button-neutral-110  : #21262b;
+	--button-neutral-90   : #767b81;
+	--button-neutral-10   : #d2d3d5;
+	--button-neutral-5    : #f6f7f5;
+	--button-neutral-text : var( --color-white );
 
-	--button-danger-100 : #db2b39;
-	--button-danger-110 : #bb101e;
-	--button-danger-90  : #e35662;
-	--button-danger-10  : #f8d7da;
-	--button-danger-5   : #fcedee;
+	--button-danger-100  : #db2b39;
+	--button-danger-110  : #bb101e;
+	--button-danger-90   : #e35662;
+	--button-danger-10   : #f8d7da;
+	--button-danger-5    : #fcedee;
+	--button-danger-text : var( --color-white );
 
 	--button-formcontrol-100 : #888888;
 	--button-formcontrol-110 : #777777;
@@ -137,14 +140,25 @@
 	--color-accent-110 : #095393;
 
 
-	--navbar-color                    : #012e62;
-	--navbar-zindex                   : 103;
-	--navbar-icon-color               : white;
-	--navbar-active-color             : var( --color-neutral-20 );
-	--navbar-hover-color              : var( --color-neutral-10 );
-	--navbar-active-text-color        : var( --font-color-base );
-	--navbar-hover-text-color         : var( --font-color-base );
-	--navbar-settings-menu-color      : var( --color-primary-90 );
+	--navbar-color                        : #012e62;
+	--navbar-zindex                       : 103;
+	--navbar-icon-color                   : white;
+
+	--navbar-menuitem-text-color        : white;
+	--navbar-menuitem-color             : transparent;
+	--navbar-menuitem-hover-color       : rgba( 255, 255, 255, 0.1 );
+	--navbar-menuitem-active-color      : rgba( 255, 255, 255, 0.2 );
+
+	--navbar-active-color                 : var( --color-neutral-20 );
+	--navbar-hover-color                  : var( --color-neutral-10 );
+	--navbar-active-text-color            : var( --font-color-base );
+	--navbar-hover-text-color             : var( --font-color-base );
+	--navbar-settings-menu-color          : var( --color-primary-90 );
+	--navbar-sitepicker-icon-color        : var( --navbar-icon-color );
+	--navbar-sitepicker-color             : var( --navbar-menuitem-color );
+	--navbar-sitepicker-text-color        : var( --navbar-menuitem-text-color );
+	--navbar-sitepicker-hover-color       : var( --navbar-menuitem-hover-color );
+
 	--navbar-logo-image               : url( "/preside/system/assets/extension/preside-ext-alt-admin-theme/assets/images/preside-logo-reverse.svg" );
 	--navbar-logo-width               : 210px;
 	--navbar-logo-height              : 45px;
@@ -191,5 +205,10 @@
 	--login-box-border-radius : 0;
 	--login-box-font-color    : var( --font-color-base );
 	--login-box-link-color    : var( --color-link );
-	--login-button-font-size  : var( --font-size-body-lg );
+
+	--login-button-font-size     : var( --font-size-body-lg );
+	--login-button-color         : var( --button-default-100 );
+	--login-button-color-hover   : var( --button-default-110 );
+	--login-button-color-active  : var( --button-default-90 );
+	--login-button-text-color    : var( --button-default-text );
 }

@@ -169,22 +169,22 @@
 .primary-button( @color : default ) {
 	background-color : ~"var( --button-@{color}-100 )" !important;
 	border-color     : ~"var( --button-@{color}-100 )" !important;
-	color            : var( --color-white ) !important;
+	color            : ~"var( --button-@{color}-text )" !important;
 
 	&:hover {
 		background-color : ~"var( --button-@{color}-110 )" !important;
 		border-color     : ~"var( --button-@{color}-110 )" !important;
-		color            : var( --color-white ) !important;
+		color            : ~"var( --button-@{color}-text )" !important;
 	}
 	&:focus {
 		background-color : ~"var( --button-@{color}-90 )" !important;
 		border-color     : ~"var( --button-@{color}-100 )" !important;
-		color            : var( --color-white ) !important;
+		color            : ~"var( --button-@{color}-text )" !important;
 	}
 	&:active {
 		background-color : ~"var( --button-@{color}-90 )" !important;
 		border-color     : ~"var( --button-@{color}-90 )" !important;
-		color            : var( --color-white ) !important;
+		color            : ~"var( --button-@{color}-text )" !important;
 	}
 }
 
@@ -218,17 +218,17 @@
 	&:hover {
 		background-color : ~"var( --button-@{color}-110 )" !important;
 		border-color     : ~"var( --button-@{color}-110 )" !important;
-		color            : var( --color-white ) !important;
+		color            : ~"var( --button-@{color}-text )" !important;
 	}
 	&:focus {
 		background-color : ~"var( --button-@{color}-90 )" !important;
 		border-color     : ~"var( --button-@{color}-100 )" !important;
-		color            : var( --color-white ) !important;
+		color            : ~"var( --button-@{color}-text )" !important;
 	}
 	&:active {
 		background-color : ~"var( --button-@{color}-90 )" !important;
 		border-color     : ~"var( --button-@{color}-90 )" !important;
-		color            : var( --color-white ) !important;
+		color            : ~"var( --button-@{color}-text )" !important;
 	}
 }
 
