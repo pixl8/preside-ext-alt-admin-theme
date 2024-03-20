@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.5
+
+* Table th formatting tweak
+
 ## v1.0.4
 
 * Add extra variables for customisation
