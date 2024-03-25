@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.6
+
+* Set text colour for form-control buttons
+
 ## v1.0.5
 
 * Table th formatting tweak
