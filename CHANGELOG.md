@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.7
+
+* Support for Preside's frontend admin toolbar modes
+
 ## v1.0.6
 
 * Set text colour for form-control buttons
