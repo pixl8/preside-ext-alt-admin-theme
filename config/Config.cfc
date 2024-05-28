@@ -36,7 +36,7 @@ component {
 			, adminAvatarSize   = 56
 			, customCss         = []
 			, topNavCacheSuffix = function( event, args={} ){
-				return event.getAdminUserId();
+				return event.getAdminUserId() & "-" & event.getSiteId();
 			}
 		};
 	}
