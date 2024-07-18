@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.9
+
+* Fix issue with empty keyboard shortcut key in top right buttons
+
 ## v1.0.8
 
 * [#5](https://github.com/pixl8/preside-ext-alt-admin-theme/issues/5) Ensure the active site is included in the cache key for the menu cache
