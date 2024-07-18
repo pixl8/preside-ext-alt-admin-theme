@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.10
+
+* Compatability with latest preside + top right button child items
+
 ## v1.0.9
 
 * Fix issue with empty keyboard shortcut key in top right buttons
