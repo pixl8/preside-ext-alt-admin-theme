@@ -14,7 +14,10 @@ component {
 
 
 	private void function _setupFeatures( settings ) {
-		settings.features.siteSwitcher.enabled = true;
+		settings.features.siteSwitcher = {
+			  enabled   = true
+			, dependsOn = [ "sites" ]
+		};
 	}
 
 	private void function _setupPermissionsAndRoles( settings ) {

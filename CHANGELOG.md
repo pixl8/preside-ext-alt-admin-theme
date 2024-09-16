@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.11
+
+* [#7](https://github.com/pixl8/preside-ext-alt-admin-theme/issues/7) Preside 10.27 compat fix
+
 ## v1.0.10
 
 * Compatability with latest preside + top right button child items
