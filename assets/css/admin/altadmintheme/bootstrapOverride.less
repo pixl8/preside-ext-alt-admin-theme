@@ -22,7 +22,17 @@
 			}
 
 		}
+	}
 
+	.breadcrumbs {
+		.dropdown-menu li a:has(p) {
+			flex-direction: column;
+			align-items: start;
+		}
+	}
+
+	.pagination > li.active > a {
+		z-index: 1;
 	}
 
 	// Alerts
