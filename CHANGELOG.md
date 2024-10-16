@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.12
+
+* Fix issue with display of rules condition types in Rules engine admin area > Create new condition button
+
 ## v1.0.11
 
 * [#7](https://github.com/pixl8/preside-ext-alt-admin-theme/issues/7) Preside 10.27 compat fix
