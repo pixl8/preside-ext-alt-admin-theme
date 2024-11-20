@@ -39,6 +39,7 @@
 	</head>
 
 	<body class="login-layout #layoutClass# preside-theme">
+		#renderViewlet( event='admin.login.backgroundVideo' )#
 		<div class="main-container">
 			<div class="main-content">
 				<div class="row">
