@@ -26,7 +26,7 @@
 
 		<cfloop array="#cardItems#" item="cardItem">
 
-			#renderView( view="admin/layout/dataCard/_item", args=cardItem )#
+			#renderView( view="admin/layout/dataCard/_card", args=cardItem )#
 
 		</cfloop>
 
