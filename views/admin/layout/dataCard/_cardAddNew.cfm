@@ -6,9 +6,10 @@
 
 <cfoutput>
 	<a href="#addNewRecordLink#">
-		<cfif !isEmptyString( addNewRecordIcon ) >
+		<cfif not isEmptyString( addNewRecordIcon )>
 			<i class="fa fa-fw #addNewRecordIcon#"></i>
 		</cfif>
+
 		#addNewRecordLabel#
 	</a>
 </cfoutput>

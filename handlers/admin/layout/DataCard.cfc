@@ -11,10 +11,10 @@ component {
 		var objectName           = args.objectName ?: prc.objectName ?: "";
 		var showAddNewRecordCard = args.showAddNewRecordCard ?: false;
 
-		if( showAddNewRecordCard ) {
+		if ( showAddNewRecordCard ) {
 			args.addNewRecordLink  = args.addNewRecordLink  ?: event.buildAdminLink( objectName=objectName, operation="addRecord" );
-			args.addNewRecordIcon  = args.addNewRecordIcon  ?: translateResource( uri="card-layout:new.record.icon" );
-			args.addNewRecordLabel = args.addNewRecordLabel ?: translateResource( uri="card-layout:new.record.label", data=[ prc.objectTitle ?: "" ] );
+			args.addNewRecordIcon  = args.addNewRecordIcon  ?: translateResource( uri="admin.dataCard:card.add.iconClass" );
+			args.addNewRecordLabel = args.addNewRecordLabel ?: translateResource( uri="admin.dataCard:card.add.label", data=[ prc.objectTitle ?: "" ] );
 		}
 
 		return renderView( view="/admin/layout/dataCard/_list", args=args );

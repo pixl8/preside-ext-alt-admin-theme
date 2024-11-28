@@ -1,5 +1,5 @@
 <cfscript>
-	placeholder = args.placeholder ?: translateResource( 'card-layout:search.placeholder' );
+	placeholder = args.placeholder ?: translateResource( "admin.dataCard:search.placeholder" );
 	value       = args.search      ?: "";
 </cfscript>
 

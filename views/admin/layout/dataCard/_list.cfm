@@ -16,7 +16,7 @@
 						<cfif !isEmptyString( addNewRecordCardBody )>
 							#addNewRecordCardBody#
 						<cfelse>
-							#renderView( view="admin/layout/dataCard/_new", args=args )#
+							#renderView( view="admin/layout/dataCard/_cardAddNew", args=args )#
 						</cfif>
 					</div>
 				</div>
