@@ -1,40 +1,45 @@
 <cfscript>
-	placeholder = args.placeholder ?: translateResource( "admin.dataCard:search.placeholder" );
-	value       = args.search      ?: "";
+	objectName   = args.objectName   ?: "";
+	searchAction = args.searchAction ?: event.buildAdminLink( linkTo="layout.DataCard.object" );
+	placeholder  = args.placeholder  ?: translateResource( "admin.dataCard:search.placeholder" );
+	value        = args.search       ?: "";
 </cfscript>
 
 <cfoutput>
+	<form action="#searchAction#" x-target="cards pagination" x-headers="{ 'X-Requested-With': 'XMLHttpRequest' }">
 
-<form x-target="cards pagination" action="#event.buildAdminLink( linkTo="datamanager.site_theme.cardListing" )#">
+		<input type="hidden" name="objectName" value="#objectName#" />
 
-	<div class="card-search-box">
+		<div class="card-search-box">
 
-		<div class="row">
+			<div class="row">
 
-			<div class="col-md-12">
+				<div class="col-md-12">
 
-				<div class="card-search-box-bar">
+					<div class="card-search-box-bar">
 
-					<label class="block clearfix" for="card-quick-search">
+						<label class="block clearfix" for="card-quick-search">
 
-						<span class="block input-icon">
-							<input type              = "text"
-							       id                = "card-quick-search"
-							       class             = "card-search-box-input form-control"
-							       placeholder       = "#placeholder#"
-							       value             = "#value#"
-							       name              = "q"
-							       autocomplete      = "off"
-							       data-global-key   = "s"
-							       @input.debounce   = "$el.form.requestSubmit()"
-							       @search           = "$el.form.requestSubmit()"
-							       @focus            = "$event.target.select()"
-							>
+							<span class="block input-icon">
+								<input type            = "text"
+								       id              = "card-quick-search"
+								       class           = "card-search-box-input form-control"
+								       placeholder     = "#placeholder#"
+								       value           = "#value#"
+								       name            = "q"
+								       autocomplete    = "off"
+								       data-global-key = "s"
+								       @input.debounce = "$el.form.requestSubmit()"
+								       @search         = "$el.form.requestSubmit()"
+								       @focus          = "$event.target.select()"
+								>
 
-							<i class="fa fa-search"></i>
-						</span>
+								<i class="fa fa-search"></i>
+							</span>
 
-					</label>
+						</label>
+
+					</div>
 
 				</div>
 
@@ -42,8 +47,5 @@
 
 		</div>
 
-	</div>
-
-</form>
-
+	</form>
 </cfoutput>

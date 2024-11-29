@@ -1,26 +1,47 @@
 <cfscript>
 	cardExtraClass    = args.cardExtraClass    ?: "";
-	cardHeaderLabel   = args.cardHeaderLabel   ?: "";
 	cardHeaderOptions = args.cardHeaderOptions ?: "";
 	cardBody          = args.cardBody          ?: "";
 	cardFooter        = args.cardFooter        ?: "";
+
+	cardHeaderLabel   = renderView(
+		  view="admin/layout/dataCard/_cardHeaderLabel"
+		, args={
+			  icon  = args.cardHeaderIcon  ?: ""
+			, label = args.cardHeaderLabel ?: ""
+		  }
+	);
+
+	cardHeaderOptions = renderView(
+		  view = "admin/layout/dataCard/_cardHeaderOptions"
+		, args = {
+			options = args.cardHeaderOptions ?: []
+		  }
+	);
+
+	cardBody          = renderView(
+		  view = "admin/layout/dataCard/_cardBody"
+		, args = {
+			  image        = args.cardBodyImage ?: ""
+			, description  = args.cardBody      ?: ""
+		  }
+	);
 </cfscript>
 
 <cfoutput>
-
 	<div class="card-listing-item">
 
 		<div class="card #cardExtraClass#">
 
-			<cfif !isEmptyString( cardHeaderLabel ) and !isEmptyString( cardHeaderOptions )>
+			<cfif not isEmptyString( cardHeaderLabel ) or not isEmptyString( cardHeaderOptions )>
 
 				<div class="card-header">
 
-					<cfif !isEmptyString( cardHeaderLabel )>
+					<cfif not isEmptyString( cardHeaderLabel )>
 						<h6 class="card-header-label">#cardHeaderLabel#</h6>
 					</cfif>
 
-					<cfif !isEmptyString( cardHeaderOptions )>
+					<cfif not isEmptyString( cardHeaderOptions )>
 						<div class="card-header-options">
 							#cardHeaderOptions#
 						</div>
@@ -30,13 +51,13 @@
 
 			</cfif>
 
-			<cfif !isEmptyString( cardBody )>
+			<cfif not isEmptyString( cardBody )>
 				<div class="card-body">
 					#cardBody#
 				</div>
 			</cfif>
 
-			<cfif !isEmptyString( cardFooter )>
+			<cfif not isEmptyString( cardFooter )>
 				<div class="card-footer">
 					#cardFooter#
 				</div>
@@ -45,5 +66,4 @@
 		</div>
 
 	</div>
-
 </cfoutput>

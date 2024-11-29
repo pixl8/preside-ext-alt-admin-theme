@@ -11,7 +11,7 @@
 	}
 
 	if ( !isEmptyString( title ) ) {
-		title = ' title="#EncodeForHtml( title )#"';
+		title = ' title="#EncodeForHTMLAttribute( title )#"';
 	}
 </cfscript>
 

@@ -5,7 +5,6 @@
 </cfscript>
 
 <cfoutput>
-
 	<div id="cards" class="card-listing">
 
 		<cfif showAddNewRecordCard>
@@ -31,5 +30,4 @@
 		</cfloop>
 
 	</div>
-
 </cfoutput>
