@@ -1,14 +1,9 @@
 <cfscript>
-	image       = args.image       ?: "";
-	description = args.description ?: "";
+	body = args.body ?: "";
 </cfscript>
 
 <cfoutput>
-	<cfif not isEmptyString( image )>
-		#image#
-	</cfif>
-
-	<cfif not isEmptyString( description )>
-		<p>#description#</p>
+	<cfif not isEmptyString( body )>
+		#body#
 	</cfif>
 </cfoutput>

@@ -22,8 +22,7 @@
 	cardBody          = renderView(
 		  view = "admin/layout/dataCard/_cardBody"
 		, args = {
-			  image        = args.cardBodyImage ?: ""
-			, description  = args.cardBody      ?: ""
+			body = args.cardBody ?: ""
 		  }
 	);
 </cfscript>

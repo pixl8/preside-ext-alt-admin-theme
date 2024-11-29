@@ -1,35 +1,36 @@
 component {
 
 	property name="presideObjectService"            inject="PresideObjectService";
+	property name="dataManagerService"              inject="DataManagerService";
 	property name="dataManagerCustomizationService" inject="DataManagerCustomizationService";
 
 	public string function object( event, rc, prc, args={} ) {
+		if ( !isEmptyString( rc.objectName ?: "" ) ) {
+			StructAppend( args, { objectName=rc.objectName }, true );
+		}
+
 		return runEvent(
 			  event          = "admin.layout.DataCard._object"
 			, prePostExempt  = true
 			, private        = true
-			, eventArguments = {
-				objectName = rc.objectName ?: ""
-			  }
+			, eventArguments = args
 		);
 	}
 
 	private string function _object(
 		  required string objectName
-		,          string orderBy          = "datecreated desc"
-		,          string labelField       = presideObjectService.getLabelField( objectName=arguments.objectName )
-		,          string descriptionField = "description"
+		,          string orderBy    = "datecreated desc"
+		,          string labelField = presideObjectService.getLabelField( objectName=arguments.objectName )
 	) {
-		event.initializeDatamanagerPage( objectName=arguments.objectName );
+		var args = Duplicate( arguments );
 
-		args.objectName           = arguments.objectName;
 		args.search               = rc.q    ?: "";
 		args.currentPage          = rc.page ?: 1;
 		args.maxRows              = rc.len  ?: getSetting( name="adminTheme.defaults.dataCard.resultsPerPage", defaultValue=12 );
 		args.showAddNewRecordCard = args.currentPage == 1;
 		args.offsetRows           = args.showAddNewRecordCard ? -1 : ( rc.offset ?: 0 );
 
-		args.totalResults = _getRecords( objectName=arguments.objectName, search=args.search, labelField=arguments.labelField, recordCountOnly=true, labelField=arguments.labelField );
+		args.totalResults = _getRecords( objectName=arguments.objectName, search=args.search, recordCountOnly=true );
 		args.totalPages   = Ceiling( args.totalResults / args.maxRows );
 		args.startRow     = ( ( args.currentPage - 1 ) * args.maxRows ) + 1 + args.offsetRows;
 
@@ -37,14 +38,16 @@ component {
 			args.startRow = 1;
 		}
 
+		event.initializeDatamanagerPage( objectName=args.objectName );
+
 		var icon    = translateResource( uri="preside-objects.#arguments.objectName#:iconClass", defaultValue="" );
-		var records = _getRecords( objectName=arguments.objectName, search=args.search, labelField=arguments.labelField, maxRows=( args.maxRows - ( args.showAddNewRecordCard ? 1 : 0 ) ), startRow=args.startRow );
+		var records = _getRecords( objectName=arguments.objectName, search=args.search, maxRows=( args.maxRows - ( args.showAddNewRecordCard ? 1 : 0 ) ), startRow=args.startRow );
 
 		args.cardItems = [];
 		for ( var record in records ) {
 			ArrayAppend( args.cardItems, {
 				  cardHeaderIcon    = icon
-				, cardHeaderLabel   = record[ arguments.labelField ] ?: ""
+				, cardHeaderLabel   = record[ arguments.labelField ] ?: renderLabel( objectName=args.objectName, recordId=record.id )
 				, cardHeaderOptions = dataManagerCustomizationService.runCustomization(
 					  objectName     = objectName
 					, action         = "getHeaderOptionsForDataCard"
@@ -54,16 +57,15 @@ component {
 						, record     = record
 					  }
 				  )
-				, cardBodyImage     = dataManagerCustomizationService.runCustomization(
+				, cardBody          = dataManagerCustomizationService.runCustomization(
 					  objectName     = objectName
-					, action         = "getBodyImageForDataCard"
-					, defaultHandler = "admin.layout.dataCard._getCardBodyImage"
+					, action         = "getBodyForDataCard"
+					, defaultHandler = "admin.layout.dataCard._getCardBody"
 					, args           = {
 						  objectName = objectName
 						, record     = record
 					  }
 				  )
-				, cardBody          = record[ arguments.descriptionField ] ?: ""
 			} );
 		}
 
@@ -134,7 +136,7 @@ component {
 		return options;
 	}
 
-	private string function _getCardBodyImage( event, rc, prc, args={} ) {
+	private string function _getCardBody( event, rc, prc, args={} ) {
 		return "";
 	}
 
@@ -145,24 +147,34 @@ component {
 		,          numeric startRow        = 1
 		,          boolean recordCountOnly = false
 		,          string  search          = ""
-		,          string  labelField      = presideObjectService.getLabelField( objectName=arguments.objectName )
 	) {
-		var filter       = [];
-		var filterParams = {};
+		var extraFilters      = [];
+		var filter            = [];
+		var filterParams      = {};
+
 
 		if ( !isEmptyString( arguments.search ) ) {
-			ArrayAppend( filter, "( #labelField# like :search )" );
-			StructAppend( filterParams, { "search"={ type="cf_sql_varchar", value="%#arguments.search#%" } } );
+			try {
+				ArrayAppend( extraFilters, dataManagerService.buildSearchFilter(
+						  q            = arguments.search
+						, objectName   = arguments.objectName
+						, gridFields   = dataManagerService.listGridFields( arguments.objectName )
+						, searchFields = dataManagerService.listSearchFields( arguments.objectName )
+						, expandTerms  = true
+					)
+				);
+			} catch( any e ){}
 		}
 
 		return presideObjectService.selectData(
-			  objectName      = arguments.objectName
-			, filter          = ArrayToList( filter, " and " )
-			, filterParams    = filterParams
-			, orderBy         = arguments.orderBy
-			, maxRows         = arguments.recordCountOnly ? 0 : arguments.maxRows
-			, startRow        = arguments.recordCountOnly ? 1 : arguments.startRow
-			, recordCountOnly = arguments.recordCountOnly
+			  objectName        = arguments.objectName
+			, filter            = ArrayToList( filter, " and " )
+			, filterParams      = filterParams
+			, extraFilters      = extraFilters
+			, orderBy           = arguments.orderBy
+			, maxRows           = arguments.recordCountOnly ? 0 : arguments.maxRows
+			, startRow          = arguments.recordCountOnly ? 1 : arguments.startRow
+			, recordCountOnly   = arguments.recordCountOnly
 		);
 	}
 
