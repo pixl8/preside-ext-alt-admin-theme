@@ -73,18 +73,18 @@ component {
 			event.setLayout( "alphineAjax" );
 		} else {
 			event
-				.include( assetId="/css/admin/altadmintheme/dataCard/" )
+				.include( assetId="/css/admin/altadmintheme/dataCardGrid/" )
 				.include( assetId="alpine"     , group="top" )
 				.include( assetId="alpine-ajax", group="top" )
 			;
 		}
 
-		return renderView( view="/admin/layout/dataCard/_object", args=args );
+		return renderView( view="/admin/layout/dataCardGrid/_object", args=args );
 	}
 
 	private string function _search( event, rc, prc, args={} ) {
 		var objectName = args.objectName ?: prc.objectName ?: "";
-		return renderView( view="/admin/layout/dataCard/_search", args=args );
+		return renderView( view="/admin/layout/dataCardGrid/_search", args=args );
 	}
 
 	private string function _list( event, rc, prc, args={} ) {
@@ -97,11 +97,11 @@ component {
 			args.addNewRecordLabel = args.addNewRecordLabel ?: translateResource( uri="admin.dataCardGrid:card.add.label", data=[ prc.objectTitle ?: "" ] );
 		}
 
-		return renderView( view="/admin/layout/dataCard/_list", args=args );
+		return renderView( view="/admin/layout/dataCardGrid/_list", args=args );
 	}
 
 	private string function _footer( event, rc, prc, args={} ) {
-		return renderView( view="/admin/layout/dataCard/_footer", args=args );
+		return renderView( view="/admin/layout/dataCardGrid/_footer", args=args );
 	}
 
 	private array function _getCardHeaderOptions( event, rc, prc, args={} ) {

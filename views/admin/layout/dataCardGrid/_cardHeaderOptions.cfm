@@ -5,7 +5,7 @@
 <cfoutput>
 	<cfloop array="#options#" item="option">
 		<cfset option.class="btn btn-transparent #( option.class ?: "" )#" />
-		#renderView( view="admin/layout/dataCard/_cardHeaderOption", args=option )#
+		#renderView( view="admin/layout/dataCardGrid/_cardHeaderOption", args=option )#
 
 		<cfif ArrayLen( option.more ?: [] )>
 			<div class="dropdown">
@@ -17,7 +17,7 @@
 						<cfelse>
 							<cfif not isEmptyString( more.label ?: "" )>
 								<li>
-									#renderView( view="admin/layout/dataCard/_cardHeaderOption", args=more )#
+									#renderView( view="admin/layout/dataCardGrid/_cardHeaderOption", args=more )#
 								</li>
 							</cfif>
 						</cfif>

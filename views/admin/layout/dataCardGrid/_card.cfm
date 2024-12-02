@@ -5,7 +5,7 @@
 	cardFooter        = args.cardFooter        ?: "";
 
 	cardHeaderLabel   = renderView(
-		  view="admin/layout/dataCard/_cardHeaderLabel"
+		  view="admin/layout/dataCardGrid/_cardHeaderLabel"
 		, args={
 			  icon  = args.cardHeaderIcon  ?: ""
 			, label = args.cardHeaderLabel ?: ""
@@ -13,14 +13,14 @@
 	);
 
 	cardHeaderOptions = renderView(
-		  view = "admin/layout/dataCard/_cardHeaderOptions"
+		  view = "admin/layout/dataCardGrid/_cardHeaderOptions"
 		, args = {
 			options = args.cardHeaderOptions ?: []
 		  }
 	);
 
 	cardBody          = renderView(
-		  view = "admin/layout/dataCard/_cardBody"
+		  view = "admin/layout/dataCardGrid/_cardBody"
 		, args = {
 			body = args.cardBody ?: ""
 		  }
