@@ -70,7 +70,7 @@ component {
 		}
 
 		if ( event.isAjax() ) {
-			event.setLayout( "alphineAjax" );
+			event.setLayout( "alpineAjax" );
 		} else {
 			event
 				.include( assetId="/css/admin/altadmintheme/dataCardGrid/" )
