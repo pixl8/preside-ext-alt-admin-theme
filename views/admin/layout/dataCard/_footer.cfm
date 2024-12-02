@@ -8,7 +8,7 @@
 	currentPage          = args.currentPage          ?: 1;
 
 	recordRows = ArrayLen( args.cardItems ?: [] );
-	maxRows    = args.maxRows    ?: getSetting( name="adminTheme.defaults.dataCard.resultsPerPage", defaultValue=12 );
+	maxRows    = args.maxRows    ?: getSetting( name="adminTheme.defaults.dataCardGrid.resultsPerPage", defaultValue=12 );
 	offsetRows = args.offsetRows ?: 0;
 	startRow   = args.startRow   ?: 1;
 	endRow     = currentPage == totalPages ? totalResults : ( startRow + maxRows - 1 + offsetRows );
@@ -16,13 +16,13 @@
 	hasPreviousPage = currentPage > 1;
 	hasNextPage     = currentPage < totalPages;
 
-	resultsPerPageOptions = getSetting( name="adminTheme.defaults.dataCard.resultsPerPageOptions", defaultValue=[ 6, 12, 24, 48 ] );
+	resultsPerPageOptions = getSetting( name="adminTheme.defaults.dataCardGrid.resultsPerPageOptions", defaultValue=[ 6, 12, 24, 48 ] );
 
 	objectName = args.objectName ?: "";
 	search     = args.search     ?: "";
 
-	paginationLink       = args.paginationLink       ?: event.buildAdminLink( linkTo="layout.DataCard.object", queryString="objectName=#objectName#&q=#search#&len=#maxRows#&offset=#offsetRows#" );
-	resultsPerPageAction = args.resultsPerPageAction ?: event.buildAdminLink( linkTo="layout.DataCard.object" );
+	paginationLink       = args.paginationLink       ?: event.buildAdminLink( linkTo="layout.DataCardGrid.object", queryString="objectName=#objectName#&q=#search#&len=#maxRows#&offset=#offsetRows#" );
+	resultsPerPageAction = args.resultsPerPageAction ?: event.buildAdminLink( linkTo="layout.DataCardGrid.object" );
 </cfscript>
 
 <cfoutput>
@@ -32,7 +32,7 @@
 		<cfif showResultsCount>
 
 			<div class="card-listing-footer-results-count">
-				#translateResource( uri="admin.dataCard:pagination.info.label", data=[ startRow, endRow, totalResults ] )#
+				#translateResource( uri="admin.dataCardGrid:pagination.info.label", data=[ startRow, endRow, totalResults ] )#
 			</div>
 
 		</cfif>
@@ -44,7 +44,7 @@
 					<ul class="pagination">
 						<li#( hasPreviousPage ? '' : ' class="disabled"' )#>
 							<a href="#( hasPreviousPage ? ( paginationLink & "&page=#( currentPage - 1 )#" ) : "" )#" aria-label="Previous" x-target="cards pagination" x-headers="{ 'X-Requested-With': 'XMLHttpRequest' }">
-								<span aria-hidden="true">#translateResource( uri="admin.dataCard:pagination.previous.label" )#</span>
+								<span aria-hidden="true">#translateResource( uri="admin.dataCardGrid:pagination.previous.label" )#</span>
 							</a>
 						</li>
 
@@ -54,7 +54,7 @@
 
 						<li#( hasNextPage ? '' : ' class="disabled"' )#>
 							<a href="#( hasNextPage ? ( paginationLink & "&page=#( currentPage + 1 )#" ) : "" )#" aria-label="Next" x-target="cards pagination" x-headers="{ 'X-Requested-With': 'XMLHttpRequest' }">
-								<span aria-hidden="true">#translateResource( uri="admin.dataCard:pagination.next.label" )#</span>
+								<span aria-hidden="true">#translateResource( uri="admin.dataCardGrid:pagination.next.label" )#</span>
 							</a>
 						</li>
 					</ul>
@@ -71,7 +71,7 @@
 				<input type="hidden" name="q"          value="#search#" />
 
 				<div class="card-listing-footer-results-per-page">
-					#translateResource( uri="admin.dataCard:pagination.length.label" )#
+					#translateResource( uri="admin.dataCardGrid:pagination.length.label" )#
 
 					<select name="len" size="1" @change="$el.form.requestSubmit()">
 						<cfloop index="i" item="option" array="#resultsPerPageOptions#">

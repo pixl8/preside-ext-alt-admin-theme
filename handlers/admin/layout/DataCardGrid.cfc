@@ -10,7 +10,7 @@ component {
 		}
 
 		return runEvent(
-			  event          = "admin.layout.DataCard._object"
+			  event          = "admin.layout.DataCardGrid._object"
 			, prePostExempt  = true
 			, private        = true
 			, eventArguments = args
@@ -26,7 +26,7 @@ component {
 
 		args.search               = rc.q    ?: "";
 		args.currentPage          = rc.page ?: 1;
-		args.maxRows              = rc.len  ?: getSetting( name="adminTheme.defaults.dataCard.resultsPerPage", defaultValue=12 );
+		args.maxRows              = rc.len  ?: getSetting( name="adminTheme.defaults.dataCardGrid.resultsPerPage", defaultValue=12 );
 		args.showAddNewRecordCard = args.currentPage == 1;
 		args.offsetRows           = args.showAddNewRecordCard ? -1 : ( rc.offset ?: 0 );
 
@@ -51,7 +51,7 @@ component {
 				, cardHeaderOptions = dataManagerCustomizationService.runCustomization(
 					  objectName     = objectName
 					, action         = "getHeaderOptionsForDataCard"
-					, defaultHandler = "admin.layout.dataCard._getCardHeaderOptions"
+					, defaultHandler = "admin.layout.dataCardGrid._getCardHeaderOptions"
 					, args           = {
 						  objectName = objectName
 						, record     = record
@@ -60,7 +60,7 @@ component {
 				, cardBody          = dataManagerCustomizationService.runCustomization(
 					  objectName     = objectName
 					, action         = "getBodyForDataCard"
-					, defaultHandler = "admin.layout.dataCard._getCardBody"
+					, defaultHandler = "admin.layout.dataCardGrid._getCardBody"
 					, args           = {
 						  objectName = objectName
 						, record     = record
@@ -83,8 +83,8 @@ component {
 
 		if ( showAddNewRecordCard ) {
 			args.addNewRecordLink  = args.addNewRecordLink  ?: event.buildAdminLink( objectName=objectName, operation="addRecord" );
-			args.addNewRecordIcon  = args.addNewRecordIcon  ?: translateResource( uri="admin.dataCard:card.add.iconClass" );
-			args.addNewRecordLabel = args.addNewRecordLabel ?: translateResource( uri="admin.dataCard:card.add.label", data=[ prc.objectTitle ?: "" ] );
+			args.addNewRecordIcon  = args.addNewRecordIcon  ?: translateResource( uri="admin.dataCardGrid:card.add.iconClass" );
+			args.addNewRecordLabel = args.addNewRecordLabel ?: translateResource( uri="admin.dataCardGrid:card.add.label", data=[ prc.objectTitle ?: "" ] );
 		}
 
 		return renderView( view="/admin/layout/dataCard/_list", args=args );
@@ -104,14 +104,14 @@ component {
 
 		if ( prc.canEdit ) {
 			ArrayAppend( options, {
-				  label = translateResource( uri="admin.datacard:option.edit.label" )
+				  label = translateResource( uri="admin.datacardGrid:option.edit.label" )
 				, link  = event.buildAdminLink( objectName=objectName, operation="editRecord", recordId=record.id )
 			} );
 		}
 
 		if ( prc.canClone ) {
 			ArrayAppend( more, {
-				  label     = translateResource( uri="admin.datacard:option.clone.label" )
+				  label     = translateResource( uri="admin.datacardGrid:option.clone.label" )
 				, link      = event.buildAdminLink( objectName=objectName, operation="cloneRecord", recordId=record.id )
 				, iconClass = "fa-clone"
 			} );
@@ -121,10 +121,10 @@ component {
 			ArrayAppend( more, "---" );
 
 			ArrayAppend( more, {
-				  label     = translateResource( uri="admin.datacard:option.delete.label" )
+				  label     = translateResource( uri="admin.datacardGrid:option.delete.label" )
 				, link      = event.buildAdminLink( objectName=objectName, operation="deleteRecordAction", recordId=record.id )
 				, iconClass = "fa-trash-o"
-				, title     = translateResource( uri="admin.datacard:option.delete.prompt.title", data=[ LCase( translateResource( uri="preside-objects.site_theme:title.singular" ) ), record[ labelField ] ?: "" ] )
+				, title     = translateResource( uri="admin.datacardGrid:option.delete.prompt.title", data=[ LCase( translateResource( uri="preside-objects.site_theme:title.singular" ) ), record[ labelField ] ?: "" ] )
 				, prompt    = true
 			} );
 		}

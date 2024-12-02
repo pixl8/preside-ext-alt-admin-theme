@@ -1,11 +1,12 @@
 <cfscript>
 	objectName   = args.objectName   ?: "";
-	searchAction = args.searchAction ?: event.buildAdminLink( linkTo="layout.DataCard.object" );
-	placeholder  = args.placeholder  ?: translateResource( "admin.dataCard:search.placeholder" );
+	searchAction = args.searchAction ?: event.buildAdminLink( linkTo="layout.DataCardGrid.object" );
+	placeholder  = args.placeholder  ?: translateResource( "admin.dataCardGrid:search.placeholder" );
 	value        = args.search       ?: "";
 </cfscript>
 
 <cfoutput>
+
 	<form action="#searchAction#" x-target="cards pagination" x-headers="{ 'X-Requested-With': 'XMLHttpRequest' }">
 
 		<input type="hidden" name="objectName" value="#objectName#" />
@@ -31,7 +32,7 @@
 								       data-global-key = "s"
 								       @input.debounce = "$el.form.requestSubmit()"
 								       @search         = "$el.form.requestSubmit()"
-								       @focus          = "$event.target.select()"
+								       @focus          = "$el.select()"
 								>
 
 								<i class="fa fa-search"></i>

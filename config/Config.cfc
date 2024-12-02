@@ -14,8 +14,8 @@ component {
 	}
 
 	private void function _setupAdminTheme( required settings ) {
-		settings.adminTheme.defaults.dataCard.resultsPerPageOptions = [ 6, 12, 24, 48 ];
-		settings.adminTheme.defaults.dataCard.resultsPerPage        = 6;
+		settings.adminTheme.defaults.dataCardGrid.resultsPerPageOptions = [ 6, 12, 24, 48 ];
+		settings.adminTheme.defaults.dataCardGrid.resultsPerPage        = 6;
 	}
 
 	private void function _setupFeatures( settings ) {

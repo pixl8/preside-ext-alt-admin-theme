@@ -12,12 +12,12 @@
 	<div class="container">
 
 		<cfif not event.isAjax()>
-			#renderViewlet( event="admin.layout.dataCard._search", args=args )#
+			#renderViewlet( event="admin.layout.DataCardGrid._search", args=args )#
 		</cfif>
 
-		#renderViewlet( event="admin.layout.dataCard._list"  , args=args )#
+		#renderViewlet( event="admin.layout.DataCardGrid._list"  , args=args )#
 
-		#renderViewlet( event="admin.layout.dataCard._footer", args=args )#
+		#renderViewlet( event="admin.layout.DataCardGrid._footer", args=args )#
 
 	</div>
 </cfoutput>
