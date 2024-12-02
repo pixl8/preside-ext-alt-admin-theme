@@ -69,6 +69,16 @@ component {
 			} );
 		}
 
+		if ( event.isAjax() ) {
+			event.setLayout( "alphineAjax" );
+		} else {
+			event
+				.include( assetId="/css/admin/altadmintheme/dataCard/" )
+				.include( assetId="alpine"     , group="top" )
+				.include( assetId="alpine-ajax", group="top" )
+			;
+		}
+
 		return renderView( view="/admin/layout/dataCard/_object", args=args );
 	}
 

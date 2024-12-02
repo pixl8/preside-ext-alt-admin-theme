@@ -1,15 +1,14 @@
 <cfscript>
 	objectName   = args.objectName   ?: "";
-	searchAction = args.searchAction ?: event.buildAdminLink( linkTo="layout.DataCardGrid.object" );
+	searchAction = args.searchAction ?: event.buildAdminLink( objectName=objectName );
 	placeholder  = args.placeholder  ?: translateResource( "admin.dataCardGrid:search.placeholder" );
 	value        = args.search       ?: "";
 </cfscript>
 
 <cfoutput>
+	<form action="#searchAction#" x-target.push="cards pagination" x-headers="{ 'X-Requested-With': 'XMLHttpRequest' }">
 
-	<form action="#searchAction#" x-target="cards pagination" x-headers="{ 'X-Requested-With': 'XMLHttpRequest' }">
-
-		<input type="hidden" name="objectName" value="#objectName#" />
+		<input type="hidden" name="id" value="#objectName#" />
 
 		<div class="card-search-box">
 
