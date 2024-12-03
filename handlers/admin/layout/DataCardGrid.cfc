@@ -22,7 +22,10 @@ component {
 		,          string orderBy    = "datecreated desc"
 		,          string labelField = presideObjectService.getLabelField( objectName=arguments.objectName )
 	) {
-		var args = Duplicate( arguments );
+		var args = StructCopy( arguments );
+		StructDelete( args, "event" );
+		StructDelete( args, "rc" );
+		StructDelete( args, "prc" );
 
 		args.search               = rc.q    ?: "";
 		args.currentPage          = rc.page ?: 1;
@@ -40,14 +43,30 @@ component {
 
 		event.initializeDatamanagerPage( objectName=args.objectName );
 
-		var icon    = translateResource( uri="preside-objects.#arguments.objectName#:iconClass", defaultValue="" );
-		var records = _getRecords( objectName=arguments.objectName, search=args.search, maxRows=( args.maxRows - ( args.showAddNewRecordCard ? 1 : 0 ) ), startRow=args.startRow );
+		var defaultIcon = translateResource( uri="preside-objects.#arguments.objectName#:iconClass", defaultValue="" );
+		var records     = _getRecords( objectName=arguments.objectName, search=args.search, maxRows=( args.maxRows - ( args.showAddNewRecordCard ? 1 : 0 ) ), startRow=args.startRow );
 
 		args.cardItems = [];
 		for ( var record in records ) {
 			ArrayAppend( args.cardItems, {
-				  cardHeaderIcon    = icon
-				, cardHeaderLabel   = record[ arguments.labelField ] ?: renderLabel( objectName=args.objectName, recordId=record.id )
+				  cardHeaderIcon    = dataManagerCustomizationService.runCustomization(
+					  objectName     = objectName
+					, action         = "getHeaderIconForDataCard"
+					, defaultResult  = defaultIcon
+					, args           = {
+						  objectName = objectName
+						, record     = record
+					  }
+				  )
+				, cardHeaderLabel   = dataManagerCustomizationService.runCustomization(
+					  objectName     = objectName
+					, action         = "getHeaderLabelForDataCard"
+					, defaultResult  = record[ arguments.labelField ] ?: renderLabel( objectName=args.objectName, recordId=record.id )
+					, args           = {
+						  objectName = objectName
+						, record     = record
+					  }
+				  )
 				, cardHeaderOptions = dataManagerCustomizationService.runCustomization(
 					  objectName     = objectName
 					, action         = "getHeaderOptionsForDataCard"
