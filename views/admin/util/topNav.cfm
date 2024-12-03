@@ -5,10 +5,10 @@
 		cacheSuffix = cacheSuffix( event, args );
 	}
 
-	topLevelNav       = renderView( view="/admin/util/topNavItems" );
-	userMenu          = renderView( view="/admin/util/userMenu", cache=true, cacheSuffix=cacheSuffix );
-	applicationNav    = renderViewlet( event="admin.layout.applicationNav", cache=true, cacheSuffix=cacheSuffix );
-	systemMenu        = renderView( view="/admin/util/topnav/system", cache=true, cacheSuffix=cacheSuffix );
+	topLevelNav       = renderViewlet( event="admin.layout.topNavItems", args={ cacheSuffix=cacheSuffix } );
+	userMenu          = renderView( view="/admin/util/userMenu", cache=true, cacheSuffix=cacheSuffix, cacheProvider="adminMenuCache" );
+	applicationNav    = renderViewlet( event="admin.layout.applicationNav", cache=true, cacheSuffix=cacheSuffix, cacheProvider="adminMenuCache" );
+	systemMenu        = renderView( view="/admin/util/topnav/system", cache=true, cacheSuffix=cacheSuffix, cacheProvider="adminMenuCache");
 	notificationsMenu = renderViewlet( "admin.notifications.notificationNavPromo" );
 	systemAlertsMenu  = renderViewlet( "admin.systemAlerts.systemAlertsMenuItem" );
 	sitePicker        = isFeatureEnabled( "siteSwitcher" ) ? renderViewlet( "admin.sites.sitePicker" ) : "";

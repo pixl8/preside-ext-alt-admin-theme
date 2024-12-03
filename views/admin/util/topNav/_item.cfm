@@ -3,6 +3,7 @@
 	itemIcon      = args.itemIcon  ?: ( args.icon         ?: "" );
 	itemLink      = args.itemLink  ?: ( args.link         ?: "" );
 	itemTitle     = args.itemTitle ?: ( args.title        ?: "" );
+	itemid        = args.itemId    ?: ( args.id           ?: "" );
 	subMenu       = args.subMenu   ?: "";
 	subitems      = args.subitems  ?: ( args.subMenuItems ?: [] );
 	showMenuIcons = IsTrue( getSetting( "admin.topNavMenuIcons" ) );
@@ -14,7 +15,7 @@
 	<cfif !separator>
 		<cfif !hasSubmenu>
 			<cfif len( trim( itemLink ) )>
-				<li class="#itemClass#">
+				<li class="#itemClass#" data-item-id="#EncodeForHtmlAttribute( itemid )#">
 					<a href="#itemLink#"<cfif active> class="active"</cfif>>
 						<cfif showMenuIcons && Len( Trim( itemIcon ) )>
 							<i class="fa fa-fw #itemIcon#"></i>&nbsp;
@@ -24,7 +25,7 @@
 				</li>
 			</cfif>
 		<cfelse>
-			<li class="#itemClass#">
+			<li class="#itemClass#" data-item-id="#itemid#">
 				<a href="##" data-toggle="preside-dropdown" class="dropdown-toggle<cfif active> active</cfif>">
 					<cfif showMenuIcons && Len( Trim( itemIcon ) )>
 						<i class="fa fa-fw #itemIcon#"></i>&nbsp;
@@ -41,7 +42,7 @@
 								<li class="spacer"><hr></li>
 							<cfelse>
 								<li>
-									<a href="#item.link#">
+									<a href="#item.link#" data-item-id="#EncodeForHtmlAttribute( item.id ?: '' )#">
 										<cfif Len( Trim( item.icon ?: "" ) )>
 											<i class="fa fa-fw #item.icon#"></i>&nbsp;
 										</cfif>
