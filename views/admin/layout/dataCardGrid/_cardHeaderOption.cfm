@@ -1,23 +1,25 @@
 <cfscript>
 	label     = args.label     ?: "";
 	link      = args.link      ?: "";
-	title     = args.title     ?: "";
 	class     = args.class     ?: "";
 	iconClass = args.iconClass ?: "";
-	prompt = isTrue( args.prompt ?: false );
+	prompt    = args.prompt    ?: "";
+	match     = args.match     ?: "";
+	title     = "";
 
-	if ( prompt ) {
+	if ( Len( prompt ) ) {
 		class &= " confirmation-prompt";
-	}
+		title = ' title="#EncodeForHTMLAttribute( prompt )#"';
 
-	if ( !isEmptyString( title ) ) {
-		title = ' title="#EncodeForHTMLAttribute( title )#"';
+		if ( Len( match ) ) {
+			match = ' data-confirmation-match="#HtmlEditFormat( match )#"'
+		}
 	}
 </cfscript>
 
 <cfoutput>
 	<cfif not isEmptyString( label )>
-		<a href="#link#" class="#class#"#title#>
+		<a href="#link#" class="#class#"#title##match#>
 			<cfif not isEmptyString( iconClass )>
 				<i class="fa fa-fw #iconClass#"></i>
 			</cfif>
