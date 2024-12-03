@@ -1,5 +1,7 @@
 component extends="coldbox.system.Interceptor" {
 
+	property name="adminNavMenuCache" inject="cachebox:adminMenuCache";
+
 // PUBLIC
 	public void function configure() {}
 
@@ -23,6 +25,22 @@ component extends="coldbox.system.Interceptor" {
 			for( var cssFile in cssFiles ) {
 				event.include( cssFile, false );
 			}
+		}
+	}
+
+	public void function postUpdateObjectData( event, interceptData ) {
+		if ( ( arguments.interceptData.objectName == "security_user" && StructKeyExists( interceptData.data, "groups" ) ) || arguments.interceptData.objectName == "security_group" ) {
+			adminNavMenuCache.clearAll();
+		}
+	}
+	public void function postInsertObjectData( event, interceptData ) {
+		if ( arguments.interceptData.objectName == "security_group" ) {
+			adminNavMenuCache.clearAll();
+		}
+	}
+	public void function postDeleteObjectData( event, interceptData ) {
+		if ( arguments.interceptData.objectName == "security_group" ) {
+			adminNavMenuCache.clearAll();
 		}
 	}
 }
