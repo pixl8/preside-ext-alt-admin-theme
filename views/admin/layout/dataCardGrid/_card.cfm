@@ -1,4 +1,5 @@
 <cfscript>
+	cardLink          = args.cardLink          ?: "";
 	cardExtraClass    = args.cardExtraClass    ?: "";
 	cardHeaderOptions = args.cardHeaderOptions ?: "";
 	cardBody          = args.cardBody          ?: "";
@@ -9,6 +10,7 @@
 		, args={
 			  icon  = args.cardHeaderIcon  ?: ""
 			, label = args.cardHeaderLabel ?: ""
+			, link  = cardLink
 		  }
 	);
 
@@ -51,8 +53,10 @@
 			</cfif>
 
 			<cfif not isEmptyString( cardBody )>
-				<div class="card-body">
-					#cardBody#
+				<div class="card-body<cfif Len( cardLink )> card-body-with-link</cfif>">
+					<cfif Len( cardLink )><a href="#cardLink#" class="card-body-link"></cfif>
+						#cardBody#
+					<cfif Len( cardLink )></a></cfif>
 				</div>
 			</cfif>
 

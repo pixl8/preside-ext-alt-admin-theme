@@ -43,13 +43,15 @@ component {
 
 		event.initializeDatamanagerPage( objectName=args.objectName );
 
-		var defaultIcon = translateResource( uri="preside-objects.#arguments.objectName#:iconClass", defaultValue="" );
-		var records     = _getRecords( objectName=arguments.objectName, search=args.search, maxRows=( args.maxRows - ( args.showAddNewRecordCard ? 1 : 0 ) ), startRow=args.startRow );
+		var defaultIcon    = translateResource( uri="preside-objects.#arguments.objectName#:iconClass", defaultValue="" );
+		var records        = _getRecords( objectName=arguments.objectName, search=args.search, maxRows=( args.maxRows - ( args.showAddNewRecordCard ? 1 : 0 ) ), startRow=args.startRow );
+		var recordLinkBase = event.buildAdminLink( objectName=arguments.objectName, recordId="{recordId}" );
 
 		args.cardItems = [];
 		for ( var record in records ) {
 			ArrayAppend( args.cardItems, {
-				  cardHeaderIcon    = dataManagerCustomizationService.runCustomization(
+				  cardLink          = Replace( recordLinkBase, "{recordId}", record.id, "all" )
+				, cardHeaderIcon    = dataManagerCustomizationService.runCustomization(
 					  objectName     = objectName
 					, action         = "getHeaderIconForDataCard"
 					, defaultResult  = defaultIcon
@@ -124,17 +126,20 @@ component {
 	}
 
 	private array function _getCardHeaderOptions( event, rc, prc, args={} ) {
-		var objectName = args.objectName ?: "";
-		var record     = args.record     ?: QueryNew( "" );
-		var labelField = args.labelField ?: presideObjectService.getLabelField( objectName=objectName );
+		var objectName           = args.objectName ?: "";
+		var record               = args.record     ?: QueryNew( "" );
+		var labelField           = args.labelField ?: presideObjectService.getLabelField( objectName=objectName );
+		var label                = stripTags( record[ labelField ] ?: "" );
+		var useTypedConfirmation = dataManagerService.useTypedConfirmationForDeletion( objectName );
 
 		var options = [];
 		var more    = [];
 
 		if ( prc.canEdit ) {
-			ArrayAppend( options, {
+			ArrayAppend( more, {
 				  label = translateResource( uri="admin.datacardGrid:option.edit.label" )
 				, link  = event.buildAdminLink( objectName=objectName, operation="editRecord", recordId=record.id )
+				, iconClass = "fa-pencil"
 			} );
 		}
 
@@ -152,9 +157,9 @@ component {
 			ArrayAppend( more, {
 				  label     = translateResource( uri="admin.datacardGrid:option.delete.label" )
 				, link      = event.buildAdminLink( objectName=objectName, operation="deleteRecordAction", recordId=record.id )
-				, iconClass = "fa-trash-o"
-				, title     = translateResource( uri="admin.datacardGrid:option.delete.prompt.title", data=[ LCase( translateResource( uri="preside-objects.site_theme:title.singular" ) ), record[ labelField ] ?: "" ] )
-				, prompt    = true
+				, iconClass = "fa-trash-o red"
+				, prompt    = translateResource( uri="cms:datamanager.deleteRecord.prompt", data=[ prc.objectTitle, label ] )
+				, match     = useTypedConfirmation ? datamanagerService.getDeletionConfirmationMatch( objectName, record ) : ""
 			} );
 		}
 
