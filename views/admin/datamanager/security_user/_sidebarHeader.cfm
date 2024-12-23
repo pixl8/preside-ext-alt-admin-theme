@@ -1,4 +1,15 @@
+<cfscript>
+	status = isTrue( args.record.active ) ? "active" : "inactive";
+</cfscript>
+
 <cfoutput>
+
+	<div>
+		<span class="status-badge status-badge-#translateResource( uri="preside-objects.security_user:status.#status#.className" )#">
+			<i class="fa fa-fw #translateResource( uri="preside-objects.security_user:status.#status#.iconClass" )#"></i>
+			#translateResource( uri="preside-objects.security_user:status.#status#.label" )#
+		</span>
+	</div>
 
 	<h2>#args.record.known_as#</h2>
 
