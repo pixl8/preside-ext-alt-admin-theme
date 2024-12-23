@@ -65,6 +65,17 @@ component {
 			, title         = "cms:sitenav.managesites"
 			, icon          = "fa-globe"
 		};
+
+		settings.adminConfigurationMenuItems = settings.adminConfigurationMenuItems ?: [];
+
+		ArrayAppend( settings.adminConfigurationMenuItems, "adminUsers" );
+
+		settings.adminMenuItems = settings.adminMenuItems ?: {};
+
+		settings.adminMenuItems.adminUsers = {
+			  buildLinkArgs = { objectName="security_user" }
+			, activeChecks  = { datamanagerObject="security_user" }
+		};
 	}
 
 	private void function _setupDerivatives( settings ) {
