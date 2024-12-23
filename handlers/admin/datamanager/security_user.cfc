@@ -1,6 +1,7 @@
 component extends="preside.system.base.EnhancedDataManagerBase" {
 
-	property name="datamanagerService" inject="DatamanagerService";
+	property name="datamanagerService"  inject="DatamanagerService";
+	property name="securityUserService" inject="SecurityUserService";
 
 	variables.infoCol1 = [ "language", "twoFactorAuth" ];
 	variables.infoCol2 = [ "lastLoggedIn", "lastLoggedOut", "lastActive" ];
@@ -21,6 +22,22 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 		args.actions      = [];
 		args.childActions = [];
+
+		if ( isFalse( args.record.active ) ) {
+			ArrayAppend( args.childActions, {
+				  link   = event.buildAdminLink( linkTo="datamanager.security_user.activateUserAction", queryString="id=#recordId#" )
+				, icon   = "fa-check-circle green"
+				, title  = translateResource( uri="preside-objects.security_user:action.activate.label" )
+				, prompt = translateResource( uri="preside-objects.security_user:action.activate.prompt", data=[ args.record.known_as ] )
+			} );
+		} else {
+			ArrayAppend( args.childActions, {
+				  link   = event.buildAdminLink( linkTo="datamanager.security_user.deactivateUserAction", queryString="id=#recordId#" )
+				, icon   = "fa-times-circle red"
+				, title  = translateResource( uri="preside-objects.security_user:action.deactivate.label" )
+				, prompt = translateResource( uri="preside-objects.security_user:action.deactivate.prompt", data=[ args.record.known_as ] )
+			} );
+		}
 
 		if ( prc.canDelete ) {
 			if ( ArrayLen( args.childActions ) ) {
@@ -84,6 +101,35 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 	private string function _dashboardTab( event, rc, prc, args={} ) {
 		return "";
+	}
+
+	public void function activateUserAction( event, rc, prc ) {
+		var recordId = rc.id ?: "";
+
+		var securityUser = securityUserService.getUser( id=recordId, selectFields=[ "known_as" ] );
+
+		if ( securityUserService.activateUser( id=recordId ) ) {
+			messagebox.info( translateResource( uri="preside-objects.security_user:message.activate.success", data=[ securityUser.known_as ] ) );
+		} else {
+			messagebox.info( translateResource( uri="preside-objects.security_user:message.activate.error", data=[ securityUser.known_as ] ) );
+		}
+
+		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=recordId ) );
+	}
+
+	public void function deactivateUserAction( event, rc, prc ) {
+		var recordId = rc.id ?: "";
+
+		var securityUser = securityUserService.getUser( id=recordId, selectFields=[ "known_as" ] );
+
+		if ( securityUserService.deactivateUser( id=recordId ) ) {
+			messagebox.info( translateResource( uri="preside-objects.security_user:message.deactivate.success", data=[ securityUser.known_as ] ) );
+		} else {
+			messagebox.info( translateResource( uri="preside-objects.security_user:message.deactivate.error", data=[ securityUser.known_as ] ) );
+		}
+
+
+		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=recordId ) );
 	}
 
 }
