@@ -3,13 +3,15 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	property name="datamanagerService"  inject="DatamanagerService";
 	property name="securityUserService" inject="SecurityUserService";
 	property name="loginService"        inject="LoginService";
+	property name="notificationService" inject="NotificationService";
 
 	variables.infoCol1 = [ "language", "twoFactorAuth", "notification" ];
 	variables.infoCol2 = [ "lastLoggedIn", "lastLoggedOut", "lastActive" ];
 
 	variables.tabs = [
 		  "dashboard"
-		, "userGroups"
+		, "groups"
+		, "notifications"
 	];
 
 	variables.sidebarNavigation = true;
@@ -123,9 +125,22 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	}
 
 	private string function _infoCardNotification( event, rc, prc, args={} ) {
-		var topics = isTrue( args.record.subscribed_to_all_notifications ) ? "all" : "none";
+		var recordId = args.recordId ?: "";
 
-		return '<i class="fa fa-fw fa-bullhorn grey"></i> #translateResource( uri="preside-objects.security_user:infocard.subscribed_to_all_notifications.label", data=[ translateResource( uri="preside-objects.security_user:infocard.subscribed_to_all_notifications.#topics#" ) ] )#';
+		var notification = isTrue( args.record.subscribed_to_all_notifications ) ? "all" : "none";
+
+		if ( notification == "none" ) {
+			var subscriptions = notificationService.getUserSubscriptions( userId=recordId );
+
+			if ( ArrayLen( subscriptions ) ) {
+				notification = '<a href="#event.buildAdminLink( objectName="security_user", recordId=recordId, queryString="tab=notifications" )#">#translateResource( uri="preside-objects.security_user:infocard.subscribed_to_all_notifications.custom" )#</a>';
+			}
+		} else {
+			notification = translateResource( uri="preside-objects.security_user:infocard.subscribed_to_all_notifications.#notification#" );
+		}
+
+
+		return '<i class="fa fa-fw fa-bell grey"></i> #translateResource( uri="preside-objects.security_user:infocard.subscribed_to_all_notifications.label", data=[ notification ] )#';
 	}
 
 	private string function _infoCardLastLoggedIn( event, rc, prc, args={} ) {
@@ -144,7 +159,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		return "";
 	}
 
-	private string function _userGroupsTab( event, rc, prc, args={} ) {
+	private string function _groupsTab( event, rc, prc, args={} ) {
 		var recordId = args.recordId ?: "";
 
 		return renderViewlet(
@@ -155,6 +170,50 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 				, recordId     = recordId
 			  }
 		);
+	}
+
+	private struct function _notificationsMenuItem( event, rc, prc, args={} ) {
+		return { display=isFalse( prc.record.subscribed_to_all_notifications ?: "" )  };
+	}
+
+	private string function _notificationsTab( event, rc, prc, args={} ) {
+		var recordId = args.recordId ?: "";
+
+		return objectDataTable(
+			  objectName = "admin_notification_subscription"
+			, args       = {
+				  filterContextData = { security_user=recordId }
+				, gridFields        = [ "topic_label" ]
+				, compact           = true
+				, useMultiActions   = false
+				, allowFilter       = false
+				, allowDataExport   = false
+				, datasourceUrl     = event.buildAdminLink( linkTo="datamanager.security_user.getNotificationsForAjaxDataTable", queryString="id=#recordId#" )
+				, objectTitlePlural = translateResource( uri="preside-objects.admin_notification_subscription:title.listing" )
+			  }
+		);
+	}
+
+	public void function getNotificationsForAjaxDataTable( event, rc, prc ) {
+		runEvent(
+			  event          = "admin.DataManager._getObjectRecordsForAjaxDataTables"
+			, prePostExempt  = true
+			, private        = true
+			, eventArguments = {
+				  object          = "admin_notification_subscription"
+				, gridFields      = "topic_label"
+				, useMultiActions = false
+				, actionsView     = "admin.datamanager.security_user._notificationActionsForGridListing"
+				, orderBy         = "datecreated desc"
+				, extraFilters    = [
+					{ filter={ security_user=( rc.id ?: "" ) } }
+				  ]
+			}
+		);
+	}
+
+	private string function _notificationActionsForGridListing( event, rc, prc, args={} ) {
+		return "";
 	}
 
 	public void function activateUserAction( event, rc, prc ) {
