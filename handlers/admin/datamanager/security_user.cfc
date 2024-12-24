@@ -8,7 +8,8 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	variables.infoCol2 = [ "lastLoggedIn", "lastLoggedOut", "lastActive" ];
 
 	variables.tabs = [
-		"dashboard"
+		  "dashboard"
+		, "userGroups"
 	];
 
 	variables.sidebarNavigation = true;
@@ -135,6 +136,19 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 	private string function _dashboardTab( event, rc, prc, args={} ) {
 		return "";
+	}
+
+	private string function _userGroupsTab( event, rc, prc, args={} ) {
+		var recordId = args.recordId ?: "";
+
+		return renderViewlet(
+			  event = "admin.dataHelpers.relatedRecordsDatatable"
+			, args  = {
+				  objectName   = "security_user"
+				, propertyName = "groups"
+				, recordId     = recordId
+			  }
+		);
 	}
 
 	public void function activateUserAction( event, rc, prc ) {
