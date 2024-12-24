@@ -13,14 +13,13 @@ component {
 		return this;
 	}
 
-	public struct function getUser(
+	public query function getUser(
 		  required string id
 		,          array  selectFields = []
 	) {
 		return $getPresideObject( "security_user" ).selectData(
 			  id           = arguments.id
 			, selectFields = arguments.selectFields
-			, returnType   = "singleRecordStruct"
 		);
 	}
 

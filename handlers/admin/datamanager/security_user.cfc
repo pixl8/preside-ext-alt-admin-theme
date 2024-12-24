@@ -2,6 +2,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 	property name="datamanagerService"  inject="DatamanagerService";
 	property name="securityUserService" inject="SecurityUserService";
+	property name="loginService"        inject="LoginService";
 
 	variables.infoCol1 = [ "language", "twoFactorAuth" ];
 	variables.infoCol2 = [ "lastLoggedIn", "lastLoggedOut", "lastActive" ];
@@ -38,6 +39,12 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 				, prompt = translateResource( uri="preside-objects.security_user:action.deactivate.prompt", data=[ args.record.known_as ] )
 			} );
 		}
+
+		ArrayAppend( args.childActions, {
+			  link  = event.buildAdminLink( linkTo="datamanager.security_user.sendWelcomeEmail", queryString="id=#recordId#" )
+			, icon  = "fa-envelope"
+			, title = translateResource( uri="preside-objects.security_user:action.send.label" )
+		} );
 
 		if ( prc.canDelete ) {
 			if ( ArrayLen( args.childActions ) ) {
@@ -128,6 +135,62 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			messagebox.info( translateResource( uri="preside-objects.security_user:message.deactivate.error", data=[ securityUser.known_as ] ) );
 		}
 
+
+		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=recordId ) );
+	}
+
+	public void function sendWelcomeEmail( event, rc, prc ) {
+		var recordId = rc.id ?: "";
+
+		event.initializeDatamanagerPage( "security_user", recordId );
+
+		prc.record = securityUserService.getUser( id=recordId, selectFields=[ "id", "known_as" ] );
+
+		if ( !prc.record.recordCount ) {
+			messageBox.error( translateResource( uri="cms:websiteUserManager.userNotFound.error" ) );
+
+			setNextEvent( url=event.buildAdminLink( objectName="security_user" ) );
+		}
+
+		prc.pageTitle = translateResource( uri="preside-objects.security_user:page.sendwelcomeemail.title", data=[ prc.record.known_as ] );
+		prc.pageIcon  = "fa-envelope";
+
+		event.addAdminBreadCrumb(
+			  title = translateResource( uri="preside-objects.security_user:page.sendwelcomeemail.breadcrumb" )
+			, link  = ""
+		);
+	}
+
+	public void function sendWelcomeEmailAction( event, rc, prc ) {
+		var recordId = rc.id ?: "";
+
+		event.initializeDatamanagerPage( "security_user", recordId );
+
+		var securityUser = securityUserService.getUser( id=recordId, selectFields=[ "id", "known_as" ] );
+
+		if ( !securityUser.recordCount ) {
+			messageBox.error( translateResource( uri="cms:websiteUserManager.userNotFound.error" ) );
+
+			setNextEvent( url=event.buildAdminLink( objectName="security_user" ) );
+		}
+
+		var formName         = "preside-objects.security_user.email.welcome";
+		var formData         = event.getCollectionForForm( formName );
+		var validationResult = validateForm( formName, formData );
+
+		if ( !validationResult.validated() ) {
+			var persist = formData;
+
+			persist.validationResult = validationResult;
+
+			messageBox.error( translateResource( "cms:datamanager.data.validation.error" ) );
+
+			setNextEvent( url=event.buildAdminLink( linkTo="datamanager.security_user.sendWelcomeEmail", queryString="id=#recordId#" ), persistStruct=persist );
+		}
+
+		loginService.sendWelcomeEmail( userId=securityUser.id, createdBy=event.getAdminUserDetails().known_as, welcomeMessage=( formData.welcome_message ?: "" ) );
+
+		messageBox.info( translateResource( uri="preside-objects.security_user:message.sendwelcomeemail.success", data=[ securityUser.known_as ] ) );
 
 		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=recordId ) );
 	}
