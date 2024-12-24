@@ -46,6 +46,17 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			, title = translateResource( uri="preside-objects.security_user:action.send.label" )
 		} );
 
+		if ( loginService.isTwoFactorAuthenticationEnabled() ) {
+			if ( isTrue( args.record.two_step_auth_key_in_use ) ) {
+				ArrayAppend( args.childActions, {
+					  link   = event.buildAdminLink( linkTo="datamanager.security_user.disableTwoFactorAuthAction", queryString="id=#recordId#" )
+					, icon   = "fa-unlock red"
+					, title  = translateResource( uri="preside-objects.security_user:action.2fa.disable.label" )
+					, prompt = translateResource( uri="preside-objects.security_user:action.2fa.disable.prompt", data=[ args.record.known_as ] )
+				} );
+			}
+		}
+
 		if ( prc.canDelete ) {
 			if ( ArrayLen( args.childActions ) ) {
 				ArrayAppend( args.childActions, "---" );
@@ -89,9 +100,13 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	}
 
 	private string function _infoCardTwoFactorAuth( event, rc, prc, args={} ) {
-		var twoFactorAuth = isTrue( args.record.two_step_auth_key_in_use ) ? "enabled" : "disabled";
+		if ( loginService.isTwoFactorAuthenticationEnabled() ) {
+			var twoFactorAuth = isTrue( args.record.two_step_auth_key_in_use ) ? "enabled" : "disabled";
 
-		return '<i class="fa fa-fw #translateResource( uri="preside-objects.security_user:infocard.two_step_auth_key_in_use.#twoFactorAuth#.iconClass" )#"></i> #translateResource( uri="preside-objects.security_user:infocard.two_step_auth_key_in_use.#twoFactorAuth#.label" )#';
+			return '<i class="fa fa-fw #translateResource( uri="preside-objects.security_user:infocard.two_step_auth_key_in_use.#twoFactorAuth#.iconClass" )#"></i> #translateResource( uri="preside-objects.security_user:infocard.two_step_auth_key_in_use.#twoFactorAuth#.label" )#';
+		}
+
+		return "";
 	}
 
 	private string function _infoCardLastLoggedIn( event, rc, prc, args={} ) {
@@ -159,6 +174,23 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			  title = translateResource( uri="preside-objects.security_user:page.sendwelcomeemail.breadcrumb" )
 			, link  = ""
 		);
+	}
+
+	public void function disableTwoFactorAuthAction( event, rc, prc ) {
+		var recordId = rc.id ?: "";
+
+		loginService.disableTwoFactorAuthenticationForUser( userId=recordId );
+
+		event.audit(
+			  action = "disable_2fa"
+			, type   = "userprofile"
+		);
+
+		var securityUser = securityUserService.getUser( id=recordId, selectFields=[ "known_as" ] );
+
+		messagebox.info( translateResource( uri="preside-objects.security_user:message.2fa.disable.success", data=[ securityUser.known_as ] ) );
+
+		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=recordId ) );
 	}
 
 	public void function sendWelcomeEmailAction( event, rc, prc ) {
