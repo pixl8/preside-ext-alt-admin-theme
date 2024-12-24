@@ -126,6 +126,8 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	}
 
 	public void function activateUserAction( event, rc, prc ) {
+		_checkPermissions( event=event, key="usermanager.edit" );
+
 		var recordId = rc.id ?: "";
 
 		var securityUser = securityUserService.getUser( id=recordId, selectFields=[ "known_as" ] );
@@ -140,6 +142,8 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	}
 
 	public void function deactivateUserAction( event, rc, prc ) {
+		_checkPermissions( event=event, key="usermanager.edit" );
+
 		var recordId = rc.id ?: "";
 
 		var securityUser = securityUserService.getUser( id=recordId, selectFields=[ "known_as" ] );
@@ -155,6 +159,8 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	}
 
 	public void function sendWelcomeEmail( event, rc, prc ) {
+		_checkPermissions( event=event, key="usermanager.edit" );
+
 		var recordId = rc.id ?: "";
 
 		event.initializeDatamanagerPage( "security_user", recordId );
@@ -177,6 +183,8 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	}
 
 	public void function disableTwoFactorAuthAction( event, rc, prc ) {
+		_checkPermissions( event=event, key="usermanager.edit" );
+
 		var recordId = rc.id ?: "";
 
 		loginService.disableTwoFactorAuthenticationForUser( userId=recordId );
@@ -194,6 +202,8 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	}
 
 	public void function sendWelcomeEmailAction( event, rc, prc ) {
+		_checkPermissions( event=event, key="usermanager.edit" );
+
 		var recordId = rc.id ?: "";
 
 		event.initializeDatamanagerPage( "security_user", recordId );
@@ -225,6 +235,12 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		messageBox.info( translateResource( uri="preside-objects.security_user:message.sendwelcomeemail.success", data=[ securityUser.known_as ] ) );
 
 		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=recordId ) );
+	}
+
+	private void function _checkPermissions( required any event, required string key ) {
+		if ( !hasCmsPermission( arguments.key ) ) {
+			event.adminAccessDenied();
+		}
 	}
 
 }
