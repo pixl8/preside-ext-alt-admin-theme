@@ -14,6 +14,8 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	variables.sidebarNavigation = true;
 
 	private string function renderSidebarHeader( event, rc, prc, args={} ) {
+		prc.displayPageHeader  = false;
+
 		return renderView( view="/admin/datamanager/security_user/_sidebarHeader", args=args );
 	}
 
@@ -84,6 +86,16 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		}
 
 		return args.actions;
+	}
+
+	private string function _infoCard( event, rc, prc, args={} ) {
+		var activeTab = rc.tab ?: "dashboard";
+
+		if ( activeTab == "dashboard" ) {
+			return super._infoCard( argumentCollection=arguments );
+		}
+
+		return "";
 	}
 
 	private string function _infoCardLanguage( event, rc, prc, args={} ) {
