@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form i18nBaseUri="preside-objects.security_user:">
+	<tab id="basic">
+		<fieldset id="welcome">
+			<field name="send_welcome" control="toggle" toggleType="switch" toggleFields="welcome_message" default="false" />
+		</fieldset>
+	</tab>
+</form>

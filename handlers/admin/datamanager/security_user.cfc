@@ -185,7 +185,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			  objectName = "admin_notification_subscription"
 			, args       = {
 				  filterContextData = { security_user=recordId }
-				, gridFields        = [ "topic_label" ]
+				, gridFields        = [ "topic_label", "get_email_notifications" ]
 				, compact           = true
 				, useMultiActions   = false
 				, allowFilter       = false
@@ -203,7 +203,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			, private        = true
 			, eventArguments = {
 				  object          = "admin_notification_subscription"
-				, gridFields      = "topic_label"
+				, gridFields      = "topic_label,get_email_notifications"
 				, useMultiActions = false
 				, actionsView     = "admin.datamanager.security_user._notificationActionsForGridListing"
 				, orderBy         = "datecreated desc"
