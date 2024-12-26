@@ -156,7 +156,9 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	}
 
 	private string function _dashboardTab( event, rc, prc, args={} ) {
-		return "";
+		var recordId = args.recordId ?: "";
+
+		return renderViewlet( event="admin.audittrail.recordTrailViewlet", args={ recordId=recordId } );;
 	}
 
 	private string function _groupsTab( event, rc, prc, args={} ) {
