@@ -226,6 +226,13 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		var securityUser = securityUserService.getUser( id=recordId, selectFields=[ "known_as" ] );
 
 		if ( securityUserService.activateUser( id=recordId ) ) {
+			event.audit(
+				  action   = "activate_user"
+				, type     = "usermanager"
+				, recordId = recordId
+				, detail   = queryRowToStruct( securityUser )
+			);
+
 			messagebox.info( translateResource( uri="preside-objects.security_user:message.activate.success", data=[ securityUser.known_as ] ) );
 		} else {
 			messagebox.info( translateResource( uri="preside-objects.security_user:message.activate.error", data=[ securityUser.known_as ] ) );
@@ -242,11 +249,38 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		var securityUser = securityUserService.getUser( id=recordId, selectFields=[ "known_as" ] );
 
 		if ( securityUserService.deactivateUser( id=recordId ) ) {
+			event.audit(
+				  action   = "deactivate_user"
+				, type     = "usermanager"
+				, recordId = recordId
+				, detail   = queryRowToStruct( securityUser )
+			);
+
 			messagebox.info( translateResource( uri="preside-objects.security_user:message.deactivate.success", data=[ securityUser.known_as ] ) );
 		} else {
 			messagebox.info( translateResource( uri="preside-objects.security_user:message.deactivate.error", data=[ securityUser.known_as ] ) );
 		}
 
+		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=recordId ) );
+	}
+
+	public void function disableTwoFactorAuthAction( event, rc, prc ) {
+		_checkPermissions( event=event, key="usermanager.edit" );
+
+		var recordId = rc.id ?: "";
+
+		loginService.disableTwoFactorAuthenticationForUser( userId=recordId );
+
+		var securityUser = securityUserService.getUser( id=recordId, selectFields=[ "known_as" ] );
+
+		event.audit(
+			  action   = "disable_2fa"
+			, type     = "usermanager"
+			, recordId = recordId
+			, detail   = queryRowToStruct( securityUser )
+		);
+
+		messagebox.info( translateResource( uri="preside-objects.security_user:message.2fa.disable.success", data=[ securityUser.known_as ] ) );
 
 		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=recordId ) );
 	}
@@ -273,25 +307,6 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			  title = translateResource( uri="preside-objects.security_user:page.sendwelcomeemail.breadcrumb" )
 			, link  = ""
 		);
-	}
-
-	public void function disableTwoFactorAuthAction( event, rc, prc ) {
-		_checkPermissions( event=event, key="usermanager.edit" );
-
-		var recordId = rc.id ?: "";
-
-		loginService.disableTwoFactorAuthenticationForUser( userId=recordId );
-
-		event.audit(
-			  action = "disable_2fa"
-			, type   = "userprofile"
-		);
-
-		var securityUser = securityUserService.getUser( id=recordId, selectFields=[ "known_as" ] );
-
-		messagebox.info( translateResource( uri="preside-objects.security_user:message.2fa.disable.success", data=[ securityUser.known_as ] ) );
-
-		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=recordId ) );
 	}
 
 	public void function sendWelcomeEmailAction( event, rc, prc ) {
@@ -324,6 +339,13 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		}
 
 		loginService.sendWelcomeEmail( userId=securityUser.id, createdBy=event.getAdminUserDetails().known_as, welcomeMessage=( formData.welcome_message ?: "" ) );
+
+		event.audit(
+			  action   = "send_welcome_email"
+			, type     = "usermanager"
+			, recordId = recordId
+			, detail   = queryRowToStruct( securityUser )
+		);
 
 		messageBox.info( translateResource( uri="preside-objects.security_user:message.sendwelcomeemail.success", data=[ securityUser.known_as ] ) );
 
