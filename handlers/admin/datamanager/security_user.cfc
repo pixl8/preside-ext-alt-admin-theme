@@ -218,6 +218,23 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		return "";
 	}
 
+	private void function postAddRecordAction( event, rc, prc, args={} ) {
+		if ( isTrue( args.formData.send_welcome ?: "" ) ) {
+			var recordId = args.newId ?: "";
+
+			var securityUser = securityUserService.getUser( id=recordId, selectFields=[ "id", "known_as" ] );
+
+			loginService.sendWelcomeEmail( userId=securityUser.id, createdBy=event.getAdminUserDetails().known_as, welcomeMessage=( args.formData.welcome_message ?: "" ) );
+
+			event.audit(
+				  action   = "send_welcome_email"
+				, type     = "usermanager"
+				, recordId = recordId
+				, detail   = queryRowToStruct( securityUser )
+			);
+		}
+	}
+
 	public void function activateUserAction( event, rc, prc ) {
 		_checkPermissions( event=event, key="usermanager.edit" );
 
