@@ -16,6 +16,53 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 	variables.sidebarNavigation = true;
 
+	private array function getActionsForGridListing( event, rc, prc, args={} ) {
+		var objectName = args.objectName ?: "";
+		var records    = args.records    ?: QueryNew( "" );
+		var operations = [];
+
+		for ( var record in records ) {
+			var actions = [];
+
+			if ( hasCmsPermission( "usermanager.read" ) ) {
+				ArrayAppend( actions, {
+					  link       = event.buildAdminLink( objectName=objectName, recordId=record.id )
+					, icon       = "fa-eye"
+					, contextKey = "v"
+				} );
+			}
+
+			if ( hasCmsPermission( "usermanager.edit" ) ) {
+				ArrayAppend( actions, {
+					  link       = event.buildAdminLink( objectName=objectName, recordId=record.id, operation="editRecord" )
+					, icon       = "fa-pencil"
+					, contextKey = "e"
+				} );
+			}
+
+			if ( hasCmsPermission( "usermanager.delete" ) && record.id != event.getAdminUserId() ) {
+				ArrayAppend( actions, {
+					  link       = event.buildAdminLink( objectName=objectName, recordId=record.id, operation="deleteRecordAction" )
+					, icon       = "fa-trash"
+					, contextKey = "d"
+					, class      = "confirmation-prompt"
+					, title      = translateResource( uri="cms:datamanager.deleteRecord.prompt", data=[ translateResource( uri="preside-objects.#objectName#:title.singular", defaultValue=objectName ), record.known_as ] )
+					, match      = dataManagerService.useTypedConfirmationForDeletion( objectName ) ? datamanagerService.getDeletionConfirmationMatch( objectName, record ) : ""
+				} );
+			} else {
+				ArrayAppend( actions, {
+					  link       = "##"
+					, icon       = "fa-trash grey"
+					, contextKey = "d"
+				} );
+			}
+
+			ArrayAppend( operations, renderView( view="/admin/datamanager/_listingActions", args={ actions=actions } ) );
+		}
+
+		return operations;
+	}
+
 	private string function renderSidebarHeader( event, rc, prc, args={} ) {
 		prc.displayPageHeader  = false;
 
