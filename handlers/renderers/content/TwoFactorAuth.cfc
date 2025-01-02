@@ -1,4 +1,4 @@
-component  {
+component {
 
 	property name="loginService" inject="LoginService";
 

@@ -219,7 +219,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 				, useMultiActions   = false
 				, allowFilter       = false
 				, allowDataExport   = false
-				, datasourceUrl     = event.buildAdminLink( linkTo="datamanager.security_user.getGroupsForAjaxDataTable", queryString="recordId=#recordId#&cacheBuster=#CreateUUID()#" )
+				, datasourceUrl     = event.buildAdminLink( linkTo="datamanager.security_user.getGroupsForAjaxDataTable", queryString="recordId=#recordId#" )
 				, objectTitlePlural = translateResource( uri="preside-objects.security_group:title" )
 			  }
 		);
@@ -231,7 +231,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 		var subQuery = presideObjectService.selectData(
 			  objectName          = "security_user"
-			, id                  = recordId
+			, id                  = ( rc.recordId ?: "" )
 			, selectFields        = [ "groups.id as group_id" ]
 			, getSqlAndParamsOnly = true
 		);
@@ -258,14 +258,13 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 				, gridFields      = "label"
 				, extraFilters    = extraFilters
 				, useMultiActions = false
-				, orderBy         = "datecreated desc"
-				, actionsView     = "admin.datamanager.security_user._getActionsViewForAjaxDataTables"
+				, actionsView     = "admin.datamanager.security_user._getGroupsActionsViewForAjaxDataTables"
 				, useCache        = false
 			}
 		);
 	}
 
-	private string function _getActionsViewForAjaxDataTables( event, rc, prc, args={} ) {
+	private string function _getGroupsActionsViewForAjaxDataTables( event, rc, prc, args={} ) {
 		var actions = [];
 
 		if ( hasCmsPermission( "usermanager.edit" ) ) {
@@ -292,38 +291,59 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		var recordId = args.recordId ?: "";
 
 		return objectDataTable(
-			  objectName = "admin_notification_subscription"
+			  objectName = "admin_notification_topic"
 			, args       = {
-				  filterContextData = { security_user=recordId }
-				, gridFields        = [ "topic_label", "get_email_notifications" ]
+				  gridFields        = [ "topic_label", "topic_subscription", "topic_email" ]
 				, compact           = true
 				, useMultiActions   = false
 				, allowFilter       = false
 				, allowDataExport   = false
-				, datasourceUrl     = event.buildAdminLink( linkTo="datamanager.security_user.getNotificationsForAjaxDataTable", queryString="id=#recordId#" )
+				, datasourceUrl     = event.buildAdminLink( linkTo="datamanager.security_user.getNotificationsForAjaxDataTable", queryString="recordId=#recordId#" )
 				, objectTitlePlural = translateResource( uri="preside-objects.admin_notification_subscription:title.listing" )
+				, orderBy           = "topic_subscription desc"
 			  }
 		);
 	}
 
 	public void function getNotificationsForAjaxDataTable( event, rc, prc ) {
+		var extraFilters = [];
+		var filterParams = {};
+
+		var subQuery = getPresideObject( "admin_notification_subscription" ).selectData(
+			  selectFields        = [ "topic", "security_user", "get_email_notifications" ]
+			, filter              = { security_user=( rc.recordId ?: "" ) }
+			, getSqlAndParamsOnly = true
+		);
+
+
+		for( var param in subQuery.params ) { filterParams[ param.name ] = param; }
+
+		ArrayAppend( extraFilters, {
+			filter="1=1", filterParams=filterParams, extraJoins=[ {
+				  type           = "left"
+				, subQuery       = subQuery.sql
+				, subQueryAlias  = "admin_notification_subscription_subquery"
+				, subQueryColumn = "topic"
+				, joinToTable    = "admin_notification_topic"
+				, joinToColumn   = "topic"
+			} ]
+		} );
+
 		runEvent(
 			  event          = "admin.DataManager._getObjectRecordsForAjaxDataTables"
 			, prePostExempt  = true
 			, private        = true
 			, eventArguments = {
-				  object          = "admin_notification_subscription"
-				, gridFields      = "topic_label,get_email_notifications"
-				, extraFilters    = [
-					{ filter={ security_user=( rc.id ?: "" ) } }
-				  ]
+				  object          = "admin_notification_topic"
+				, gridFields      = "topic_label,topic_subscription,topic_email"
+				, extraFilters    = extraFilters
 				, useMultiActions = false
-				, orderBy         = "datecreated desc"
+				, actionsView     = "admin.datamanager.security_user._getNotificationsActionsViewForAjaxDataTable"
 			}
 		);
 	}
 
-	private string function _notificationActionsForGridListing( event, rc, prc, args={} ) {
+	private string function _getNotificationsActionsViewForAjaxDataTable( event, rc, prc, args={} ) {
 		return "";
 	}
 
