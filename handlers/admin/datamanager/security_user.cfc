@@ -1,9 +1,11 @@
 component extends="preside.system.base.EnhancedDataManagerBase" {
 
-	property name="datamanagerService"  inject="DatamanagerService";
-	property name="securityUserService" inject="SecurityUserService";
-	property name="loginService"        inject="LoginService";
-	property name="notificationService" inject="NotificationService";
+	property name="presideObjectService" inject="PresideObjectService";
+	property name="datamanagerService"   inject="DatamanagerService";
+	property name="securityUserService"  inject="SecurityUserService";
+	property name="loginService"         inject="LoginService";
+	property name="notificationService"  inject="NotificationService";
+	property name="permissionsCache"     inject="cachebox:PermissionsCache";
 
 	variables.infoCol1 = [ "language", "twoFactorAuth", "notification" ];
 	variables.infoCol2 = [ "lastLoggedIn", "lastLoggedOut", "lastActive" ];
@@ -163,9 +165,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 	private string function _infoCardTwoFactorAuth( event, rc, prc, args={} ) {
 		if ( loginService.isTwoFactorAuthenticationEnabled() ) {
-			var twoFactorAuth = isTrue( args.record.two_step_auth_key_in_use ) ? "enabled" : "disabled";
-
-			return '<i class="fa fa-fw fa-user-secret grey"></i> #translateResource( uri="preside-objects.security_user:infocard.two_step_auth_key_in_use.label", data=[ translateResource( uri="preside-objects.security_user:infocard.two_step_auth_key_in_use.#twoFactorAuth#" ) ] )#';
+			return '<i class="fa fa-fw fa-user-secret grey"></i> #translateResource( uri="preside-objects.security_user:infocard.two_step_auth_key_in_use.label", data=[ renderContent(  renderer="TwoFactorAuth", data=args.record.two_step_auth_key_in_use ) ] )#';
 		}
 
 		return "";
@@ -211,14 +211,77 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	private string function _groupsTab( event, rc, prc, args={} ) {
 		var recordId = args.recordId ?: "";
 
-		return renderViewlet(
-			  event = "admin.dataHelpers.relatedRecordsDatatable"
-			, args  = {
-				  objectName   = "security_user"
-				, propertyName = "groups"
-				, recordId     = recordId
+		return objectDataTable(
+			  objectName = "security_user"
+			, args       = {
+				  gridFields        = [ "label" ]
+				, compact           = true
+				, useMultiActions   = false
+				, allowFilter       = false
+				, allowDataExport   = false
+				, datasourceUrl     = event.buildAdminLink( linkTo="datamanager.security_user.getGroupsForAjaxDataTable", queryString="recordId=#recordId#&cacheBuster=#CreateUUID()#" )
+				, objectTitlePlural = translateResource( uri="preside-objects.security_group:title" )
 			  }
 		);
+	}
+
+	public void function getGroupsForAjaxDataTable( event, rc, prc ) {
+		var extraFilters = [];
+		var filterParams = {};
+
+		var subQuery = presideObjectService.selectData(
+			  objectName          = "security_user"
+			, id                  = recordId
+			, selectFields        = [ "groups.id as group_id" ]
+			, getSqlAndParamsOnly = true
+		);
+
+		for( var param in subQuery.params ) { filterParams[ param.name ] = param; }
+
+		ArrayAppend( extraFilters, {
+			filter="1=1", filterParams=filterParams, extraJoins=[ {
+				  type           = "inner"
+				, subQuery       = subQuery.sql
+				, subQueryAlias  = "security_user_subquery"
+				, subQueryColumn = "group_id"
+				, joinToTable    = "security_group"
+				, joinToColumn   = "id"
+			} ]
+		} );
+
+		runEvent(
+			  event          = "admin.DataManager._getObjectRecordsForAjaxDataTables"
+			, prePostExempt  = true
+			, private        = true
+			, eventArguments = {
+				  object          = "security_group"
+				, gridFields      = "label"
+				, extraFilters    = extraFilters
+				, useMultiActions = false
+				, orderBy         = "datecreated desc"
+				, actionsView     = "admin.datamanager.security_user._getActionsViewForAjaxDataTables"
+				, useCache        = false
+			}
+		);
+	}
+
+	private string function _getActionsViewForAjaxDataTables( event, rc, prc, args={} ) {
+		var actions = [];
+
+		if ( hasCmsPermission( "usermanager.edit" ) ) {
+			var groupId = args.id     ?: "";
+			var userId  = rc.recordId ?: "";
+
+			ArrayAppend( actions, {
+				  link       = event.buildAdminLink( linkTo="datamanager.security_user.deleteGroupAction", queryString="id=#groupId#&user_id=#userId#" )
+				, icon       = "fa-trash"
+				, contextKey = "d"
+				, class      = "confirmation-prompt"
+				, title      = translateResource( uri="preside-objects.security_user:action.group.delete.prompt", data=[ args.label ] )
+			} );
+		}
+
+		return renderView( view="/admin/datamanager/_listingActions", args={ actions=actions } );
 	}
 
 	private struct function _notificationsMenuItem( event, rc, prc, args={} ) {
@@ -251,12 +314,11 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			, eventArguments = {
 				  object          = "admin_notification_subscription"
 				, gridFields      = "topic_label,get_email_notifications"
-				, useMultiActions = false
-				, actionsView     = "admin.datamanager.security_user._notificationActionsForGridListing"
-				, orderBy         = "datecreated desc"
 				, extraFilters    = [
 					{ filter={ security_user=( rc.id ?: "" ) } }
 				  ]
+				, useMultiActions = false
+				, orderBy         = "datecreated desc"
 			}
 		);
 	}
@@ -269,7 +331,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		if ( isTrue( args.formData.send_welcome ?: "" ) ) {
 			var recordId = args.newId ?: "";
 
-			var securityUser = securityUserService.getUser( id=recordId, selectFields=[ "id", "known_as" ] );
+			var securityUser = securityUserService.getUser( userId=recordId, selectFields=[ "id", "known_as" ] );
 
 			loginService.sendWelcomeEmail( userId=securityUser.id, createdBy=event.getAdminUserDetails().known_as, welcomeMessage=( args.formData.welcome_message ?: "" ) );
 
@@ -287,9 +349,11 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 		var recordId = rc.id ?: "";
 
-		var securityUser = securityUserService.getUser( id=recordId, selectFields=[ "known_as" ] );
+		var securityUser = securityUserService.getUser( userId=recordId, selectFields=[ "known_as" ] );
 
-		if ( securityUserService.activateUser( id=recordId ) ) {
+		if ( securityUserService.activateUser( userId=recordId ) ) {
+			permissionsCache.clearAll();
+
 			event.audit(
 				  action   = "activate_user"
 				, type     = "usermanager"
@@ -297,9 +361,9 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 				, detail   = queryRowToStruct( securityUser )
 			);
 
-			messagebox.info( translateResource( uri="preside-objects.security_user:message.activate.success", data=[ securityUser.known_as ] ) );
+			messagebox.info( translateResource( uri="preside-objects.security_user:message.user.activate.success", data=[ securityUser.known_as ] ) );
 		} else {
-			messagebox.info( translateResource( uri="preside-objects.security_user:message.activate.error", data=[ securityUser.known_as ] ) );
+			messagebox.info( translateResource( uri="preside-objects.security_user:message.user.activate.error", data=[ securityUser.known_as ] ) );
 		}
 
 		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=recordId ) );
@@ -310,9 +374,11 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 		var recordId = rc.id ?: "";
 
-		var securityUser = securityUserService.getUser( id=recordId, selectFields=[ "known_as" ] );
+		var securityUser = securityUserService.getUser( userId=recordId, selectFields=[ "known_as" ] );
 
-		if ( securityUserService.deactivateUser( id=recordId ) ) {
+		if ( securityUserService.deactivateUser( userId=recordId ) ) {
+			permissionsCache.clearAll();
+
 			event.audit(
 				  action   = "deactivate_user"
 				, type     = "usermanager"
@@ -320,9 +386,9 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 				, detail   = queryRowToStruct( securityUser )
 			);
 
-			messagebox.info( translateResource( uri="preside-objects.security_user:message.deactivate.success", data=[ securityUser.known_as ] ) );
+			messagebox.info( translateResource( uri="preside-objects.security_user:message.user.deactivate.success", data=[ securityUser.known_as ] ) );
 		} else {
-			messagebox.info( translateResource( uri="preside-objects.security_user:message.deactivate.error", data=[ securityUser.known_as ] ) );
+			messagebox.info( translateResource( uri="preside-objects.security_user:message.user.deactivate.error", data=[ securityUser.known_as ] ) );
 		}
 
 		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=recordId ) );
@@ -335,7 +401,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 		loginService.disableTwoFactorAuthenticationForUser( userId=recordId );
 
-		var securityUser = securityUserService.getUser( id=recordId, selectFields=[ "known_as" ] );
+		var securityUser = securityUserService.getUser( userId=recordId, selectFields=[ "known_as" ] );
 
 		event.audit(
 			  action   = "disable_2fa"
@@ -349,6 +415,33 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=recordId ) );
 	}
 
+	public void function deleteGroupAction( event, rc, prc, args={} ) {
+		_checkPermissions( event=event, key="usermanager.edit" );
+
+		var recordId = rc.id      ?: "";
+		var userId   = rc.user_id ?: "" ;
+
+		var securityGroup = securityUserService.getGroup( groupId=recordId, selectFields=[ "label" ] );
+		var securityUser  = securityUserService.getUser( userId=userId, selectFields=[ "known_as" ] );
+
+		if ( securityUserService.deleteGroup( groupId=recordId, userId=userId ) ) {
+			permissionsCache.clearAll();
+
+			event.audit(
+				  action   = "edit_user"
+				, type     = "usermanager"
+				, recordId = userId
+				, detail   = queryRowToStruct( securityUser )
+			);
+
+			messagebox.info( translateResource( uri="preside-objects.security_user:message.group.delete.success", data=[ securityGroup.label, securityUser.known_as ] ) );
+		} else {
+			messagebox.info( translateResource( uri="preside-objects.security_user:message.group.delete.error", data=[ securityGroup.label, securityUser.known_as ] ) );
+		}
+
+		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=userId, queryString="tab=groups" ) );
+	}
+
 	public void function sendWelcomeEmail( event, rc, prc ) {
 		_checkPermissions( event=event, key="usermanager.edit" );
 
@@ -356,7 +449,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 		event.initializeDatamanagerPage( "security_user", recordId );
 
-		prc.record = securityUserService.getUser( id=recordId, selectFields=[ "id", "known_as" ] );
+		prc.record = securityUserService.getUser( userId=recordId, selectFields=[ "id", "known_as" ] );
 
 		if ( !prc.record.recordCount ) {
 			messageBox.error( translateResource( uri="cms:websiteUserManager.userNotFound.error" ) );
@@ -380,7 +473,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 		event.initializeDatamanagerPage( "security_user", recordId );
 
-		var securityUser = securityUserService.getUser( id=recordId, selectFields=[ "id", "known_as" ] );
+		var securityUser = securityUserService.getUser( userId=recordId, selectFields=[ "id", "known_as" ] );
 
 		if ( !securityUser.recordCount ) {
 			messageBox.error( translateResource( uri="cms:websiteUserManager.userNotFound.error" ) );
