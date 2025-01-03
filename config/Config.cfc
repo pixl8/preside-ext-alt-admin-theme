@@ -75,6 +75,7 @@ component {
 		settings.adminMenuItems.adminUsers = {
 			  buildLinkArgs = { objectName="security_user" }
 			, activeChecks  = { datamanagerObject="security_user" }
+			, permissionKey = "websiteUserManager.navigate"
 		};
 	}
 
