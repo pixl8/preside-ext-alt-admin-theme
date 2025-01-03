@@ -218,9 +218,9 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		var recordId = args.recordId ?: "";
 
 		return objectDataTable(
-			  objectName = "security_user"
+			  objectName = "security_group"
 			, args       = {
-				  gridFields        = [ "label" ]
+				  gridFields        = [ "label", "group_roles" ]
 				, compact           = true
 				, useMultiActions   = false
 				, allowFilter       = false
@@ -232,28 +232,12 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	}
 
 	public void function getGroupsForAjaxDataTable( event, rc, prc ) {
-		var extraFilters = [];
-		var filterParams = {};
-
-		var subQuery = presideObjectService.selectData(
-			  objectName          = "security_user"
-			, id                  = ( rc.recordId ?: "" )
-			, selectFields        = [ "groups.id as group_id" ]
-			, getSqlAndParamsOnly = true
-		);
-
-		for( var param in subQuery.params ) { filterParams[ param.name ] = param; }
-
-		ArrayAppend( extraFilters, {
-			filter="1=1", filterParams=filterParams, extraJoins=[ {
-				  type           = "inner"
-				, subQuery       = subQuery.sql
-				, subQueryAlias  = "security_user_subquery"
-				, subQueryColumn = "group_id"
-				, joinToTable    = "security_group"
-				, joinToColumn   = "id"
-			} ]
-		} );
+		var extraFilters = [ {
+			  filter=" users.id = :userId"
+			, filterParams = {
+				"userId"={ type="cf_sql_varchar", value=( rc.recordId ?: "" ) }
+			  }
+		} ];
 
 		runEvent(
 			  event          = "admin.DataManager._getObjectRecordsForAjaxDataTables"
@@ -261,7 +245,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			, private        = true
 			, eventArguments = {
 				  object          = "security_group"
-				, gridFields      = "label"
+				, gridFields      = "label,group_roles"
 				, extraFilters    = extraFilters
 				, useMultiActions = false
 				, actionsView     = "admin.datamanager.security_user._getGroupsActionsViewForAjaxDataTables"
