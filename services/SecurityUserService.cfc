@@ -54,10 +54,16 @@ component {
 		,          array  selectFields = []
 	) {
 		return presideObjectService.selectData(
-			  objectName   = "admin_notification_subscription"
+			  objectName   = "security_group"
 			, id           = arguments.groupId
 			, selectFields = arguments.selectFields
 		);
+	}
+
+	public numeric function getGroupCount( required string userId=$getAdminLoggedInUserId() ) {
+		var securityGroup = getUser( userId=userId, selectFields=[ "count( distinct groups.id ) as total" ] );
+
+		return securityGroup.total ?: 0;
 	}
 
 	public boolean function deleteGroup(
@@ -115,6 +121,14 @@ component {
 			  objectName   = "admin_notification_topic"
 			, id           = arguments.subscriptionId
 			, selectFields = arguments.selectFields
+		);
+	}
+
+	public numeric function getSubscriptionCount( required string userId=$getAdminLoggedInUserId() ) {
+		return presideObjectService.selectData(
+			  objectName      = "admin_notification_subscription"
+			, filter          = { security_user=arguments.userId }
+			, recordCountOnly = true
 		);
 	}
 

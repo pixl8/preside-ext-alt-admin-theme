@@ -203,9 +203,15 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	}
 
 	private string function _dashboardTab( event, rc, prc, args={} ) {
-		var recordId = args.recordId ?: "";
+		var userId = args.recordId ?: "";
 
-		return renderViewlet( event="admin.audittrail.recordTrailViewlet", args={ recordId=recordId } );;
+		return renderViewlet( event="admin.audittrail.recordTrailViewlet", args={ recordId=userId } );;
+	}
+
+	private struct function _groupsMenuItem( event, rc, prc, args={} ) {
+		var userId = args.recordId ?: "";
+
+		return { badge=securityUserService.getGroupCount( userId=userId )};
 	}
 
 	private string function _groupsTab( event, rc, prc, args={} ) {
@@ -283,7 +289,9 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	}
 
 	private struct function _notificationsMenuItem( event, rc, prc, args={} ) {
-		return { display=isFalse( prc.record.subscribed_to_all_notifications ?: "" )  };
+		var userId = args.recordId ?: "";
+
+		return { badge=securityUserService.getSubscriptionCount( userId=userId ) };
 	}
 
 	private string function _notificationsTab( event, rc, prc, args={} ) {
