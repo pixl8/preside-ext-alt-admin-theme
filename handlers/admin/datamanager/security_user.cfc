@@ -165,7 +165,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 	private string function _infoCardTwoFactorAuth( event, rc, prc, args={} ) {
 		if ( loginService.isTwoFactorAuthenticationEnabled() ) {
-			return '<i class="fa fa-fw fa-user-secret grey"></i> #translateResource( uri="preside-objects.security_user:infocard.two_step_auth_key_in_use.label", data=[ renderContent(  renderer="TwoFactorAuth", data=args.record.two_step_auth_key_in_use ) ] )#';
+			return '<i class="fa fa-fw fa-user-secret grey"></i> #translateResource( uri="preside-objects.security_user:infocard.two_step_auth_key_in_use.label", data=[ renderContent( renderer="TwoFactorAuth", data=args.record.two_step_auth_key_in_use ) ] )#';
 		}
 
 		return "";
@@ -272,11 +272,10 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			var userId  = rc.recordId ?: "";
 
 			ArrayAppend( actions, {
-				  link       = event.buildAdminLink( linkTo="datamanager.security_user.deleteGroupAction", queryString="id=#groupId#&user_id=#userId#" )
-				, icon       = "fa-trash"
-				, contextKey = "d"
-				, class      = "confirmation-prompt"
-				, title      = translateResource( uri="preside-objects.security_user:action.group.delete.prompt", data=[ args.label ] )
+				  link  = event.buildAdminLink( linkTo="datamanager.security_user.deleteGroupAction", queryString="id=#groupId#&user_id=#userId#" )
+				, icon  = "fa-trash"
+				, class = "confirmation-prompt"
+				, title = translateResource( uri="preside-objects.security_user:action.group.delete.prompt", data=[ args.label ] )
 			} );
 		}
 
@@ -310,11 +309,10 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		var filterParams = {};
 
 		var subQuery = getPresideObject( "admin_notification_subscription" ).selectData(
-			  selectFields        = [ "topic", "security_user", "get_email_notifications" ]
+			  selectFields        = [ "id", "topic", "security_user", "get_email_notifications" ]
 			, filter              = { security_user=( rc.recordId ?: "" ) }
 			, getSqlAndParamsOnly = true
 		);
-
 
 		for( var param in subQuery.params ) { filterParams[ param.name ] = param; }
 
@@ -335,16 +333,30 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			, private        = true
 			, eventArguments = {
 				  object          = "admin_notification_topic"
-				, gridFields      = "topic_label,topic_subscription,topic_email"
+				, gridFields      = "id,topic,topic_label,topic_subscription,topic_subscription_id,topic_email"
 				, extraFilters    = extraFilters
 				, useMultiActions = false
 				, actionsView     = "admin.datamanager.security_user._getNotificationsActionsViewForAjaxDataTable"
+				, useCache        = false
 			}
 		);
 	}
 
 	private string function _getNotificationsActionsViewForAjaxDataTable( event, rc, prc, args={} ) {
-		return "";
+		var actions = [];
+
+		if ( hasCmsPermission( "usermanager.edit" ) ) {
+			var topicId = args.id ?: "";
+			var topic        = args.topic                 ?: "";
+			var userId         = rc.recordId                ?: "";
+
+			ArrayAppend( actions, {
+				  link = event.buildAdminLink( linkTo="datamanager.security_user.editNotificationSubscription", queryString="id=#topicId#&user_id=#userId#&topic=#topic#" )
+				, icon = "fa-pencil"
+			} );
+		}
+
+		return renderView( view="/admin/datamanager/_listingActions", args={ actions=actions } );
 	}
 
 	private void function postAddRecordAction( event, rc, prc, args={} ) {
@@ -477,11 +489,11 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			setNextEvent( url=event.buildAdminLink( objectName="security_user" ) );
 		}
 
-		prc.pageTitle = translateResource( uri="preside-objects.security_user:page.sendwelcomeemail.title", data=[ prc.record.known_as ] );
+		prc.pageTitle = translateResource( uri="preside-objects.security_user:page.sendWelcomeEmail.title", data=[ prc.record.known_as ] );
 		prc.pageIcon  = "fa-envelope";
 
 		event.addAdminBreadCrumb(
-			  title = translateResource( uri="preside-objects.security_user:page.sendwelcomeemail.breadcrumb" )
+			  title = translateResource( uri="preside-objects.security_user:page.sendWelcomeEmail.breadcrumb" )
 			, link  = ""
 		);
 	}
@@ -489,11 +501,9 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	public void function sendWelcomeEmailAction( event, rc, prc ) {
 		_checkPermissions( event=event, key="usermanager.edit" );
 
-		var recordId = rc.id ?: "";
+		var userId = rc.id ?: "";
 
-		event.initializeDatamanagerPage( "security_user", recordId );
-
-		var securityUser = securityUserService.getUser( userId=recordId, selectFields=[ "id", "known_as" ] );
+		var securityUser = securityUserService.getUser( userId=userId, selectFields=[ "known_as" ] );
 
 		if ( !securityUser.recordCount ) {
 			messageBox.error( translateResource( uri="cms:websiteUserManager.userNotFound.error" ) );
@@ -512,21 +522,76 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 			messageBox.error( translateResource( "cms:datamanager.data.validation.error" ) );
 
-			setNextEvent( url=event.buildAdminLink( linkTo="datamanager.security_user.sendWelcomeEmail", queryString="id=#recordId#" ), persistStruct=persist );
+			setNextEvent( url=event.buildAdminLink( linkTo="datamanager.security_user.sendWelcomeEmail", queryString="id=#userId#" ), persistStruct=persist );
 		}
 
-		loginService.sendWelcomeEmail( userId=securityUser.id, createdBy=event.getAdminUserDetails().known_as, welcomeMessage=( formData.welcome_message ?: "" ) );
+		loginService.sendWelcomeEmail( userId=userId, createdBy=event.getAdminUserDetails().known_as, welcomeMessage=( formData.welcome_message ?: "" ) );
 
 		event.audit(
 			  action   = "send_welcome_email"
 			, type     = "usermanager"
-			, recordId = recordId
+			, recordId = userId
 			, detail   = queryRowToStruct( securityUser )
 		);
 
 		messageBox.info( translateResource( uri="preside-objects.security_user:message.sendwelcomeemail.success", data=[ securityUser.known_as ] ) );
 
-		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=recordId ) );
+		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=userId ) );
+	}
+
+	public void function editNotificationSubscription( event, rc, prc ) {
+		_checkPermissions( event=event, key="usermanager.edit" );
+
+		var topicId = rc.id      ?: "";
+		var topic   = rc.topic   ?: "";
+		var userId  = rc.user_id ?: "";
+
+		event.initializeDatamanagerPage( "admin_notification_topic", topicId );
+
+		prc.record = securityUserService.getSubscription( topic=topic, userId=userId, selectFields=[ "id", "topic_subscription_id", "topic", "security_user", "get_email_notifications" ] );
+
+		prc.savedData = {
+			  notification = !isEmptyString( prc.record.topic_subscription_id ?: "" )
+			, email        = isTrue( prc.record.get_email_notifications ?: "" )
+		};
+
+		prc.pageTitle = translateResource( uri="preside-objects.security_user:page.editNotificationSubscription.title", data=[ renderLabel( "security_user", userId ), translateResource( uri="notifications.#topic#:title", defaultValue=topic ) ] );
+		prc.pageIcon  = "fa-bell";
+
+		event.addAdminBreadCrumb(
+			  title = translateResource( uri="preside-objects.security_user:page.editNotificationSubscription.breadcrumb" )
+			, link  = ""
+		);
+	}
+
+	public void function editNotificationSubscriptionAction( event, rc, prc ) {
+		_checkPermissions( event=event, key="usermanager.edit" );
+
+		var topicId = rc.id      ?: "";
+		var topic   = rc.topic   ?: "";
+		var userId  = rc.user_id ?: "";
+
+		var formName         = "preside-objects.security_user.notification.subscription";
+		var formData         = event.getCollectionForForm( formName );
+		var validationResult = validateForm( formName, formData );
+
+		if ( !validationResult.validated() ) {
+			var persist = formData;
+
+			persist.validationResult = validationResult;
+
+			messageBox.error( translateResource( "cms:datamanager.data.validation.error" ) );
+
+			setNextEvent( url=event.buildAdminLink( linkTo="datamanager.security_user.notification.subscription", queryString="id=#subscriptionId#&user_id=#userId#" ), persistStruct=persist );
+		}
+
+		if ( securityUserService.saveSubscription( topic=topic, userId=userId, notification=isTrue( formData.notification ?: "" ), email=isTrue( formData.email ?: "" ) ) ) {
+			messagebox.info( translateResource( uri="preside-objects.security_user:message.notification.save.success", data=[ renderContent( renderer="AdminNotificationTopicLabel", data=topic ) ] ) );
+		} else {
+			messagebox.info( translateResource( uri="preside-objects.security_user:message.notification.save.error", data=[ renderContent( renderer="AdminNotificationTopicLabel", data=topic ) ] ) );
+		}
+
+		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=userId, queryString="tab=notifications" ) );
 	}
 
 	private void function _checkPermissions( required any event, required string key ) {

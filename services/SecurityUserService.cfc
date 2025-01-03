@@ -54,7 +54,7 @@ component {
 		,          array  selectFields = []
 	) {
 		return presideObjectService.selectData(
-			  objectName   = "security_group"
+			  objectName   = "admin_notification_subscription"
 			, id           = arguments.groupId
 			, selectFields = arguments.selectFields
 		);
@@ -75,6 +75,88 @@ component {
 		}
 
 		return false;
+	}
+
+	public query function getSubscription(
+		  required string topic
+		,          string userId       = $getAdminLoggedInUserId()
+		,          array  selectFields = []
+	) {
+		var filterParams = {};
+
+		var subQuery = presideObjectService.selectData(
+			  objectName      = "admin_notification_subscription"
+			, selectFields        = [ "id", "topic", "security_user", "get_email_notifications" ]
+			, filter              = { security_user=arguments.userId }
+			, getSqlAndParamsOnly = true
+		);
+
+		for( var param in subQuery.params ) { filterParams[ param.name ] = param; }
+
+		return presideObjectService.selectData(
+			  objectName   = "admin_notification_topic"
+			, selectFields = arguments.selectFields
+			, filter       = { topic=arguments.topic }
+			, filterParams = filterParams
+			, extraJoins   = [
+				  {
+					  type           = "left"
+					, subQuery       = subQuery.sql
+					, subQueryAlias  = "admin_notification_subscription_subquery"
+					, subQueryColumn = "topic"
+					, joinToTable    = "admin_notification_topic"
+					, joinToColumn   = "topic"
+				  }
+			  ]
+			, useCache    = false
+		);
+
+		return presideObjectService.selectData(
+			  objectName   = "admin_notification_topic"
+			, id           = arguments.subscriptionId
+			, selectFields = arguments.selectFields
+		);
+	}
+
+	public boolean function saveSubscription(
+		  required string  topic
+		,          string  userId       = $getAdminLoggedInUserId()
+		,          boolean notification = true
+		,          boolean email        = false
+	) {
+		if ( arguments.notification ) {
+			var subscription = getSubscription( topic=arguments.topic, userId=arguments.userId, selectFields=[ "topic_subscription_id" ] );
+
+			if ( $helpers.isEmptyString( subscription.topic_subscription_id ?: "" ) ) {
+				return Len( presideObjectService.insertData(
+					  objectName   = "admin_notification_subscription"
+					, data         = {
+						  security_user           = arguments.userId
+						, topic                   = arguments.topic
+						, get_email_notifications = arguments.email
+					  }
+				) ) > 0;
+			} else {
+				return presideObjectService.updateData(
+					  objectName   = "admin_notification_subscription"
+					, filter       = {
+						  topic         = arguments.topic
+						, security_user = arguments.userId
+					  }
+					, data         = {
+						get_email_notifications = arguments.email
+					  }
+				) > 0;
+			}
+		} else {
+			return presideObjectService.deleteData(
+				  objectName   = "admin_notification_subscription"
+				, filter       = {
+					  topic         = arguments.topic
+					, security_user = arguments.userId
+				  }
+			) > 0 ;
+		}
 	}
 
 }

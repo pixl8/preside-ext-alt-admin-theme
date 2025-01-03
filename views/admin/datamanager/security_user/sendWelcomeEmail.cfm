@@ -1,16 +1,16 @@
 <cfscript>
-	record               = prc.record ?: QueryNew( "" );
-	formId               = "welcome-email";
-	changePasswordAction = event.buildAdminLink( linkTo="datamanager.security_user.sendWelcomeEmailAction" );
-	cancelAction         = event.buildAdminLink( objectName="security_user", recordId=record.id );
+	record       = prc.record ?: QueryNew( "" );
+	formId       = "welcome-email";
+	formAction   = event.buildAdminLink( linkTo="datamanager.security_user.sendWelcomeEmailAction" );
+	cancelAction = event.buildAdminLink( objectName="security_user", recordId=record.id );
 </cfscript>
 
 <cfoutput>
-	<form id="#formId#" action="#changePasswordAction#" method="post" class="form-horizontal" data-auto-focus-form="true" data-dirty-form="protect">
+	<form id="#formId#" action="#formAction#" method="post" class="form-horizontal" data-auto-focus-form="true" data-dirty-form="protect">
 		<input type="hidden" name="id" value="#( record.id ?: "" )#" />
 
 		<div class="alert alert-info">
-			<i class="fa fa-fw fa-info-circle"></i> #translateResource( uri="preside-objects.security_user:page.sendwelcomeemail.description" )#
+			<i class="fa fa-fw fa-info-circle"></i> #translateResource( uri="preside-objects.security_user:page.sendWelcomeEmail.description" )#
 		</div>
 
 		#renderForm(

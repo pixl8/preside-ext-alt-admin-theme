@@ -2,7 +2,7 @@ component {
 
 	property name="loginService" inject="LoginService";
 
-	private string function default( event, rc, prc, args={} ){
+	private string function default( event, rc, prc, args={} ) {
 		if ( loginService.isTwoFactorAuthenticationEnabled() ) {
 			var status = isTrue( args.data ?: "" ) ? "enabled" : "disabled";
 
