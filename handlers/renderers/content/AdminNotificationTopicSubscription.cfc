@@ -1,9 +1,15 @@
 component {
 
-	private string function default( event, rc, prc, args={} ) {
-		var status = isTrue( args.data ?: "" ) ? "subscribed" : "unsubscribed";
+	private string function admin( event, rc, prc, args={} ) {
+		var securityUser = getPresideObject( "security_user" ).selectData( id=( rc.recordId ?: "" ), selectFields=[ "subscribed_to_all_notifications" ] );
 
-		return translateResource( uri="preside-objects.admin_notification_topic:field.topic_subscription.listing.#status#.label" );
+		var status = false;
+
+		if ( isTrue( securityUser.subscribed_to_all_notifications ?: "" ) || isTrue( args.data ?: "" ) ) {
+			status = true;
+		}
+
+		return renderContent( renderer="boolean", data=status, context="admin" );
 	}
 
 }
