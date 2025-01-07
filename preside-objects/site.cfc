@@ -1,0 +1,5 @@
+/**
+ * @dataManagerEnabled true
+ */
+component {
+}

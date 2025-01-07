@@ -10,11 +10,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	variables.infoCol1 = [ "language", "twoFactorAuth", "notification" ];
 	variables.infoCol2 = [ "lastLoggedIn", "lastLoggedOut", "lastActive" ];
 
-	variables.tabs = [
-		  "dashboard"
-		, "groups"
-		, "notifications"
-	];
+	variables.tabs = [ "dashboard", "groups", "notifications" ];
 
 	variables.sidebarNavigation = true;
 
@@ -208,7 +204,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	private string function _dashboardTab( event, rc, prc, args={} ) {
 		var userId = args.recordId ?: "";
 
-		return renderViewlet( event="admin.audittrail.recordTrailViewlet", args={ recordId=userId } );;
+		return renderViewlet( event="admin.audittrail.recordTrailViewlet", args={ recordId=userId } );
 	}
 
 	private struct function _groupsMenuItem( event, rc, prc, args={} ) {

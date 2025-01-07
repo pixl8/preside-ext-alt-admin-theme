@@ -73,8 +73,8 @@ component {
 		settings.adminMenuItems = settings.adminMenuItems ?: {};
 
 		settings.adminMenuItems.adminUsers = {
-			  buildLinkArgs = { objectName="security_user" }
-			, activeChecks  = { datamanagerObject="security_user" }
+			  buildLinkArgs = { linkTo="adminManager.users" }
+			, activeChecks  = { handlerPatterns="^admin\.adminManager\.users" }
 			, permissionKey = "websiteUserManager.navigate"
 		};
 	}
