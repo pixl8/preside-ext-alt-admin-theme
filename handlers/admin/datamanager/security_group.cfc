@@ -1,5 +1,12 @@
 component extends="preside.system.base.EnhancedDataManagerBase" {
 
+	private void function rootBreadcrumb( event, rc, prc, args={} ) {
+		event.addAdminBreadCrumb(
+			  title = translateResource( uri="admin.adminManager:title" )
+			, link  = event.buildAdminLink( linkTo="adminManager.users" )
+		);
+	}
+
 	private array function getRecordActionsForGridListing( event, rc, prc, args={} ) {
 		var objectName = args.objectName ?: "";
 		var record     = args.record     ?: {};

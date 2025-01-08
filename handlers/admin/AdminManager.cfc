@@ -1,5 +1,7 @@
 component extends="preside.system.base.AdminHandler" {
 
+	property name="dataManagerCustomizationService"  inject="DataManagerCustomizationService";
+
 	public function prehandler( event, rc, prc ) {
 		super.preHandler( argumentCollection = arguments );
 
@@ -24,28 +26,30 @@ component extends="preside.system.base.AdminHandler" {
 			, title  = translateResource( uri="admin.adminManager:viewtab.groups.title" )
 			, badge  = getPresideObject( "security_group" ).selectData( recordCountOnly=true )
 		} );
-
-		prc.displayPageHeader = false;
 	}
 
 	public function users( event, rc, prc ) {
-		prc.pageTitle = translateResource( uri="admin.adminManager:page.users.title" );
-		prc.pageIcon  = translateResource( uri="admin.adminManager:page.users.iconClass" );
-
-		event.addAdminBreadCrumb(
-			  title = translateResource( uri="admin.adminManager:title" )
-			, link  = event.buildAdminLink( linkTo="adminManager.users" )
-		);
-
-		event.addAdminBreadCrumb(
-			  title = prc.pageTitle
-			, link  = event.buildAdminLink( linkTo="admin.adminManager" )
-		);
+		_initManager( argumentCollection=arguments, objectName="security_user" );
 	}
 
 	public function groups( event, rc, prc ) {
-		prc.pageTitle = translateResource( uri="admin.adminManager:page.groups.title" );
-		prc.pageIcon  = translateResource( uri="admin.adminManager:page.groups.iconClass" );
+		_initManager( argumentCollection=arguments, objectName="security_group" );
+	}
+
+	private function _initManager( required string objectName ) {
+		rc.id = arguments.objectName;
+
+		event.initializeDatamanagerPage( objectName=arguments.objectName );
+
+		prc.topRightButtons = dataManagerCustomizationService.runCustomization(
+			  objectName     = objectName
+			, action         = "topRightButtons"
+			, defaultHandler = "admin.datamanager.topRightButtons"
+			, args           = { objectName=objectName, action="object" }
+		);
+
+		prc.pageTitle = translateResource( uri="preside-objects.#arguments.objectName#:title" );
+		prc.pageIcon  = translateResource( uri="preside-objects.#arguments.objectName#:iconClass" );
 
 		event.addAdminBreadCrumb(
 			  title = translateResource( uri="admin.adminManager:title" )

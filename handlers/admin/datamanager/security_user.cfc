@@ -21,13 +21,6 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		);
 	}
 
-	private void function objectBreadcrumb( event, rc, prc, args={} ) {
-		event.addAdminBreadCrumb(
-			  title = translateResource( uri="admin.adminManager:page.users.title" )
-			, link  = event.buildAdminLink( linkTo="adminManager.users" )
-		);
-	}
-
 	private array function getRecordActionsForGridListing( event, rc, prc, args={} ) {
 		var objectName = args.objectName ?: "";
 		var record     = args.record     ?: {};
@@ -71,8 +64,6 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	}
 
 	private string function renderSidebarHeader( event, rc, prc, args={} ) {
-		prc.displayPageHeader = false;
-
 		if ( !isEmptyString( args.record.id ?: "" ) ) {
 			return renderView( view="/admin/datamanager/security_user/_sidebarHeader", args=args );
 		}
@@ -81,29 +72,29 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	}
 
 	private array function getTopRightButtonsForViewRecord( event, rc, prc, args ) {
-		var objectName = args.objectName ?: "";
-		var recordId   = args.recordId   ?: "";
+		var recordId    = args.recordId ?: "";
+		var recordLabel = args.record.known_as ?: "";
 
-		args.actions      = [];
-		args.childActions = [];
+		var actions  = [];
+		var children = [];
 
 		if ( isFalse( args.record.active ) ) {
-			ArrayAppend( args.childActions, {
+			ArrayAppend( children, {
 				  link   = event.buildAdminLink( linkTo="datamanager.security_user.activateUserAction", queryString="id=#recordId#" )
 				, icon   = "fa-check-circle green"
 				, title  = translateResource( uri="preside-objects.security_user:action.activate.label" )
 				, prompt = translateResource( uri="preside-objects.security_user:action.activate.prompt", data=[ args.record.known_as ] )
 			} );
 		} else {
-			ArrayAppend( args.childActions, {
+			ArrayAppend( children, {
 				  link   = event.buildAdminLink( linkTo="datamanager.security_user.deactivateUserAction", queryString="id=#recordId#" )
 				, icon   = "fa-times-circle red"
 				, title  = translateResource( uri="preside-objects.security_user:action.deactivate.label" )
-				, prompt = translateResource( uri="preside-objects.security_user:action.deactivate.prompt", data=[ args.record.known_as ] )
+				, prompt = translateResource( uri="preside-objects.security_user:action.deactivate.prompt", data=[ recordLabel ] )
 			} );
 		}
 
-		ArrayAppend( args.childActions, {
+		ArrayAppend( children, {
 			  link  = event.buildAdminLink( linkTo="datamanager.security_user.sendWelcomeEmail", queryString="id=#recordId#" )
 			, icon  = "fa-envelope"
 			, title = translateResource( uri="preside-objects.security_user:action.email.welcome.label" )
@@ -111,21 +102,21 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 		if ( loginService.isTwoFactorAuthenticationEnabled() ) {
 			if ( isTrue( args.record.two_step_auth_key_in_use ) ) {
-				ArrayAppend( args.childActions, {
+				ArrayAppend( children, {
 					  link   = event.buildAdminLink( linkTo="datamanager.security_user.disableTwoFactorAuthAction", queryString="id=#recordId#" )
 					, icon   = "fa-unlock red"
 					, title  = translateResource( uri="preside-objects.security_user:action.2fa.disable.label" )
-					, prompt = translateResource( uri="preside-objects.security_user:action.2fa.disable.prompt", data=[ args.record.known_as ] )
+					, prompt = translateResource( uri="preside-objects.security_user:action.2fa.disable.prompt", data=[ recordLabel ] )
 				} );
 			}
 		}
 
 		if ( prc.canDelete ) {
-			if ( ArrayLen( args.childActions ) ) {
-				ArrayAppend( args.childActions, "---" );
+			if ( ArrayLen( children ) ) {
+				ArrayAppend( children, "---" );
 			}
 
-			ArrayAppend( args.childActions, {
+			ArrayAppend( children, {
 				  link      = event.buildAdminLink( objectName="security_user", recordId=prc.recordId, operation="deleteRecordAction" )
 				, icon      = "fa-trash red"
 				, globalKey = "d"
@@ -136,17 +127,17 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		}
 
 		if ( prc.canEdit ) {
-			ArrayAppend( args.actions, {
+			ArrayAppend( actions, {
 				  link      = event.buildAdminLink( objectName="security_user", recordId=recordId, operation="editRecord" )
 				, btnClass  = "btn-primary-default"
 				, iconClass = "fa-pencil"
 				, globalKey = "e"
 				, title     = translateResource( "cms:datamanager.editRecord.btn" )
-				, children  = args.childActions
+				, children  = children
 			} );
 		}
 
-		return args.actions;
+		return actions;
 	}
 
 	private string function _infoCard( event, rc, prc, args={} ) {
