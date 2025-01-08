@@ -15,12 +15,14 @@ component extends="preside.system.base.AdminHandler" {
 			  active = currentEvent == "admin.adminManager.users"
 			, link   = event.buildAdminLink( "adminManager.users" )
 			, title  = translateResource( uri="admin.adminManager:viewtab.users.title" )
+			, badge  = getPresideObject( "security_user" ).selectData( recordCountOnly=true )
 		} );
 
 		ArrayAppend( prc.adminSidebarItems, {
 			  active = currentEvent == "admin.adminManager.groups"
 			, link   = event.buildAdminLink( "adminManager.groups" )
 			, title  = translateResource( uri="admin.adminManager:viewtab.groups.title" )
+			, badge  = getPresideObject( "security_group" ).selectData( recordCountOnly=true )
 		} );
 
 		prc.displayPageHeader = false;
@@ -31,6 +33,11 @@ component extends="preside.system.base.AdminHandler" {
 		prc.pageIcon  = translateResource( uri="admin.adminManager:page.users.iconClass" );
 
 		event.addAdminBreadCrumb(
+			  title = translateResource( uri="admin.adminManager:title" )
+			, link  = event.buildAdminLink( linkTo="adminManager.users" )
+		);
+
+		event.addAdminBreadCrumb(
 			  title = prc.pageTitle
 			, link  = event.buildAdminLink( linkTo="admin.adminManager" )
 		);
@@ -39,6 +46,11 @@ component extends="preside.system.base.AdminHandler" {
 	public function groups( event, rc, prc ) {
 		prc.pageTitle = translateResource( uri="admin.adminManager:page.groups.title" );
 		prc.pageIcon  = translateResource( uri="admin.adminManager:page.groups.iconClass" );
+
+		event.addAdminBreadCrumb(
+			  title = translateResource( uri="admin.adminManager:title" )
+			, link  = event.buildAdminLink( linkTo="adminManager.users" )
+		);
 
 		event.addAdminBreadCrumb(
 			  title = prc.pageTitle

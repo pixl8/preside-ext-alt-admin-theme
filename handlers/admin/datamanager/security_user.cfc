@@ -14,6 +14,20 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 	variables.sidebarNavigation = true;
 
+	private void function rootBreadcrumb( event, rc, prc, args={} ) {
+		event.addAdminBreadCrumb(
+			  title = translateResource( uri="admin.adminManager:title" )
+			, link  = event.buildAdminLink( linkTo="adminManager.users" )
+		);
+	}
+
+	private void function objectBreadcrumb( event, rc, prc, args={} ) {
+		event.addAdminBreadCrumb(
+			  title = translateResource( uri="admin.adminManager:page.users.title" )
+			, link  = event.buildAdminLink( linkTo="adminManager.users" )
+		);
+	}
+
 	private array function getRecordActionsForGridListing( event, rc, prc, args={} ) {
 		var objectName = args.objectName ?: "";
 		var record     = args.record     ?: {};
@@ -227,7 +241,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 	public void function getGroupsForAjaxDataTable( event, rc, prc ) {
 		var extraFilters = [ {
-			  filter=" users.id = :userId"
+			  filter       = "users.id = :userId"
 			, filterParams = {
 				"userId"={ type="cf_sql_varchar", value=( rc.recordId ?: "" ) }
 			  }

@@ -1,5 +1,5 @@
 component {
 
-	property name="topic_label" formula="${prefix}topic" autofilter=false renderer="AdminNotificationTopicLabel";
+	property name="topic_label" formula="${prefix}topic" autoFilter=false excludeDataExport=true renderer="AdminNotificationTopicLabel";
 
 }
