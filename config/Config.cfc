@@ -68,11 +68,11 @@ component {
 
 		settings.adminConfigurationMenuItems = settings.adminConfigurationMenuItems ?: [];
 
-		ArrayAppend( settings.adminConfigurationMenuItems, "adminUsers" );
+		ArrayAppend( settings.adminConfigurationMenuItems, "adminManager" );
 
 		settings.adminMenuItems = settings.adminMenuItems ?: {};
 
-		settings.adminMenuItems.adminUsers = {
+		settings.adminMenuItems.adminManager = {
 			  buildLinkArgs = { linkTo="adminManager.users" }
 			, activeChecks  = { handlerPatterns="^admin\.adminManager\.users" }
 			, permissionKey = "websiteUserManager.navigate"
