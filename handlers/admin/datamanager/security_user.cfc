@@ -184,9 +184,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	}
 
 	private string function _dashboardTab( event, rc, prc, args={} ) {
-		var userId = args.recordId ?: "";
-
-		return renderViewlet( event="admin.audittrail.recordTrailViewlet", args={ recordId=userId } );
+		return renderView( view="/admin/datamanager/security_user/dashboard", args=args );
 	}
 
 	private struct function _groupsMenuItem( event, rc, prc, args={} ) {
