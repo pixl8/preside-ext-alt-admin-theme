@@ -3,7 +3,8 @@
  */
 component {
 
-	property name="group_label" formula="${prefix}id"    autoFilter=false excludeDataExport=true renderer="AdminSecurityGroupLabel";
-	property name="group_roles" formula="${prefix}roles" autoFilter=false excludeDataExport=true renderer="AdminSecurityGroupRoles";
+	property name="group_label" formula="${prefix}id"                                                                      autoFilter=false excludeDataExport=true adminRenderer="none" renderer="AdminSecurityGroupLabel" ;
+	property name="group_roles" formula="${prefix}roles"                                                                   autoFilter=false excludeDataExport=true adminRenderer="none" renderer="AdminSecurityGroupRoles";
+	property name="is_assigned" formula="coalesce( group_concat( case when users.id = :userId then 1 else null end ), 0 )" autoFilter=false excludeDataExport=true adminRenderer="none" renderer="Boolean";
 
 }

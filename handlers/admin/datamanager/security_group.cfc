@@ -1,4 +1,6 @@
-component extends="preside.system.base.EnhancedDataManagerBase" {
+component extends="preside.system.base.AdminHandler" {
+
+	property name="datamanagerService" inject="DatamanagerService";
 
 	private void function rootBreadcrumb( event, rc, prc, args={} ) {
 		event.addAdminBreadCrumb(

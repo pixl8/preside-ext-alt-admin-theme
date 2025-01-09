@@ -1,12 +1,18 @@
 <cfscript>
-	groupId = args.id      ?: "";
-	userId  = args.user_id ?: "";
-	label   = args.label   ?: "";
+	groupId    = args.id         ?: "";
+	groupLabel = args.label      ?: "";
+	userId     = args.user_id    ?: "";
+	userLabel  = args.user_label ?: renderLabel( objectName="security_user", recordId=userId );
+	isAssigned = isTrue( args.is_assigned ?: "" );
 </cfscript>
 
 <cfoutput>
 	<div class="btn-group">
-		<a class="btn btn-info btn-xs row-link confirmation-prompt" href="#event.buildAdminLink( linkTo="datamanager.security_user.deleteGroupAction", queryString="id=#groupId#&user_id=#userId#" )#" title="#translateResource( uri="preside-objects.security_user:action.group.delete.prompt", data=[ label ] )#"><i class="fa fa-fw fa-ban"></i> Remove</a>
+		<cfif isAssigned>
+			<a class="btn btn-info btn-xs row-link confirmation-prompt" href="#event.buildAdminLink( linkTo="datamanager.security_user.deleteGroupAction", queryString="id=#groupId#&user_id=#userId#" )#" title="#translateResource( uri="preside-objects.security_user:action.group.delete.prompt", data=[ userLabel, groupLabel ] )#"><i class="fa fa-fw fa-ban"></i> #translateResource( uri="preside-objects.security_user:action.group.delete.label" )#</a>
+		<cfelse>
+			<a class="btn btn-info btn-xs row-link confirmation-prompt" href="#event.buildAdminLink( linkTo="datamanager.security_user.addGroupAction", queryString="id=#groupId#&user_id=#userId#" )#" title="#translateResource( uri="preside-objects.security_user:action.group.add.prompt", data=[ userLabel, groupLabel ] )#"><i class="fa fa-fw fa-plus"></i> #translateResource( uri="preside-objects.security_user:action.group.add.label" )#</a>
+		</cfif>
 
 		<button data-toggle="dropdown" class="btn btn-info btn-xs dropdown-toggle" aria-expanded="false">
 			<span class="fa fa-caret-down"></span>

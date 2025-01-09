@@ -66,6 +66,27 @@ component {
 		return securityGroup.total ?: 0;
 	}
 
+	public boolean function addGroup(
+		  required string groupId
+		, required string userId
+	) {
+		var prop       = presideObjectService.getObjectProperty( "security_user", "groups" );
+		var relatedVia = prop.relatedVia ?: "";
+
+		if ( !$helpers.isEmptyString( relatedVia ) ) {
+			try {
+				presideObjectService.insertData(
+					  objectName = relatedVia
+					, data       = { security_group=arguments.groupId, security_user=arguments.userId }
+				);
+
+				return true;
+			} catch ( any e ) {}
+		}
+
+		return false;
+	}
+
 	public boolean function deleteGroup(
 		  required string groupId
 		, required string userId

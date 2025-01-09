@@ -7,7 +7,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	property name="notificationService"  inject="NotificationService";
 	property name="permissionsCache"     inject="cachebox:PermissionsCache";
 
-	variables.infoCol1 = [ "language", "twoFactorAuth", "notification" ];
+	variables.infoCol1 = [ "language", "twoFactorAuth" ];
 	variables.infoCol2 = [ "lastLoggedIn", "lastLoggedOut", "lastActive" ];
 
 	variables.tabs = [ "dashboard", "groups", "notifications" ];
@@ -171,24 +171,6 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		return "";
 	}
 
-	private string function _infoCardNotification( event, rc, prc, args={} ) {
-		var recordId = args.recordId ?: "";
-
-		var notification = isTrue( args.record.subscribed_to_all_notifications ) ? "all" : "none";
-
-		if ( notification == "none" ) {
-			var subscriptions = notificationService.getUserSubscriptions( userId=recordId );
-
-			if ( ArrayLen( subscriptions ) ) {
-				notification = '<a href="#event.buildAdminLink( objectName="security_user", recordId=recordId, queryString="tab=notifications" )#">#translateResource( uri="preside-objects.security_user:infocard.subscribed_to_all_notifications.custom" )#</a>';
-			}
-		} else {
-			notification = translateResource( uri="preside-objects.security_user:infocard.subscribed_to_all_notifications.#notification#" );
-		}
-
-		return '<i class="fa fa-fw fa-bell grey"></i> #translateResource( uri="preside-objects.security_user:infocard.subscribed_to_all_notifications.label", data=[ notification ] )#';
-	}
-
 	private string function _infoCardLastLoggedIn( event, rc, prc, args={} ) {
 		return '<i class="fa fa-fw fa-sign-in grey"></i> #translateResource( uri="preside-objects.security_user:infocard.last_logged_in.label", data=[ renderContent( renderer="DateTime", data=args.record.last_logged_in, context="relative" ) ] )#';
 	}
@@ -219,7 +201,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		return objectDataTable(
 			  objectName = "security_group"
 			, args       = {
-				  gridFields        = [ "label", "group_roles" ]
+				  gridFields        = [ "label", "group_roles", "is_assigned" ]
 				, compact           = true
 				, useMultiActions   = false
 				, allowFilter       = false
@@ -231,21 +213,14 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	}
 
 	public void function getGroupsForAjaxDataTable( event, rc, prc ) {
-		var extraFilters = [ {
-			  filter       = "users.id = :userId"
-			, filterParams = {
-				"userId"={ type="cf_sql_varchar", value=( rc.recordId ?: "" ) }
-			  }
-		} ];
-
 		runEvent(
 			  event          = "admin.DataManager._getObjectRecordsForAjaxDataTables"
 			, prePostExempt  = true
 			, private        = true
 			, eventArguments = {
 				  object          = "security_group"
-				, gridFields      = "label,group_roles"
-				, extraFilters    = extraFilters
+				, gridFields      = "label,group_roles,is_assigned"
+				, filterParams    = { "userId"={ type="cf_sql_varchar", value=( rc.recordId ?: "" ) } }
 				, useMultiActions = false
 				, actionsView     = "admin.datamanager.security_user._getGroupsActionsViewForAjaxDataTables"
 				, useCache        = false
@@ -422,6 +397,33 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=userId ) );
 	}
 
+	public void function addGroupAction( event, rc, prc, args={} ) {
+		_checkPermissions( event=event, key="usermanager.edit" );
+
+		var recordId = rc.id      ?: "";
+		var userId   = rc.user_id ?: "" ;
+
+		var securityGroup = securityUserService.getGroup( groupId=recordId, selectFields=[ "label" ] );
+		var securityUser  = securityUserService.getUser( userId=userId, selectFields=[ "known_as" ] );
+
+		if ( securityUserService.addGroup( groupId=recordId, userId=userId ) ) {
+			permissionsCache.clearAll();
+
+			event.audit(
+				  action   = "edit_user"
+				, type     = "usermanager"
+				, recordId = userId
+				, detail   = queryRowToStruct( securityUser )
+			);
+
+			messagebox.info( translateResource( uri="preside-objects.security_user:message.group.add.success", data=[ securityUser.known_as, securityGroup.label ] ) );
+		} else {
+			messagebox.error( translateResource( uri="preside-objects.security_user:message.group.add.error", data=[ securityUser.known_as, securityGroup.label ] ) );
+		}
+
+		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=userId, queryString="tab=groups" ) );
+	}
+
 	public void function deleteGroupAction( event, rc, prc, args={} ) {
 		_checkPermissions( event=event, key="usermanager.edit" );
 
@@ -441,9 +443,9 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 				, detail   = queryRowToStruct( securityUser )
 			);
 
-			messagebox.info( translateResource( uri="preside-objects.security_user:message.group.delete.success", data=[ securityGroup.label, securityUser.known_as ] ) );
+			messagebox.info( translateResource( uri="preside-objects.security_user:message.group.delete.success", data=[ securityUser.known_as, securityGroup.label ] ) );
 		} else {
-			messagebox.info( translateResource( uri="preside-objects.security_user:message.group.delete.error", data=[ securityGroup.label, securityUser.known_as ] ) );
+			messagebox.error( translateResource( uri="preside-objects.security_user:message.group.delete.error", data=[ securityUser.known_as, securityGroup.label ] ) );
 		}
 
 		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=userId, queryString="tab=groups" ) );
