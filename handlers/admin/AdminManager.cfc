@@ -50,16 +50,6 @@ component extends="preside.system.base.AdminHandler" {
 
 		prc.pageTitle = translateResource( uri="preside-objects.#arguments.objectName#:title" );
 		prc.pageIcon  = translateResource( uri="preside-objects.#arguments.objectName#:iconClass" );
-
-		event.addAdminBreadCrumb(
-			  title = translateResource( uri="admin.adminManager:title" )
-			, link  = event.buildAdminLink( linkTo="adminManager.users" )
-		);
-
-		event.addAdminBreadCrumb(
-			  title = prc.pageTitle
-			, link  = event.buildAdminLink( linkTo="admin.adminManager" )
-		);
 	}
 
 }
