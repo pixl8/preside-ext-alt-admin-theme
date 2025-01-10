@@ -78,19 +78,19 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		var actions  = [];
 		var children = [];
 
-		if ( isFalse( args.record.active ) ) {
+		if ( isTrue( args.record.active ) ) {
 			ArrayAppend( children, {
-				  link   = event.buildAdminLink( linkTo="datamanager.security_user.activateUserAction", queryString="id=#recordId#" )
-				, icon   = "fa-check-circle green"
-				, title  = translateResource( uri="preside-objects.security_user:action.activate.label" )
-				, prompt = translateResource( uri="preside-objects.security_user:action.activate.prompt", data=[ args.record.known_as ] )
-			} );
-		} else {
-			ArrayAppend( children, {
-				  link   = event.buildAdminLink( linkTo="datamanager.security_user.deactivateUserAction", queryString="id=#recordId#" )
+				  link   = event.buildAdminLink( linkTo="datamanager.security_user.setUserActivationAction", queryString="id=#recordId#&active=false" )
 				, icon   = "fa-times-circle red"
 				, title  = translateResource( uri="preside-objects.security_user:action.deactivate.label" )
 				, prompt = translateResource( uri="preside-objects.security_user:action.deactivate.prompt", data=[ recordLabel ] )
+			} );
+		} else {
+			ArrayAppend( children, {
+				  link   = event.buildAdminLink( linkTo="datamanager.security_user.setUserActivationAction", queryString="id=#recordId#&active=true" )
+				, icon   = "fa-check-circle green"
+				, title  = translateResource( uri="preside-objects.security_user:action.activate.label" )
+				, prompt = translateResource( uri="preside-objects.security_user:action.activate.prompt", data=[ args.record.known_as ] )
 			} );
 		}
 
@@ -102,14 +102,14 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 		if ( isTrue( args.record.subscribed_to_all_notifications ) ) {
 			ArrayAppend( children, {
-				  link   = event.buildAdminLink( linkTo="datamanager.security_user.setNotificationAction", queryString="user_id=#recordId#&all=false" )
+				  link   = event.buildAdminLink( linkTo="datamanager.security_user.setNotificationSubscriptionAction", queryString="user_id=#recordId#&all=false" )
 				, icon   = "fa-bell-slash red"
 				, title  = translateResource( uri="preside-objects.security_user:action.notification.unsubscribe.all.label" )
 				, prompt = translateResource( uri="preside-objects.security_user:action.notification.unsubscribe.all.prompt", data=[ recordLabel ] )
 			} );
 		} else {
 			ArrayAppend( children, {
-				  link   = event.buildAdminLink( linkTo="datamanager.security_user.setNotificationAction", queryString="user_id=#recordId#&all=true" )
+				  link   = event.buildAdminLink( linkTo="datamanager.security_user.setNotificationSubscriptionAction", queryString="user_id=#recordId#&all=true" )
 				, icon   = "fa-bell"
 				, title  = translateResource( uri="preside-objects.security_user:action.notification.subscribe.all.label" )
 				, prompt = translateResource( uri="preside-objects.security_user:action.notification.subscribe.all.prompt", data=[ recordLabel ] )
@@ -340,51 +340,27 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		}
 	}
 
-	public void function activateUserAction( event, rc, prc ) {
+	public void function setUserActivationAction( event, rc, prc ) {
 		_checkPermissions( event=event, key="usermanager.edit" );
 
 		var userId = rc.id ?: "";
+		var active = isTrue( rc.active ?: "" );
 
 		var securityUser = securityUserService.getUser( userId=userId, selectFields=[ "known_as" ] );
 
-		if ( securityUserService.activateUser( userId=userId ) ) {
+		if ( securityUserService.saveActivation( userId=userId, active=active ) ) {
 			permissionsCache.clearAll();
 
 			event.audit(
-				  action   = "activate_user"
+				  action   =  active ? "activate_user" : "deactivate_user"
 				, type     = "usermanager"
 				, recordId = userId
 				, detail   = queryRowToStruct( securityUser )
 			);
 
-			messagebox.info( translateResource( uri="preside-objects.security_user:message.user.activate.success", data=[ securityUser.known_as ] ) );
+			messagebox.info( translateResource( uri="preside-objects.security_user:message.user.#( active ? "activate" : "deactivate" )#.success", data=[ securityUser.known_as ] ) );
 		} else {
-			messagebox.info( translateResource( uri="preside-objects.security_user:message.user.activate.error", data=[ securityUser.known_as ] ) );
-		}
-
-		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=userId ) );
-	}
-
-	public void function deactivateUserAction( event, rc, prc ) {
-		_checkPermissions( event=event, key="usermanager.edit" );
-
-		var userId = rc.id ?: "";
-
-		var securityUser = securityUserService.getUser( userId=userId, selectFields=[ "known_as" ] );
-
-		if ( securityUserService.deactivateUser( userId=userId ) ) {
-			permissionsCache.clearAll();
-
-			event.audit(
-				  action   = "deactivate_user"
-				, type     = "usermanager"
-				, recordId = userId
-				, detail   = queryRowToStruct( securityUser )
-			);
-
-			messagebox.info( translateResource( uri="preside-objects.security_user:message.user.deactivate.success", data=[ securityUser.known_as ] ) );
-		} else {
-			messagebox.info( translateResource( uri="preside-objects.security_user:message.user.deactivate.error", data=[ securityUser.known_as ] ) );
+			messagebox.error( translateResource( uri="preside-objects.security_user:message.user.#( active ? "activate" : "deactivate" )#.error", data=[ securityUser.known_as ] ) );
 		}
 
 		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=userId ) );
@@ -530,7 +506,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=userId ) );
 	}
 
-	public void function setNotificationAction( event, rc, prc ) {
+	public void function setNotificationSubscriptionAction( event, rc, prc ) {
 		_checkPermissions( event=event, key="usermanager.edit" );
 
 		var userId       = rc.user_id ?: "";

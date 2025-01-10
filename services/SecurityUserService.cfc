@@ -22,30 +22,19 @@ component {
 		);
 	}
 
-	public boolean function activateUser( required string userId ) {
+	public boolean function saveActivation(
+		  required string  userId
+		, required boolean active
+	) {
 		return presideObjectService.updateData(
 			  objectName   = "security_user"
 			, filter       = "id = :id and active = :active"
 			, filterParams = {
 				  id     = arguments.userId
-				, active = false
+				, active = !arguments.active
 			  }
 			, data         = {
-				active = true
-			  }
-		) > 0;
-	}
-
-	public boolean function deactivateUser( required string userId ) {
-		return presideObjectService.updateData(
-			  objectName   = "security_user"
-			, filter       = "id = :id and active = :active"
-			, filterParams = {
-				  id     = arguments.userId
-				, active = true
-			  }
-			, data         = {
-				active = false
+				active = arguments.active
 			  }
 		) > 0;
 	}
