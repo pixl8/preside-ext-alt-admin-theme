@@ -5,6 +5,7 @@
 component {
 
 	property name="presideObjectService" inject="PresideObjectService";
+	property name="notificationService"  inject="NotificationService";
 
 	public any function init() {
 		return this;
@@ -145,12 +146,29 @@ component {
 		);
 	}
 
-	public numeric function getSubscriptionCount( required string userId=$getAdminLoggedInUserId() ) {
+	public numeric function getSubscriptionCount( required string userId ) {
 		return presideObjectService.selectData(
 			  objectName      = "admin_notification_subscription"
 			, filter          = { security_user=arguments.userId }
 			, recordCountOnly = true
 		);
+	}
+
+	public boolean function setAllNotifications(
+		  required string  userId
+		, required boolean all
+	) {
+		return presideObjectService.updateData(
+			  objectName   = "security_user"
+			, filter       = "id = :id and subscribed_to_all_notifications = :subscribed_to_all_notifications"
+			, filterParams = {
+				  id     = arguments.userId
+				, subscribed_to_all_notifications = !arguments.all
+			  }
+			, data         = {
+				subscribed_to_all_notifications = arguments.all
+			  }
+		) > 0;
 	}
 
 	public boolean function saveSubscription(
@@ -159,11 +177,13 @@ component {
 		,          boolean notification = true
 		,          boolean email        = false
 	) {
+		var status = false;
+
 		if ( arguments.notification ) {
 			var subscription = getSubscription( topic=arguments.topic, userId=arguments.userId, selectFields=[ "topic_subscription_id" ] );
 
 			if ( $helpers.isEmptyString( subscription.topic_subscription_id ?: "" ) ) {
-				return Len( presideObjectService.insertData(
+				status = Len( presideObjectService.insertData(
 					  objectName   = "admin_notification_subscription"
 					, data         = {
 						  security_user           = arguments.userId
@@ -172,7 +192,7 @@ component {
 					  }
 				) ) > 0;
 			} else {
-				return presideObjectService.updateData(
+				status = presideObjectService.updateData(
 					  objectName   = "admin_notification_subscription"
 					, filter       = {
 						  topic         = arguments.topic
@@ -184,7 +204,7 @@ component {
 				) > 0;
 			}
 		} else {
-			return presideObjectService.deleteData(
+			status = presideObjectService.deleteData(
 				  objectName   = "admin_notification_subscription"
 				, filter       = {
 					  topic         = arguments.topic
@@ -192,6 +212,17 @@ component {
 				  }
 			) > 0 ;
 		}
+
+		var subscribableTopics = notificationService.listTopics( userId=arguments.userId );
+		var subscribedTopics   = presideObjectService.selectData(
+			  objectName      = "admin_notification_subscription"
+			, filter          = { security_user=arguments.userId, topic=subscribableTopics }
+			, recordCountOnly = true
+		);
+
+		setAllNotifications( userId=arguments.userId, all=( ArrayLen( subscribableTopics ) == subscribedTopics ) );
+
+		return status;
 	}
 
 }

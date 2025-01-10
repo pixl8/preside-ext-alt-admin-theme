@@ -100,6 +100,22 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			, title = translateResource( uri="preside-objects.security_user:action.email.welcome.label" )
 		} );
 
+		if ( isTrue( args.record.subscribed_to_all_notifications ) ) {
+			ArrayAppend( children, {
+				  link   = event.buildAdminLink( linkTo="datamanager.security_user.setNotificationAction", queryString="user_id=#recordId#&all=false" )
+				, icon   = "fa-bell-slash red"
+				, title  = translateResource( uri="preside-objects.security_user:action.notification.unsubscribe.all.label" )
+				, prompt = translateResource( uri="preside-objects.security_user:action.notification.unsubscribe.all.prompt", data=[ recordLabel ] )
+			} );
+		} else {
+			ArrayAppend( children, {
+				  link   = event.buildAdminLink( linkTo="datamanager.security_user.setNotificationAction", queryString="user_id=#recordId#&all=true" )
+				, icon   = "fa-bell"
+				, title  = translateResource( uri="preside-objects.security_user:action.notification.subscribe.all.label" )
+				, prompt = translateResource( uri="preside-objects.security_user:action.notification.subscribe.all.prompt", data=[ recordLabel ] )
+			} );
+		}
+
 		if ( loginService.isTwoFactorAuthenticationEnabled() ) {
 			if ( isTrue( args.record.two_step_auth_key_in_use ) ) {
 				ArrayAppend( children, {
@@ -266,7 +282,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		var filterParams = {};
 
 		var subQuery = getPresideObject( "admin_notification_subscription" ).selectData(
-			  selectFields        = [ "id", "topic", "security_user", "get_email_notifications" ]
+			  selectFields        = [ "id", "topic", "security_user", "get_email_notifications", "security_user.subscribed_to_all_notifications" ]
 			, filter              = { security_user=userId }
 			, getSqlAndParamsOnly = true
 		);
@@ -290,7 +306,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			, private        = true
 			, eventArguments = {
 				  object          = "admin_notification_topic"
-				, gridFields      = "id,topic,topic_label,topic_subscription,topic_subscription_id,topic_email"
+				, gridFields      = "id,topic,topic_label,topic_subscription,topic_email"
 				, extraFilters    = extraFilters
 				, useMultiActions = false
 				, actionsView     = "admin.datamanager.security_user._getNotificationsActionsViewForAjaxDataTable"
@@ -514,20 +530,31 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=userId ) );
 	}
 
-	public void function editNotificationSubscriptionAction( event, rc, prc ) {
+	public void function setNotificationAction( event, rc, prc ) {
 		_checkPermissions( event=event, key="usermanager.edit" );
 
-		var topicId = rc.id      ?: "";
-		var topic   = rc.topic   ?: "";
-		var userId  = rc.user_id ?: "";
-
+		var userId       = rc.user_id ?: "";
 		var notification = isTrue( rc.notification ?: "" );
 		var email        = isTrue( rc.email        ?: "" );
 
-		if ( securityUserService.saveSubscription( topic=topic, userId=userId, notification=notification, email=email ) ) {
-			messagebox.info( translateResource( uri="preside-objects.security_user:message.notification.save.success", data=[ renderContent( renderer="AdminNotificationTopicLabel", data=topic ) ] ) );
+		var topics = [];
+
+		if ( StructKeyExists( rc, "all" ) ) {
+			topics = notificationService.listTopics( userId=userId );
+
+			notification = isTrue( rc.all );
 		} else {
-			messagebox.info( translateResource( uri="preside-objects.security_user:message.notification.save.error", data=[ renderContent( renderer="AdminNotificationTopicLabel", data=topic ) ] ) );
+			ArrayAppend( topics, rc.topic ?: "" );
+		}
+
+		try {
+			for ( var topic in topics ) {
+				securityUserService.saveSubscription( topic=topic, userId=userId, notification=notification, email=email );
+			}
+
+			messagebox.info( translateResource( uri="preside-objects.security_user:message.notification.save.success" ) );
+		} catch ( any e ) {
+			messagebox.error( translateResource( uri="preside-objects.security_user:message.notification.save.error" ) );
 		}
 
 		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=userId, queryString="tab=notifications" ) );

@@ -4,7 +4,7 @@
 	userId  = args.user_id ?: "";
 
 	label = translateResource( uri="notifications.#topic#:title", defaultValue=topic );
-	link  = event.buildAdminLink( linkTo="datamanager.security_user.editNotificationSubscriptionAction", queryString="id=#topicId#&topic=#topic#&user_id=#userId#" );
+	link  = event.buildAdminLink( linkTo="datamanager.security_user.setNotificationAction", queryString="id=#topicId#&topic=#topic#&user_id=#userId#" );
 
 	hasTopicSubscribed = isTrue( args.topic_subscription ?: "" );
 	hasEmailSubscribed = isTrue( args.topic_email        ?: "" );
