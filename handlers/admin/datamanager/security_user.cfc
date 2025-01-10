@@ -387,16 +387,17 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=userId ) );
 	}
 
-	public void function addGroupAction( event, rc, prc, args={} ) {
+	public void function setGroupAssignationAction( event, rc, prc, args={} ) {
 		_checkPermissions( event=event, key="usermanager.edit" );
 
 		var recordId = rc.id      ?: "";
-		var userId   = rc.user_id ?: "" ;
+		var userId   = rc.user_id ?: "";
+		var assign   = isTrue( rc.assign ?: "" );
 
 		var securityGroup = securityUserService.getGroup( groupId=recordId, selectFields=[ "label" ] );
 		var securityUser  = securityUserService.getUser( userId=userId, selectFields=[ "known_as" ] );
 
-		if ( securityUserService.addGroup( groupId=recordId, userId=userId ) ) {
+		if ( securityUserService.saveGroup( groupId=recordId, userId=userId, assign=assign ) ) {
 			permissionsCache.clearAll();
 
 			event.audit(
@@ -409,33 +410,6 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			messagebox.info( translateResource( uri="preside-objects.security_user:message.group.add.success", data=[ securityUser.known_as, securityGroup.label ] ) );
 		} else {
 			messagebox.error( translateResource( uri="preside-objects.security_user:message.group.add.error", data=[ securityUser.known_as, securityGroup.label ] ) );
-		}
-
-		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=userId, queryString="tab=groups" ) );
-	}
-
-	public void function deleteGroupAction( event, rc, prc, args={} ) {
-		_checkPermissions( event=event, key="usermanager.edit" );
-
-		var recordId = rc.id      ?: "";
-		var userId   = rc.user_id ?: "" ;
-
-		var securityGroup = securityUserService.getGroup( groupId=recordId, selectFields=[ "label" ] );
-		var securityUser  = securityUserService.getUser( userId=userId, selectFields=[ "known_as" ] );
-
-		if ( securityUserService.deleteGroup( groupId=recordId, userId=userId ) ) {
-			permissionsCache.clearAll();
-
-			event.audit(
-				  action   = "edit_user"
-				, type     = "usermanager"
-				, recordId = userId
-				, detail   = queryRowToStruct( securityUser )
-			);
-
-			messagebox.info( translateResource( uri="preside-objects.security_user:message.group.delete.success", data=[ securityUser.known_as, securityGroup.label ] ) );
-		} else {
-			messagebox.error( translateResource( uri="preside-objects.security_user:message.group.delete.error", data=[ securityUser.known_as, securityGroup.label ] ) );
 		}
 
 		setNextEvent( url=event.buildAdminLink( objectName="security_user", recordId=userId, queryString="tab=groups" ) );

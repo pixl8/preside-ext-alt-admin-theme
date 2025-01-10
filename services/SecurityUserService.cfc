@@ -56,39 +56,30 @@ component {
 		return securityGroup.total ?: 0;
 	}
 
-	public boolean function addGroup(
-		  required string groupId
-		, required string userId
+	public boolean function saveGroup(
+		  required string  groupId
+		, required string  userId
+		, required boolean assign
 	) {
 		var prop       = presideObjectService.getObjectProperty( "security_user", "groups" );
 		var relatedVia = prop.relatedVia ?: "";
 
 		if ( !$helpers.isEmptyString( relatedVia ) ) {
 			try {
-				presideObjectService.insertData(
-					  objectName = relatedVia
-					, data       = { security_group=arguments.groupId, security_user=arguments.userId }
-				);
+				if ( arguments.assign ) {
+					presideObjectService.insertData(
+						  objectName = relatedVia
+						, data       = { security_group=arguments.groupId, security_user=arguments.userId }
+					);
 
-				return true;
+					return true;
+				} else {
+					return presideObjectService.deleteData(
+						  objectName = relatedVia
+						, filter     = { security_group=arguments.groupId, security_user=arguments.userId }
+					) > 0;
+				}
 			} catch ( any e ) {}
-		}
-
-		return false;
-	}
-
-	public boolean function deleteGroup(
-		  required string groupId
-		, required string userId
-	) {
-		var prop       = presideObjectService.getObjectProperty( "security_user", "groups" );
-		var relatedVia = prop.relatedVia ?: "";
-
-		if ( !$helpers.isEmptyString( relatedVia ) ) {
-			return presideObjectService.deleteData(
-				  objectName = relatedVia
-				, filter     = { security_group=arguments.groupId, security_user=arguments.userId }
-			) > 0;
 		}
 
 		return false;
