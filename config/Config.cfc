@@ -77,6 +77,9 @@ component {
 			, activeChecks  = { handlerPatterns="^admin\.adminManager\.users" }
 			, permissionKey = "websiteUserManager.navigate"
 		};
+
+		StructDelete( settings.adminMenuItems, "usermanager" );
+		StructDelete( settings.adminMenuItems, "usergroupmanager" );
 	}
 
 	private void function _setupDerivatives( settings ) {
