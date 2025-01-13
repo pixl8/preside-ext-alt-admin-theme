@@ -3,6 +3,7 @@
 	formId       = "welcome-email";
 	formAction   = event.buildAdminLink( linkTo="datamanager.security_user.sendWelcomeEmailAction" );
 	cancelAction = event.buildAdminLink( objectName="security_user", recordId=record.id );
+	link         = event.buildAdminLink( linkto="emailcenter.systemtemplates.template", queryString="template=cmsWelcome" );
 </cfscript>
 
 <cfoutput>
@@ -10,7 +11,7 @@
 		<input type="hidden" name="id" value="#( record.id ?: "" )#" />
 
 		<div class="alert alert-info">
-			<i class="fa fa-fw fa-info-circle"></i> #translateResource( uri="preside-objects.security_user:page.sendWelcomeEmail.description" )#
+			<i class="fa fa-fw fa-info-circle"></i> #translateResource( uri="preside-objects.security_user:page.sendWelcomeEmail.description", data=[ link ] )#
 		</div>
 
 		#renderForm(
