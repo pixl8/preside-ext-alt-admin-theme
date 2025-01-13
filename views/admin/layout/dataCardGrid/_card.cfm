@@ -65,7 +65,6 @@
 					#cardFooter#
 				</div>
 			</cfif>
-
 		</div>
 
 	</div>
