@@ -87,6 +87,15 @@ component {
 						, record     = record
 					  }
 				  )
+				, cardFooter          = dataManagerCustomizationService.runCustomization(
+					  objectName     = objectName
+					, action         = "getFooterForDataCard"
+					, defaultHandler = "admin.layout.dataCardGrid._getCardFooter"
+					, args           = {
+						  objectName = objectName
+						, record     = record
+					  }
+				  )
 			} );
 		}
 
@@ -171,6 +180,10 @@ component {
 	}
 
 	private string function _getCardBody( event, rc, prc, args={} ) {
+		return "";
+	}
+
+	private string function _getCardFooter( event, rc, prc, args={} ) {
 		return "";
 	}
 
