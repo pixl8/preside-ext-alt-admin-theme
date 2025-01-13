@@ -288,12 +288,13 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		var filterParams = {};
 
 		var subQuery = getPresideObject( "admin_notification_subscription" ).selectData(
-			  selectFields        = [ "id", "topic", "security_user", "get_email_notifications", "security_user.subscribed_to_all_notifications" ]
+			  selectFields        = [ "id", "topic", "get_email_notifications" ]
 			, filter              = { security_user=userId }
 			, getSqlAndParamsOnly = true
+			, formatSqlParams     = true
 		);
 
-		for( var param in subQuery.params ) { filterParams[ param.name ] = param; }
+		StructAppend( filterParams, subQuery.params );
 
 		ArrayAppend( extraFilters, {
 			filter="1=1", filterParams=filterParams, extraJoins=[ {
