@@ -21,6 +21,13 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		);
 	}
 
+	private void function objectBreadcrumb( event, rc, prc, args={} ) {
+		event.addAdminBreadCrumb(
+			  title = translateResource( uri="preside-objects.security_user:title" )
+			, link  = event.buildAdminLink( linkTo="adminManager.users" )
+		);
+	}
+
 	private array function getRecordActionsForGridListing( event, rc, prc, args={} ) {
 		var objectName = args.objectName ?: "";
 		var record     = args.record     ?: {};
