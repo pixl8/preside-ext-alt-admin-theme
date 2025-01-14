@@ -42,8 +42,8 @@
 							<table class="table table-condensed table-no-header table-non-clickable table-admin-view-record">
 								<thead>
 									<tr>
-										<th>Role</th>
-										<th>Enabled?</th>
+										<th>#translateResource( uri="preside-objects.security_group:field.role.title" )#</th>
+										<th>#translateResource( uri="preside-objects.security_group:field.is_enabled.title" )#</th>
 									</tr>
 								</thead>
 								<tbody>
