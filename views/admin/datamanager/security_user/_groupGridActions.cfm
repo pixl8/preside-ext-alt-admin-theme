@@ -3,7 +3,7 @@
 	groupLabel = args.label      ?: "";
 	userId     = args.user_id    ?: "";
 	userLabel  = args.user_label ?: renderLabel( objectName="security_user", recordId=userId );
-	isAssigned = isTrue( args.is_assigned ?: "" );
+	isAssigned = ListFind( args.is_assigned ?: "", userId );
 
 	link = event.buildAdminLink( linkTo="datamanager.security_user.setGroupAssignationAction", queryString="id=#groupId#&user_id=#userId#" );
 </cfscript>

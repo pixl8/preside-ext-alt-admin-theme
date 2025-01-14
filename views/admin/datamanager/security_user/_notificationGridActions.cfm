@@ -26,7 +26,7 @@
 			<cfif hasTopicSubscribed>
 				<li>
 					<cfif hasEmailSubscribed>
-						<a class="confirmation-prompt" href="#link#&notification=true&email=false" title="#translateResource( uri="preside-objects.security_user:action.email.unsubscribe.prompt", data=[ label ] )#"><i class="fa fa-fw fa-envelope red"></i> #translateResource( uri="preside-objects.security_user:action.email.unsubscribe.label" )#</a>
+						<a class="confirmation-prompt" href="#link#&notification=true&email=false" title="#translateResource( uri="preside-objects.security_user:action.email.unsubscribe.prompt", data=[ label ] )#"><i class="fa fa-fw fa-envelope-open red"></i> #translateResource( uri="preside-objects.security_user:action.email.unsubscribe.label" )#</a>
 					<cfelse>
 						<a class="confirmation-prompt" href="#link#&notification=true&email=true" title="#translateResource( uri="preside-objects.security_user:action.email.subscribe.prompt", data=[ label ] )#"><i class="fa fa-fw fa-envelope"></i> #translateResource( uri="preside-objects.security_user:action.email.subscribe.label" )#</a>
 					</cfif>
