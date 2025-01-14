@@ -1,11 +1,22 @@
-component extends="preside.system.base.AdminHandler" {
+component extends="preside.system.base.EnhancedDataManagerBase" {
 
 	property name="datamanagerService" inject="DatamanagerService";
+
+	variables.tabs = [ "dashboard" ];
+
+	variables.sidebarNavigation = true;
 
 	private void function rootBreadcrumb( event, rc, prc, args={} ) {
 		event.addAdminBreadCrumb(
 			  title = translateResource( uri="admin.adminManager:title" )
 			, link  = event.buildAdminLink( linkTo="adminManager.users" )
+		);
+	}
+
+	private void function objectBreadcrumb( event, rc, prc, args={} ) {
+		event.addAdminBreadCrumb(
+			  title = translateResource( uri="preside-objects.security_group:title" )
+			, link  = event.buildAdminLink( linkTo="adminManager.groups" )
 		);
 	}
 
@@ -49,6 +60,52 @@ component extends="preside.system.base.AdminHandler" {
 		}
 
 		return actions;
+	}
+
+	private string function renderSidebarHeader( event, rc, prc, args={} ) {
+		if ( !isEmptyString( args.record.id ?: "" ) ) {
+			return renderView( view="/admin/datamanager/security_group/_sidebarHeader", args=args );
+		}
+
+		return "";
+	}
+
+	private array function getTopRightButtonsForViewRecord( event, rc, prc, args ) {
+		var recordId    = args.recordId ?: "";
+		var recordLabel = args.record.known_as ?: "";
+
+		var actions  = [];
+		var children = [];
+
+		if ( prc.canDelete ) {
+			ArrayAppend( children, {
+				  link      = event.buildAdminLink( objectName="security_group", recordId=prc.recordId, operation="deleteRecordAction" )
+				, icon      = "fa-trash red"
+				, globalKey = "d"
+				, title     = translateResource( uri="cms:datamanager.deleteRecord.btn" )
+				, prompt    = translateResource( uri="cms:datamanager.deleteRecord.prompt", data=[ prc.objectTitle, stripTags( prc.recordLabel ) ] )
+				, match     = datamanagerService.getDeletionConfirmationMatch( "security_group", QueryRowToStruct( prc.record ) )
+			} );
+		}
+
+		if ( prc.canEdit ) {
+			ArrayAppend( actions, {
+				  link      = event.buildAdminLink( objectName="security_group", recordId=recordId, operation="editRecord" )
+				, btnClass  = "btn-primary-default"
+				, iconClass = "fa-pencil"
+				, globalKey = "e"
+				, title     = translateResource( "cms:datamanager.editRecord.btn" )
+				, children  = children
+			} );
+		}
+
+		return actions;
+	}
+
+	private string function _dashboardTab( event, rc, prc, args={} ) {
+		args.roles = ListToArray( args.record.roles ?: "" );
+
+		return renderView( view="/admin/datamanager/security_group/dashboard", args=args );
 	}
 
 }
