@@ -75,7 +75,8 @@ component {
 		settings.adminMenuItems.adminManager = {
 			  buildLinkArgs = { linkTo="adminManager.users" }
 			, activeChecks  = { handlerPatterns="^admin\.adminManager\.users" }
-			, permissionKey = "websiteUserManager.navigate"
+			, permissionKey = "usermanager.navigate"
+			, feature       = "cmsUserManager"
 		};
 
 		StructDelete( settings.adminMenuItems, "usermanager" );
