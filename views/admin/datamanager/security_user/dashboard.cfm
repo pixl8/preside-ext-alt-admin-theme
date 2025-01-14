@@ -11,6 +11,12 @@
 						<i class="fa fa-fw fa-history"></i>
 						#translateResource( uri="preside-objects.security_user:widget.audit_trail.title" )#
 					</h4>
+
+					<div class="widget-toolbar">
+						<a href="#event.buildAdminLink( linkTo="auditTrail", queryString="recordId=#recordId#" )#">
+							<i class="fa fa-fw fa-history"></i>
+						</a>
+					</div>
 				</div>
 
 				<div class="widget-body">
@@ -27,6 +33,12 @@
 						<i class="fa fa-fw fa-users"></i>
 						#translateResource( uri="preside-objects.security_user:widget.security_group.title" )#
 					</h4>
+
+					<div class="widget-toolbar">
+						<a href="#event.buildAdminLink( objectName="security_user", recordId=recordId, queryString="tab=groups" )#">
+							<i class="fa fa-fw fa-users"></i>
+						</a>
+					</div>
 				</div>
 
 				<div class="widget-body">
