@@ -61,6 +61,14 @@ component extends="preside.system.base.AdminHandler" {
 	}
 
 	public function sysConfig( event, rc, prc ) {
+		if ( !isFeatureEnabled( "systemConfiguration" ) ) {
+			event.notFound();
+		}
+
+		if ( !hasCmsPermission( permissionKey="systemConfiguration.manage" ) ) {
+			event.adminAccessDenied();
+		}
+
 		prc.categoryId = rc.category ?: "admin-login-security";
 		prc.tenantId   = rc.tenant   ?: "";
 		prc.tabId      = rc.tab      ?: "";
@@ -136,6 +144,14 @@ component extends="preside.system.base.AdminHandler" {
 	}
 
 	public function sysConfigAction( event, rc, prc ) {
+		if ( !isFeatureEnabled( "systemConfiguration" ) ) {
+			event.notFound();
+		}
+
+		if ( !hasCmsPermission( permissionKey="systemConfiguration.manage" ) ) {
+			event.adminAccessDenied();
+		}
+
 		var categoryId = rc.category_id ?: "";
 		var tenantId   = rc.tenant_id   ?: "";
 		var formName   = rc.form_name   ?: "";
