@@ -1,6 +1,11 @@
 component extends="preside.system.base.AdminHandler" {
 
-	property name="dataManagerCustomizationService"  inject="DataManagerCustomizationService";
+	property name="dataManagerCustomizationService" inject="DataManagerCustomizationService";
+	property name="systemConfigurationService"      inject="SystemConfigurationService";
+	property name="presideObjectService"            inject="PresideObjectService";
+	property name="systemAlertsService"             inject="SystemAlertsService";
+	property name="formsService"                    inject="FormsService";
+	property name="tenancySetting"                  inject="coldbox:setting:tenancy";
 
 	public function prehandler( event, rc, prc ) {
 		super.preHandler( argumentCollection = arguments );
@@ -9,7 +14,7 @@ component extends="preside.system.base.AdminHandler" {
 
 		prc.adminSidebarHeader &= renderView( view="/admin/adminManager/_sidebarHeader" );
 
-		prc.adminSidebarItems  = prc.adminSidebarItems  ?: [];
+		prc.adminSidebarItems = prc.adminSidebarItems  ?: [];
 
 		var currentEvent = event.getCurrentEvent();
 
@@ -26,6 +31,25 @@ component extends="preside.system.base.AdminHandler" {
 			, title  = translateResource( uri="admin.adminManager:viewtab.groups.title" )
 			, badge  = getPresideObject( "security_group" ).selectData( recordCountOnly=true )
 		} );
+
+		ArrayAppend( prc.adminSidebarItems, {
+			  active = currentEvent == "admin.adminManager.security"
+			, title  = translateResource( uri="admin.adminManager:viewtab.security.title" )
+			, subMenuItems = [
+				  {
+					  active = ( rc.tab ?: "" ) == "rememberme"
+					, link   = event.buildAdminLink( linkTo="adminManager.sysConfig", queryString="tab=rememberme" )
+					, title  = translateResource( uri="admin.adminManager:viewtab.rememberme.title" )
+					, icon   = "fa-clock"
+				  }
+				, {
+					  active = ( rc.tab ?: "" ) == "2fa"
+					, link   = event.buildAdminLink( linkTo="adminManager.sysConfig", queryString="tab=2fa" )
+					, title  = translateResource( uri="admin.adminManager:viewtab.2fa.title" )
+					, icon   = "fa-mobile"
+				}
+			  ]
+		} );
 	}
 
 	public function users( event, rc, prc ) {
@@ -34,6 +58,162 @@ component extends="preside.system.base.AdminHandler" {
 
 	public function groups( event, rc, prc ) {
 		_initManager( argumentCollection=arguments, objectName="security_group" );
+	}
+
+	public function sysConfig( event, rc, prc ) {
+		prc.categoryId = rc.category ?: "admin-login-security";
+		prc.tenantId   = rc.tenant   ?: "";
+		prc.tabId      = rc.tab      ?: "";
+
+		event.addAdminBreadCrumb(
+			  title = translateResource( uri="admin.adminManager:title" )
+			, link  = event.buildAdminLink( linkTo="adminManager.users" )
+		);
+
+		event.addAdminBreadCrumb(
+			  title = translateResource( uri="admin.adminManager:viewtab.security.title" )
+			, link  = ""
+		);
+
+		event.addAdminBreadCrumb(
+			  title = translateResource( uri="admin.adminManager:viewtab.#tab#.title" )
+			, link  = ""
+		);
+
+		prc.pageTitle = translateResource( uri="admin.adminManager:viewtab.#tab#.title" );
+		prc.pageIcon  = translateResource( uri="admin.adminManager:viewtab.#tab#.iconClass" );
+
+		try {
+			prc.category = systemConfigurationService.getConfigCategory( id=prc.categoryId );
+		} catch( any e ) {}
+
+		prc.savedData     = {};
+		prc.tenancy       = systemConfigurationService.getConfigCategoryTenancy( id=prc.categoryId );
+		prc.tenancyConfig = false;
+
+		if ( Len( prc.tenancy ) ) {
+			prc.tenancyObject    = tenancySetting[ prc.tenancy ].object ?: prc.tenancy;
+			prc.tenancyRecords   = presideObjectService.selectData(
+				  objectName   = prc.tenancyObject
+				, selectFields = [ "id" ]
+			);
+			prc.tenancyConfig = !isEmptyString( prc.tenantId ) && prc.tenancyRecords.recordCount > 1;
+
+			if ( prc.tenancyConfig ) {
+				prc.savedData = systemConfigurationService.getCategorySettings(
+					  category        = prc.categoryId
+					, includeDefaults = false
+					, tenantId        = prc.tenantId
+				);
+			}
+		}
+
+		if ( !prc.tenancyConfig ) {
+			prc.savedData = systemConfigurationService.getCategorySettings(
+				  category           = prc.categoryId
+				, globalDefaultsOnly = true
+			);
+		}
+
+		prc.formName = formsService.createForm( basedOn=prc.category.getSiteForm(), generator=function( formDefinition ) {
+			var rawDefinition = formDefinition.getRawDefinition();
+
+			for( var formTab in rawDefinition.tabs ) {
+				if ( formTab.id == prc.tabId ) {
+					formDefinition.modifyTab(
+						  id        = formTab.id
+						, title     = ""
+						, iconclass = ""
+					);
+				} else {
+					formDefinition.modifyTab(
+						  id      = formTab.id
+						, deleted = true
+					);
+				}
+			}
+		} );
+	}
+
+	public function sysConfigAction( event, rc, prc ) {
+		var categoryId = rc.category_id ?: "";
+		var tenantId   = rc.tenant_id   ?: "";
+		var formName   = rc.form_name   ?: "";
+		var tabId      = rc.tab_id      ?: "";
+
+		try {
+			prc.category = systemConfigurationService.getConfigCategory( id=categoryId );
+		} catch( any e ) {
+			event.notFound();
+		}
+
+		var formData = event.getCollectionForForm( formName );
+
+		var validationResult = validateForm(
+			  formName      = formName
+			, formData      = formData
+			, ignoreMissing = Len( Trim( tenantId ) )
+		);
+
+		if ( !validationResult.validated() ) {
+			messageBox.error( translateResource( uri="cms:sysconfig.validation.failed" ) );
+
+			var persist = formData;
+
+			persist.validationResult = validationResult;
+
+			setNextEvent(
+				  url           = event.buildAdminLink( linkTo="adminManager.sysConfig", queryString="tab=#tabId#" )
+				, persistStruct = persist
+			);
+		}
+
+		announceInterception( "preSaveSystemConfig", {
+			  category         = categoryId
+			, configuration    = formData
+			, validationResult = validationResult
+		} );
+
+		if ( !isEmptyString( tenantId ) ) {
+			for ( var setting in formData ){
+				if ( isFalse( rc[ "_override_" & setting ] ?: "" ) ) {
+					StructDelete( formData, setting );
+
+					systemConfigurationService.deleteSetting(
+						  category = categoryId
+						, setting  = setting
+						, tenantId = tenantId
+					);
+				}
+			}
+		}
+
+		for ( var setting in formData ) {
+			systemConfigurationService.saveSetting(
+				  category = categoryId
+				, setting  = setting
+				, value    = formData[ setting ]
+				, tenantId = tenantId
+			);
+		}
+
+		systemAlertsService.runWatchedSettingsChecks( categoryId );
+
+		event.audit(
+			  action   = "save_sysconfig_category"
+			, type     = "sysconfig"
+			, recordId = categoryId
+			, detail   = formData
+		);
+
+		announceInterception( "postSaveSystemConfig", {
+			  category         = categoryId
+			, configuration    = formData
+		} );
+
+		messageBox.info( translateResource( uri="cms:sysconfig.saved" ) );
+
+		setNextEvent( url=event.buildAdminLink( linkTo="adminManager.sysConfig", queryString="tab=#tabId#&tenant=#tenantId#" ) );
 	}
 
 	private function _initManager( required string objectName ) {
