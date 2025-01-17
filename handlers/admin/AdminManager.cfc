@@ -37,16 +37,18 @@ component extends="preside.system.base.AdminHandler" {
 			, title  = translateResource( uri="admin.adminManager:viewtab.security.title" )
 			, subMenuItems = [
 				  {
-					  active = ( rc.tab ?: "" ) == "rememberme"
-					, link   = event.buildAdminLink( linkTo="adminManager.sysConfig", queryString="tab=rememberme" )
-					, title  = translateResource( uri="admin.adminManager:viewtab.rememberme.title" )
-					, icon   = "fa-clock"
+					  active        = ( rc.tab ?: "" ) == "rememberme"
+					, link          = event.buildAdminLink( linkTo="adminManager.sysConfig", queryString="tab=rememberme" )
+					, title         = translateResource( uri="admin.adminManager:viewtab.rememberme.title" )
+					, icon          = "fa-clock"
+					, permissionKey = "systemConfiguration.manage"
 				  }
 				, {
-					  active = ( rc.tab ?: "" ) == "2fa"
-					, link   = event.buildAdminLink( linkTo="adminManager.sysConfig", queryString="tab=2fa" )
-					, title  = translateResource( uri="admin.adminManager:viewtab.2fa.title" )
-					, icon   = "fa-mobile"
+					  active        = ( rc.tab ?: "" ) == "2fa"
+					, link          = event.buildAdminLink( linkTo="adminManager.sysConfig", queryString="tab=2fa" )
+					, title         = translateResource( uri="admin.adminManager:viewtab.2fa.title" )
+					, icon          = "fa-mobile"
+					, permissionKey = "systemConfiguration.manage"
 				}
 			  ]
 		} );
