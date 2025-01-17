@@ -33,10 +33,11 @@ component extends="preside.system.base.AdminHandler" {
 			, title  = translateResource( uri="admin.adminManager:viewtab.security.title" )
 			, subMenuItems = [
 				{
-					  active = ( rc.tab ?: "" ) == "2fa"
-					, link   = event.buildAdminLink( linkTo="adminManager.policies" )
-					, title  = translateResource( uri="admin.adminManager:viewtab.policies.title" )
-					, icon   = "fa-key"
+					  active        = currentEvent == "admin.adminManager.policies"
+					, link          = event.buildAdminLink( linkTo="adminManager.policies" )
+					, title         = translateResource( uri="admin.adminManager:viewtab.policies.title" )
+					, icon          = "fa-key"
+					, permissionKey = "passwordpolicymanager.manage"
 				}
 			  ]
 		} );
