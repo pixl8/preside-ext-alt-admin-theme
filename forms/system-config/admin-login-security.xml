@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<tab id="rememberme">
+		<fieldset id="rememberme">
+			<field name="rememberme_enabled" control="toggle" toggleType="switch" toggleFields="rememberme_expiry_in_days" />
+		</fieldset>
+	</tab>
+
+	<tab id="2fa">
+		<fieldset id="2fa">
+			<field name="tfa_enabled" control="toggle" toggleType="switch" toggleFields="tfa_app_name,tfa_enforced,tfa_trust_period" />
+		</fieldset>
+	</tab>
+</form>
