@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.0.14
+
+* Fix for missing cachebox config
+
+## v1.0.13
+
+* ADMINTHEME-54 - Top navigation menu: increasingly slow to load on every request
+
+
 ## v1.0.12
 
 * Fix issue with display of rules condition types in Rules engine admin area > Create new condition button

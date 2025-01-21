@@ -70,6 +70,22 @@ component {
 			, title         = "cms:sitenav.managesites"
 			, icon          = "fa-globe"
 		};
+
+		settings.adminConfigurationMenuItems = settings.adminConfigurationMenuItems ?: [];
+
+		ArrayAppend( settings.adminConfigurationMenuItems, "adminManager" );
+
+		settings.adminMenuItems = settings.adminMenuItems ?: {};
+
+		settings.adminMenuItems.adminManager = {
+			  buildLinkArgs = { linkTo="adminManager.users" }
+			, activeChecks  = { handlerPatterns="^admin\.adminManager\.users" }
+			, permissionKey = "usermanager.navigate"
+			, feature       = "cmsUserManager"
+		};
+
+		StructDelete( settings.adminMenuItems, "usermanager" );
+		StructDelete( settings.adminMenuItems, "usergroupmanager" );
 	}
 
 	private void function _setupDerivatives( settings ) {

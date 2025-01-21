@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form i18nBaseUri="preside-objects.security_user:">
+	<tab id="basic">
+		<fieldset id="basic">
+			<field name="active" deleted="true" />
+			<field name="groups" deleted="true" />
+		</fieldset>
+
+		<fieldset id="welcome" deleted="true" />
+	</tab>
+</form>
