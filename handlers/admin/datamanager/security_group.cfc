@@ -36,7 +36,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 		if ( hasCmsPermission( "groupmanager.edit" ) ) {
 			ArrayAppend( actions, {
-				  link       = event.buildAdminLink( objectName=objectName, recordId=record.id, operation="editRecord" )
+				  link       = event.buildAdminLink( objectName=objectName, recordId=record.id, operation="editRecord", queryString="op=object" )
 				, icon       = "fa-pencil"
 				, contextKey = "e"
 			} );
@@ -77,7 +77,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		var actions  = [];
 		var children = [];
 
-		if ( prc.canDelete ) {
+		if ( prc.canDelete && !isTrue( args.record.is_catch_all ?: "" ) ) {
 			ArrayAppend( children, {
 				  link      = event.buildAdminLink( objectName="security_group", recordId=prc.recordId, operation="deleteRecordAction" )
 				, icon      = "fa-trash red"
@@ -100,6 +100,25 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		}
 
 		return actions;
+	}
+
+	private void function preRenderAddRecordForm( event, rc, prc, args={} ) {
+		args.cancelAction = event.buildAdminLink( linkTo="adminManager.groups" );
+	}
+
+	private void function postAddRecordAction( event, rc, prc, args={} ) {
+		args.successUrl = event.buildAdminLink( linkTo="adminManager.groups" );
+	}
+
+	private void function preRenderEditRecordForm( event, rc, prc, args={} ) {
+		var objectName = args.objectName ?: "";
+		var recordId   = args.recordId   ?: "";
+
+		args.cancelAction = ( rc.op ?: "" ) == "object" ? event.buildAdminLink( linkTo="adminManager.groups" ) : event.buildAdminLink( objectName=objectName, recordId=recordId );
+	}
+
+	private void function preDeleteRecordAction( event, rc, prc, args={} ) {
+		args.postActionUrl = event.buildAdminLink( linkTo="adminManager.groups" );
 	}
 
 	private string function _dashboardTab( event, rc, prc, args={} ) {
