@@ -57,7 +57,7 @@
 					<div class="col-md-offset-2">
 						<button class="btn btn-info" type="submit" tabindex="#getNextTabIndex()#">
 							<i class="fa fa-check bigger-110"></i>
-							#translateResource( "cms:sysConfig.save.button" )#
+							#translateResource( 'cms:save.btn' )#
 						</button>
 					</div>
 				</div>
