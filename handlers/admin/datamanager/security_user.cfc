@@ -344,6 +344,8 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 			loginService.sendWelcomeEmail( userId=userId, createdBy=event.getAdminUserDetails().known_as, welcomeMessage=( args.formData.welcome_message ?: "" ) );
 
+			var securityUser = securityUserService.getUser( userId=userId, selectFields=[ "known_as" ] );
+
 			event.audit(
 				  action   = "send_welcome_email"
 				, type     = "usermanager"
