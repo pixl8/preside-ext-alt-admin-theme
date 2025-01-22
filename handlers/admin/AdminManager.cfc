@@ -151,6 +151,16 @@ component extends="preside.system.base.AdminHandler" {
 						, title     = ""
 						, iconclass = ""
 					);
+
+					if ( prc.tenancyConfig ) {
+						for ( var formFieldset in formTab.fieldsets ) {
+							formDefinition.modifyTab(
+								  id          = formFieldset.id
+								, tab         = formTab.id
+								, description = '<div class="alert alert-warning"><i class="fa fa-fw fa-exclamation-triangle"></i> #translateResource( uri="admin.adminManager:fieldset.tenancy.description", data=[ renderLabel( prc.tenancyObject, prc.tenantId ) ] )#</div>'
+							);
+						}
+					}
 				} else {
 					formDefinition.modifyTab(
 						  id      = formTab.id
