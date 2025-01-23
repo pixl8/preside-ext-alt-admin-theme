@@ -227,7 +227,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 				, useMultiActions   = false
 				, allowFilter       = false
 				, allowDataExport   = false
-				, datasourceUrl     = event.buildAdminLink( linkTo="datamanager.security_user.getGroupsForAjaxDataTable", queryString="recordId=#recordId#" )
+				, datasourceUrl     = event.buildAdminLink( linkTo="datamanager.security_user.getGroupsForAjaxDataTable", queryString="record_id=#recordId#" )
 				, objectTitlePlural = translateResource( uri="preside-objects.security_group:title" )
 			  }
 		);
@@ -241,17 +241,18 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			, eventArguments = {
 				  object          = "security_group"
 				, gridFields      = "label,group_roles,is_assigned"
-				, filterParams    = { "userId"={ type="cf_sql_varchar", value=( rc.recordId ?: "" ) } }
+				, filterParams    = { "userId"={ type="cf_sql_varchar", value=( rc.record_id ?: "" ) } }
 				, useMultiActions = false
 				, actionsView     = "admin.datamanager.security_user._getGroupsActionsViewForAjaxDataTables"
 				, useCache        = false
+				, orderBy         = rc.order_by ?: ""
 			}
 		);
 	}
 
 	private string function _getGroupsActionsViewForAjaxDataTables( event, rc, prc, args={} ) {
 		if ( hasCmsPermission( "usermanager.edit" ) ) {
-			args.user_id = rc.recordId ?: "";
+			args.user_id = rc.record_id ?: "";
 
 			return renderView( view="/admin/datamanager/security_user/_groupGridActions", args=args );
 		}
