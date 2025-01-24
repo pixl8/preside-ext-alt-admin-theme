@@ -44,7 +44,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 		if ( hasCmsPermission( "usermanager.edit" ) ) {
 			ArrayAppend( actions, {
-				  link       = event.buildAdminLink( objectName=objectName, recordId=record.id, operation="editRecord" )
+				  link       = event.buildAdminLink( objectName=objectName, recordId=record.id, operation="editRecord", queryString="op=object" )
 				, icon       = "fa-pencil"
 				, contextKey = "e"
 			} );
@@ -92,6 +92,39 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 				, title  = translateResource( uri="preside-objects.security_user:action.deactivate.label" )
 				, prompt = translateResource( uri="preside-objects.security_user:action.deactivate.prompt", data=[ recordLabel ] )
 			} );
+
+			ArrayAppend( children, {
+				  link  = event.buildAdminLink( linkTo="datamanager.security_user.sendWelcomeEmail", queryString="id=#recordId#" )
+				, icon  = "fa-envelope"
+				, title = translateResource( uri="preside-objects.security_user:action.email.welcome.label" )
+			} );
+
+			if ( isTrue( args.record.subscribed_to_all_notifications ) ) {
+				ArrayAppend( children, {
+					  link   = event.buildAdminLink( linkTo="datamanager.security_user.setNotificationSubscriptionAction", queryString="user_id=#recordId#&all=false" )
+					, icon   = "fa-bell-slash red"
+					, title  = translateResource( uri="preside-objects.security_user:action.notification.unsubscribe.all.label" )
+					, prompt = translateResource( uri="preside-objects.security_user:action.notification.unsubscribe.all.prompt", data=[ recordLabel ] )
+				} );
+			} else {
+				ArrayAppend( children, {
+					  link   = event.buildAdminLink( linkTo="datamanager.security_user.setNotificationSubscriptionAction", queryString="user_id=#recordId#&all=true" )
+					, icon   = "fa-bell"
+					, title  = translateResource( uri="preside-objects.security_user:action.notification.subscribe.all.label" )
+					, prompt = translateResource( uri="preside-objects.security_user:action.notification.subscribe.all.prompt", data=[ recordLabel ] )
+				} );
+			}
+
+			if ( loginService.isTwoFactorAuthenticationEnabled() ) {
+				if ( isTrue( args.record.two_step_auth_key_in_use ) ) {
+					ArrayAppend( children, {
+						  link   = event.buildAdminLink( linkTo="datamanager.security_user.disableTwoFactorAuthAction", queryString="id=#recordId#" )
+						, icon   = "fa-unlock red"
+						, title  = translateResource( uri="preside-objects.security_user:action.2fa.disable.label" )
+						, prompt = translateResource( uri="preside-objects.security_user:action.2fa.disable.prompt", data=[ recordLabel ] )
+					} );
+				}
+			}
 		} else {
 			ArrayAppend( children, {
 				  link   = event.buildAdminLink( linkTo="datamanager.security_user.setUserActivationAction", queryString="id=#recordId#&active=true" )
@@ -101,40 +134,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			} );
 		}
 
-		ArrayAppend( children, {
-			  link  = event.buildAdminLink( linkTo="datamanager.security_user.sendWelcomeEmail", queryString="id=#recordId#" )
-			, icon  = "fa-envelope"
-			, title = translateResource( uri="preside-objects.security_user:action.email.welcome.label" )
-		} );
-
-		if ( isTrue( args.record.subscribed_to_all_notifications ) ) {
-			ArrayAppend( children, {
-				  link   = event.buildAdminLink( linkTo="datamanager.security_user.setNotificationSubscriptionAction", queryString="user_id=#recordId#&all=false" )
-				, icon   = "fa-bell-slash red"
-				, title  = translateResource( uri="preside-objects.security_user:action.notification.unsubscribe.all.label" )
-				, prompt = translateResource( uri="preside-objects.security_user:action.notification.unsubscribe.all.prompt", data=[ recordLabel ] )
-			} );
-		} else {
-			ArrayAppend( children, {
-				  link   = event.buildAdminLink( linkTo="datamanager.security_user.setNotificationSubscriptionAction", queryString="user_id=#recordId#&all=true" )
-				, icon   = "fa-bell"
-				, title  = translateResource( uri="preside-objects.security_user:action.notification.subscribe.all.label" )
-				, prompt = translateResource( uri="preside-objects.security_user:action.notification.subscribe.all.prompt", data=[ recordLabel ] )
-			} );
-		}
-
-		if ( loginService.isTwoFactorAuthenticationEnabled() ) {
-			if ( isTrue( args.record.two_step_auth_key_in_use ) ) {
-				ArrayAppend( children, {
-					  link   = event.buildAdminLink( linkTo="datamanager.security_user.disableTwoFactorAuthAction", queryString="id=#recordId#" )
-					, icon   = "fa-unlock red"
-					, title  = translateResource( uri="preside-objects.security_user:action.2fa.disable.label" )
-					, prompt = translateResource( uri="preside-objects.security_user:action.2fa.disable.prompt", data=[ recordLabel ] )
-				} );
-			}
-		}
-
-		if ( prc.canDelete ) {
+		if ( prc.canDelete && recordId != event.getAdminUserId() ) {
 			if ( ArrayLen( children ) ) {
 				ArrayAppend( children, "---" );
 			}
@@ -161,6 +161,10 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		}
 
 		return actions;
+	}
+
+	private function buildListingLink() {
+		return event.buildAdminLink( linkto="adminManager.users", queryString=( args.queryString ?: "" ) );
 	}
 
 	private string function _infoCard( event, rc, prc, args={} ) {
@@ -227,7 +231,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 				, useMultiActions   = false
 				, allowFilter       = false
 				, allowDataExport   = false
-				, datasourceUrl     = event.buildAdminLink( linkTo="datamanager.security_user.getGroupsForAjaxDataTable", queryString="recordId=#recordId#" )
+				, datasourceUrl     = event.buildAdminLink( linkTo="datamanager.security_user.getGroupsForAjaxDataTable", queryString="record_id=#recordId#" )
 				, objectTitlePlural = translateResource( uri="preside-objects.security_group:title" )
 			  }
 		);
@@ -241,16 +245,18 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			, eventArguments = {
 				  object          = "security_group"
 				, gridFields      = "label,group_roles,is_assigned"
+				, filterParams    = { "userId"={ type="cf_sql_varchar", value=( rc.record_id ?: "" ) } }
 				, useMultiActions = false
 				, actionsView     = "admin.datamanager.security_user._getGroupsActionsViewForAjaxDataTables"
 				, useCache        = false
+				, orderBy         = rc.order_by ?: ""
 			}
 		);
 	}
 
 	private string function _getGroupsActionsViewForAjaxDataTables( event, rc, prc, args={} ) {
 		if ( hasCmsPermission( "usermanager.edit" ) ) {
-			args.user_id = rc.recordId ?: "";
+			args.user_id = rc.record_id ?: "";
 
 			return renderView( view="/admin/datamanager/security_user/_groupGridActions", args=args );
 		}
@@ -338,6 +344,8 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 			loginService.sendWelcomeEmail( userId=userId, createdBy=event.getAdminUserDetails().known_as, welcomeMessage=( args.formData.welcome_message ?: "" ) );
 
+			var securityUser = securityUserService.getUser( userId=userId, selectFields=[ "known_as" ] );
+
 			event.audit(
 				  action   = "send_welcome_email"
 				, type     = "usermanager"
@@ -345,6 +353,13 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 				, detail   = queryRowToStruct( securityUser )
 			);
 		}
+	}
+
+	private void function preRenderEditRecordForm( event, rc, prc, args={} ) {
+		var objectName = args.objectName ?: "";
+		var recordId   = args.recordId   ?: "";
+
+		args.cancelAction = ( rc.op ?: "" ) == "object" ? event.buildAdminLink( linkTo="adminManager.users" ) : event.buildAdminLink( objectName=objectName, recordId=recordId );
 	}
 
 	public void function setUserActivationAction( event, rc, prc ) {

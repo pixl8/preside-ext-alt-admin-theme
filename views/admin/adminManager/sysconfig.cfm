@@ -16,6 +16,8 @@
 	savedData = prc.savedData ?: {};
 
 	link = event.buildAdminLink( linkTo="adminManager.sysConfig", queryString="tab=#tabId#" );
+
+	event.include( "/css/admin/specific/datamanager/viewtabs/" );
 </cfscript>
 
 <cfoutput>
@@ -26,14 +28,45 @@
 					<i class="fa fa-fw fa-cogs"></i> #translateResource( "cms:sysConfig.global.settings")#
 				</a>
 			</li>
-			<cfloop query="tenancyRecords">
-				<li<cfif tenantId eq tenancyRecords.id> class="active"</cfif>>
-					<a href="#link#&tenant=#tenancyRecords.id#">
+
+			<cfloop from="1" to="#tenancyRecords.recordCount#" index="i">
+				<cfif i gt 5>
+					<cfbreak/>
+				</cfif>
+				<li<cfif tenantId eq tenancyRecords[ "id" ][ i ]> class="active"</cfif>>
+					<a href="#link#&tenant=#tenancyRecords[ "id" ][ i ]#">
 						<i class="fa fa-fw #tenantIcon#"></i>
-						#renderLabel( tenancyObject, tenancyRecords.id )#
+						#renderLabel( tenancyObject, tenancyRecords[ "id" ][ i ] )#
 					</a>
 				</li>
 			</cfloop>
+
+			<cfif tenancyRecords.recordCount gt 5>
+				<cfset activeDropdownClass="">
+				<cfsavecontent variable="dropdownTabs">
+					<cfloop from="6" to="#tenancyRecords.recordCount#" index="i">
+						<cfset activeTab=( tenantId == tenancyRecords[ "id" ][ i ] ? ' class="active"' : "" )>
+						<cfif not isEmptyString( activeTab )>
+							<cfset activeDropdownClass=" active">
+						</cfif>
+						<li#activeTab#>
+							<a href="#link#&tenant=#tenancyRecords[ "id" ][ i ]#">
+								<i class="fa fa-fw #tenantIcon#"></i>
+								#renderLabel( tenancyObject, tenancyRecords[ "id" ][ i ] )#
+							</a>
+						</li>
+					</cfloop>
+				</cfsavecontent>
+
+				<li role="presentation" class="dropdown#activeDropdownClass#">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="##" role="button" aria-haspopup="true" aria-expanded="false">
+						&hellip; <span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu pull-right">
+						#dropdownTabs#
+					</ul>
+				</li>
+			</cfif>
 		</ul>
 
 		<div class="tab-content">
@@ -57,7 +90,7 @@
 					<div class="col-md-offset-2">
 						<button class="btn btn-info" type="submit" tabindex="#getNextTabIndex()#">
 							<i class="fa fa-check bigger-110"></i>
-							#translateResource( "cms:sysConfig.save.button" )#
+							#translateResource( 'cms:save.btn' )#
 						</button>
 					</div>
 				</div>
