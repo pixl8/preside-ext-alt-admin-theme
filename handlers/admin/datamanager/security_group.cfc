@@ -102,12 +102,8 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		return actions;
 	}
 
-	private void function preRenderAddRecordForm( event, rc, prc, args={} ) {
-		args.cancelAction = event.buildAdminLink( linkTo="adminManager.groups" );
-	}
-
-	private void function postAddRecordAction( event, rc, prc, args={} ) {
-		args.successUrl = event.buildAdminLink( linkTo="adminManager.groups" );
+	private function buildListingLink() {
+		return event.buildAdminLink( linkto="adminManager.groups", queryString=( args.queryString ?: "" ) );
 	}
 
 	private void function preRenderEditRecordForm( event, rc, prc, args={} ) {
@@ -115,10 +111,6 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		var recordId   = args.recordId   ?: "";
 
 		args.cancelAction = ( rc.op ?: "" ) == "object" ? event.buildAdminLink( linkTo="adminManager.groups" ) : event.buildAdminLink( objectName=objectName, recordId=recordId );
-	}
-
-	private void function preDeleteRecordAction( event, rc, prc, args={} ) {
-		args.postActionUrl = event.buildAdminLink( linkTo="adminManager.groups" );
 	}
 
 	private string function _dashboardTab( event, rc, prc, args={} ) {

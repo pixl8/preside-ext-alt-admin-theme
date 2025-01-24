@@ -163,6 +163,10 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		return actions;
 	}
 
+	private function buildListingLink() {
+		return event.buildAdminLink( linkto="adminManager.users", queryString=( args.queryString ?: "" ) );
+	}
+
 	private string function _infoCard( event, rc, prc, args={} ) {
 		var activeTab = rc.tab ?: "dashboard";
 
@@ -334,13 +338,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		return "";
 	}
 
-	private void function preRenderAddRecordForm( event, rc, prc, args={} ) {
-		args.cancelAction = event.buildAdminLink( linkTo="adminManager.users" );
-	}
-
 	private void function postAddRecordAction( event, rc, prc, args={} ) {
-		args.successUrl = event.buildAdminLink( linkTo="adminManager.users" );
-
 		if ( isTrue( args.formData.send_welcome ?: "" ) ) {
 			var userId = args.newId ?: "";
 
@@ -362,10 +360,6 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		var recordId   = args.recordId   ?: "";
 
 		args.cancelAction = ( rc.op ?: "" ) == "object" ? event.buildAdminLink( linkTo="adminManager.users" ) : event.buildAdminLink( objectName=objectName, recordId=recordId );
-	}
-
-	private void function preDeleteRecordAction( event, rc, prc, args={} ) {
-		args.postActionUrl = event.buildAdminLink( linkTo="adminManager.users" );
 	}
 
 	public void function setUserActivationAction( event, rc, prc ) {
