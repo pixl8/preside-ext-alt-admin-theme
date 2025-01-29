@@ -30,7 +30,8 @@ component {
 		args.search               = rc.q    ?: "";
 		args.currentPage          = rc.page ?: 1;
 		args.maxRows              = rc.len  ?: getSetting( name="adminTheme.defaults.dataCardGrid.resultsPerPage", defaultValue=12 );
-		args.showAddNewRecordCard = args.currentPage == 1;
+		args.showAddNewRecordCard = isTrue( args.showAddNewRecordCard ?: true ) && args.currentPage == 1;
+		args.showAddNewRecordCard = args.showAddNewRecordCard && runEvent( event="admin.datamanager._checkPermission", private=true, prepostExempt=true, eventArguments={ key="addRecord", object=arguments.objectName, throwOnError=false } );
 		args.offsetRows           = args.showAddNewRecordCard ? -1 : ( rc.offset ?: 0 );
 
 		args.totalResults = _getRecords( objectName=arguments.objectName, search=args.search, recordCountOnly=true );
