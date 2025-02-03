@@ -86,20 +86,14 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		var children = [];
 
 		if ( isTrue( args.record.active ) ) {
-			ArrayAppend( children, {
-				  link   = event.buildAdminLink( linkTo="datamanager.security_user.setUserActivationAction", queryString="id=#recordId#&active=false" )
-				, icon   = "fa-times-circle red"
-				, title  = translateResource( uri="preside-objects.security_user:action.deactivate.label" )
-				, prompt = translateResource( uri="preside-objects.security_user:action.deactivate.prompt", data=[ recordLabel ] )
-			} );
-
-			ArrayAppend( children, {
-				  link  = event.buildAdminLink( linkTo="datamanager.security_user.sendWelcomeEmail", queryString="id=#recordId#" )
-				, icon  = "fa-envelope"
-				, title = translateResource( uri="preside-objects.security_user:action.email.welcome.label" )
-			} );
-
 			if ( recordId != event.getAdminUserId() ) {
+				ArrayAppend( children, {
+					  link   = event.buildAdminLink( linkTo="datamanager.security_user.setUserActivationAction", queryString="id=#recordId#&active=false" )
+					, icon   = "fa-times-circle red"
+					, title  = translateResource( uri="preside-objects.security_user:action.deactivate.label" )
+					, prompt = translateResource( uri="preside-objects.security_user:action.deactivate.prompt", data=[ recordLabel ] )
+				} );
+
 				if ( isTrue( args.record.subscribed_to_all_notifications ) ) {
 					ArrayAppend( children, {
 						  link   = event.buildAdminLink( linkTo="datamanager.security_user.setNotificationSubscriptionAction", queryString="user_id=#recordId#&all=false" )
@@ -127,13 +121,21 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 					} );
 				}
 			}
-		} else {
+
 			ArrayAppend( children, {
-				  link   = event.buildAdminLink( linkTo="datamanager.security_user.setUserActivationAction", queryString="id=#recordId#&active=true" )
-				, icon   = "fa-check-circle green"
-				, title  = translateResource( uri="preside-objects.security_user:action.activate.label" )
-				, prompt = translateResource( uri="preside-objects.security_user:action.activate.prompt", data=[ args.record.known_as ] )
+				  link  = event.buildAdminLink( linkTo="datamanager.security_user.sendWelcomeEmail", queryString="id=#recordId#" )
+				, icon  = "fa-envelope"
+				, title = translateResource( uri="preside-objects.security_user:action.email.welcome.label" )
 			} );
+		} else {
+			if ( recordId != event.getAdminUserId() ) {
+				ArrayAppend( children, {
+					  link   = event.buildAdminLink( linkTo="datamanager.security_user.setUserActivationAction", queryString="id=#recordId#&active=true" )
+					, icon   = "fa-check-circle green"
+					, title  = translateResource( uri="preside-objects.security_user:action.activate.label" )
+					, prompt = translateResource( uri="preside-objects.security_user:action.activate.prompt", data=[ args.record.known_as ] )
+				} );
+			}
 		}
 
 		if ( prc.canDelete && recordId != event.getAdminUserId() ) {
