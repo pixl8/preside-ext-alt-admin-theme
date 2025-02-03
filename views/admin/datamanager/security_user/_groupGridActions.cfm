@@ -3,13 +3,14 @@
 	groupLabel = args.label      ?: "";
 	userId     = args.user_id    ?: "";
 	userLabel  = args.user_label ?: renderLabel( objectName="security_user", recordId=userId );
-	isAssigned = ListFind( args.is_assigned ?: "", userId );
+	isAssigned = isTrue( args.is_assigned ?: "" );
 
 	link = event.buildAdminLink( linkTo="datamanager.security_user.setGroupAssignationAction", queryString="id=#groupId#&user_id=#userId#" );
 </cfscript>
 
 <cfoutput>
 	<div class="btn-group">
+
 		<cfif isAssigned>
 			<a class="btn btn-info btn-xs row-link confirmation-prompt" href="#link#&assign=false" title="#translateResource( uri="preside-objects.security_user:action.group.delete.prompt", data=[ userLabel, groupLabel ] )#"><i class="fa fa-fw fa-ban"></i> #translateResource( uri="preside-objects.security_user:action.group.delete.label" )#</a>
 		<cfelse>
