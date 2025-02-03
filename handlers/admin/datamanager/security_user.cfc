@@ -99,20 +99,22 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 				, title = translateResource( uri="preside-objects.security_user:action.email.welcome.label" )
 			} );
 
-			if ( isTrue( args.record.subscribed_to_all_notifications ) ) {
-				ArrayAppend( children, {
-					  link   = event.buildAdminLink( linkTo="datamanager.security_user.setNotificationSubscriptionAction", queryString="user_id=#recordId#&all=false" )
-					, icon   = "fa-bell-slash red"
-					, title  = translateResource( uri="preside-objects.security_user:action.notification.unsubscribe.all.label" )
-					, prompt = translateResource( uri="preside-objects.security_user:action.notification.unsubscribe.all.prompt", data=[ recordLabel ] )
-				} );
-			} else {
-				ArrayAppend( children, {
-					  link   = event.buildAdminLink( linkTo="datamanager.security_user.setNotificationSubscriptionAction", queryString="user_id=#recordId#&all=true" )
-					, icon   = "fa-bell"
-					, title  = translateResource( uri="preside-objects.security_user:action.notification.subscribe.all.label" )
-					, prompt = translateResource( uri="preside-objects.security_user:action.notification.subscribe.all.prompt", data=[ recordLabel ] )
-				} );
+			if ( recordId != event.getAdminUserId() ) {
+				if ( isTrue( args.record.subscribed_to_all_notifications ) ) {
+					ArrayAppend( children, {
+						  link   = event.buildAdminLink( linkTo="datamanager.security_user.setNotificationSubscriptionAction", queryString="user_id=#recordId#&all=false" )
+						, icon   = "fa-bell-slash red"
+						, title  = translateResource( uri="preside-objects.security_user:action.notification.unsubscribe.all.label" )
+						, prompt = translateResource( uri="preside-objects.security_user:action.notification.unsubscribe.all.prompt", data=[ recordLabel ] )
+					} );
+				} else {
+					ArrayAppend( children, {
+						  link   = event.buildAdminLink( linkTo="datamanager.security_user.setNotificationSubscriptionAction", queryString="user_id=#recordId#&all=true" )
+						, icon   = "fa-bell"
+						, title  = translateResource( uri="preside-objects.security_user:action.notification.subscribe.all.label" )
+						, prompt = translateResource( uri="preside-objects.security_user:action.notification.subscribe.all.prompt", data=[ recordLabel ] )
+					} );
+				}
 			}
 
 			if ( loginService.isTwoFactorAuthenticationEnabled() ) {
