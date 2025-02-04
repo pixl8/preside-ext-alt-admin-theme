@@ -1,9 +1,14 @@
 <cfscript>
-
+	title       = args.title       ?: "";
+	description = args.description ?: "";
 </cfscript>
 
 <cfoutput>
-	<h2>#translateResource( uri="admin.adminManager:title" )#</h2>
+	<cfif not isEmptyString( title )>
+		<h2>#title#</h2>
+	</cfif>
 
-	<p>#translateResource( uri="admin.adminManager:description" )#</p>
+	<cfif not isEmptyString( description )>
+		<p>#description#</p>
+	</cfif>
 </cfoutput>

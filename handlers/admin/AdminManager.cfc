@@ -13,7 +13,10 @@ component extends="preside.system.base.AdminHandler" {
 
 		prc.adminSidebarHeader = prc.adminSidebarHeader ?: "";
 
-		prc.adminSidebarHeader &= renderView( view="/admin/adminManager/_sidebarHeader" );
+		prc.adminSidebarHeader &= renderView( view="/admin/adminManager/_sidebarHeader", args={
+			  title       = translateResource( uri="admin.adminManager:title" )
+			, description = translateResource( uri="admin.adminManager:description" )
+		} );
 
 		prc.adminSidebarItems = prc.adminSidebarItems  ?: [];
 
