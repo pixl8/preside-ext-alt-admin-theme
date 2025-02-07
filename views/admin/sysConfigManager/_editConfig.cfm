@@ -2,11 +2,13 @@
 	categoryId = prc.categoryId ?: "";
 	tenantId   = prc.tenantId   ?: "";
 
-	formName   = prc.formName  ?: "";
-	formId     = prc.formId    ?: formName;
-	formAction = event.buildAdminLink( linkTo="adminManager.sysConfigAction" );
+	formName   = prc.formName ?: "";
+	formId     = prc.formId   ?: formName;
+	formAction = event.buildAdminLink( linkTo="sysConfigManager.editConfigAction" );
 
-	tabId = prc.tabId ?: "";
+	tabId    = prc.tabId    ?: "";
+	tabClass = prc.tabClass ?: "";
+	tabsMax  = prc.tabsMax  ?: 6;
 
 	tenancyObject  = prc.tenancyObject  ?: "";
 	tenancyRecords = prc.tenancyRecords ?: QueryNew( "" );
@@ -15,13 +17,13 @@
 
 	savedData = prc.savedData ?: {};
 
-	link = event.buildAdminLink( linkTo="adminManager.sysConfig", queryString="tab=#tabId#" );
+	link = event.buildAdminLink( linkTo="sysConfigManager.editConfig", queryString="category=#categoryId#&tab=#tabId#" );
 
 	event.include( "/css/admin/specific/datamanager/viewtabs/" );
 </cfscript>
 
 <cfoutput>
-	<div class="tabbable">
+	<div class="tabbable #tabClass#">
 		<ul class="nav nav-tabs" role="tablist">
 			<li<cfif tenantId eq ""> class="active"</cfif>>
 				<a href="#link#">
@@ -30,7 +32,7 @@
 			</li>
 
 			<cfloop from="1" to="#tenancyRecords.recordCount#" index="i">
-				<cfif i gt 5>
+				<cfif isEmptyString( tabClass ) and i gt tabsMax>
 					<cfbreak/>
 				</cfif>
 				<li<cfif tenantId eq tenancyRecords[ "id" ][ i ]> class="active"</cfif>>
@@ -41,7 +43,7 @@
 				</li>
 			</cfloop>
 
-			<cfif tenancyRecords.recordCount gt 5>
+			<cfif isEmptyString( tabClass ) and tenancyRecords.recordCount gt tabsMax>
 				<cfset activeDropdownClass="">
 				<cfsavecontent variable="dropdownTabs">
 					<cfloop from="6" to="#tenancyRecords.recordCount#" index="i">
@@ -71,10 +73,9 @@
 
 		<div class="tab-content">
 			<form id="#formId#" method="post" action="#formAction#" data-auto-focus-form="true" data-dirty-form="protect" class="form-horizontal" enctype="multipart/form-data">
-				<input type="hidden" name="category_id" value="#categoryId#">
-				<input type="hidden" name="tenant_id"   value="#tenantId#">
-				<input type="hidden" name="form_name"   value="#formName#">
-				<input type="hidden" name="tab_id"      value="#tabId#">
+				<input type="hidden" name="category"  value="#categoryId#">
+				<input type="hidden" name="tenant"    value="#tenantId#">
+				<input type="hidden" name="tab"       value="#tabId#">
 
 				#renderForm(
 					  formName          = formName
