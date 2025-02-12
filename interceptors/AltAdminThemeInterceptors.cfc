@@ -21,7 +21,7 @@ component extends="coldbox.system.Interceptor" {
 			event.include( "/css/admin/altadmintheme/" );
 			if ( event.getCurrentLayout() == "adminLogin.cfm" ) {
 				event.include( "/css/admin/altadmintheme/login/" );
-			var }rc  = event.getCollection();
+			}
 
 			for( var cssFile in cssFiles ) {
 				event.include( cssFile, false );
