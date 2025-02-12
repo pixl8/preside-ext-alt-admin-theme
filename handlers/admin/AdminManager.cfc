@@ -121,17 +121,19 @@ component extends="preside.system.base.AdminHandler" {
 		var currentEvent = event.getCurrentEvent();
 
 		ArrayAppend( items, {
-			  active = currentEvent == "admin.adminManager.users"
-			, link   = event.buildAdminLink( linkTo="adminManager.users" )
-			, title  = translateResource( uri="admin.adminManager:viewtab.users.title" )
-			, badge  = getPresideObject( "security_user" ).selectData( recordCountOnly=true )
+			  active        = currentEvent == "admin.adminManager.users"
+			, link          = event.buildAdminLink( linkTo="adminManager.users" )
+			, title         = translateResource( uri="admin.adminManager:viewtab.users.title" )
+			, permissionKey = "usermanager.navigate"
+			, badge         = getPresideObject( "security_user" ).selectData( recordCountOnly=true )
 		} );
 
 		ArrayAppend( items, {
-			  active = currentEvent == "admin.adminManager.groups"
-			, link   = event.buildAdminLink( linkTo="adminManager.groups" )
-			, title  = translateResource( uri="admin.adminManager:viewtab.groups.title" )
-			, badge  = getPresideObject( "security_group" ).selectData( recordCountOnly=true )
+			  active        = currentEvent == "admin.adminManager.groups"
+			, link          = event.buildAdminLink( linkTo="adminManager.groups" )
+			, title         = translateResource( uri="admin.adminManager:viewtab.groups.title" )
+			, permissionKey = "groupmanager.manage"
+			, badge         = getPresideObject( "security_group" ).selectData( recordCountOnly=true )
 		} );
 
 		var subItems = args.subItems ?: [];

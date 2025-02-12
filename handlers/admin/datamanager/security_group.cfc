@@ -2,6 +2,8 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 	property name="datamanagerService" inject="DatamanagerService";
 
+	variables.permissionBase = "groupmanager";
+
 	variables.tabs = [ "dashboard" ];
 
 	variables.sidebarNavigation = true;

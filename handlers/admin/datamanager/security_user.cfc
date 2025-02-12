@@ -7,6 +7,8 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	property name="notificationService"  inject="NotificationService";
 	property name="permissionsCache"     inject="cachebox:PermissionsCache";
 
+	variables.permissionBase = "usermanager";
+
 	variables.infoCol1 = [ "language", "twoFactorAuth" ];
 	variables.infoCol2 = [ "lastLoggedIn", "lastLoggedOut", "lastActive" ];
 
