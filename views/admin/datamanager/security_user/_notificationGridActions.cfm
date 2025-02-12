@@ -33,7 +33,7 @@
 				</li>
 				<li class="divider"></li>
 			</cfif>
-			<li><a href="#event.buildAdminLink( linkTo="notifications.configure", queryString="topic=#topic#&result_action=object" )#"><i class="fa fa-fw fa-cog"></i> #translateResource( uri="preside-objects.security_user:action.settings.label" )#</a></li>
+			<li><a href="#event.buildAdminLink( linkTo="notifications.configure", queryString="topic=#topic#&user_id=#userId#", operationSource="adminManager" )#"><i class="fa fa-fw fa-cog"></i> #translateResource( uri="preside-objects.security_user:action.settings.label" )#</a></li>
 		</ul>
 	</div>
 </cfoutput>

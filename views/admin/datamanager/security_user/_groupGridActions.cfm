@@ -10,7 +10,6 @@
 
 <cfoutput>
 	<div class="btn-group">
-
 		<cfif isAssigned>
 			<a class="btn btn-info btn-xs row-link confirmation-prompt" href="#link#&assign=false" title="#translateResource( uri="preside-objects.security_user:action.group.delete.prompt", data=[ userLabel, groupLabel ] )#"><i class="fa fa-fw fa-ban"></i> #translateResource( uri="preside-objects.security_user:action.group.delete.label" )#</a>
 		<cfelse>
@@ -22,7 +21,7 @@
 		</button>
 
 		<ul class="dropdown-menu dropdown-close dropdown-menu-right">
-			<li><a href="#event.buildAdminLink( linkTo="usermanager.editGroup", queryString="id=#groupId#&result_action=object" )#"><i class="fa fa-fw fa-cog"></i> #translateResource( uri="preside-objects.security_user:action.settings.label" )#</a></li>
+			<li><a href="#event.buildAdminLink( linkTo="usermanager.editGroup", queryString="id=#groupId#&user_id=#userId#", operationSource="adminManager" )#"><i class="fa fa-fw fa-cog"></i> #translateResource( uri="preside-objects.security_user:action.settings.label" )#</a></li>
 		</ul>
 	</div>
 </cfoutput>
