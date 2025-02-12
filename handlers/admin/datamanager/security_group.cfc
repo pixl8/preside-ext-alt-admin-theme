@@ -36,7 +36,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 		if ( hasCmsPermission( "groupmanager.edit" ) ) {
 			ArrayAppend( actions, {
-				  link       = event.buildAdminLink( objectName=objectName, recordId=record.id, operation="editRecord", queryString="op=object" )
+				  link       = event.buildAdminLink( objectName=objectName, recordId=record.id, operation="editRecord", queryString="result_action=manager" )
 				, icon       = "fa-pencil"
 				, contextKey = "e"
 			} );
@@ -110,7 +110,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		var objectName = args.objectName ?: "";
 		var recordId   = args.recordId   ?: "";
 
-		args.cancelAction = ( rc.op ?: "" ) == "object" ? event.buildAdminLink( linkTo="adminManager.groups" ) : event.buildAdminLink( objectName=objectName, recordId=recordId );
+		args.cancelAction = ( rc.result_action ?: "" ) == "manager" ? event.buildAdminLink( linkTo="adminManager.groups" ) : event.buildAdminLink( objectName=objectName, recordId=recordId );
 	}
 
 	private string function _dashboardTab( event, rc, prc, args={} ) {

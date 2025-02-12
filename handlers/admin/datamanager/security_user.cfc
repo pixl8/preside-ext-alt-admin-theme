@@ -44,7 +44,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 		if ( hasCmsPermission( "usermanager.edit" ) ) {
 			ArrayAppend( actions, {
-				  link       = event.buildAdminLink( objectName=objectName, recordId=record.id, operation="editRecord", queryString="op=object" )
+				  link       = event.buildAdminLink( objectName=objectName, recordId=record.id, operation="editRecord", queryString="result_action=manager" )
 				, icon       = "fa-pencil"
 				, contextKey = "e"
 			} );
@@ -363,7 +363,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		var objectName = args.objectName ?: "";
 		var recordId   = args.recordId   ?: "";
 
-		args.cancelAction = ( rc.op ?: "" ) == "object" ? event.buildAdminLink( linkTo="adminManager.users" ) : event.buildAdminLink( objectName=objectName, recordId=recordId );
+		args.cancelAction = ( rc.result_action ?: "" ) == "manager" ? event.buildAdminLink( linkTo="adminManager.users" ) : event.buildAdminLink( objectName=objectName, recordId=recordId );
 	}
 
 	public void function setUserActivationAction( event, rc, prc ) {
@@ -433,7 +433,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 				, detail   = queryRowToStruct( securityUser )
 			);
 
-			messagebox.info( translateResource( uri="preside-objects.security_user:message.group.add.success", data=[ securityUser.known_as, securityGroup.label ] ) );
+			messagebox.info( translateResource( uri="preside-objects.security_user:message.group.#( assign ? "add" : "delete" )#.success", data=[ securityUser.known_as, securityGroup.label ] ) );
 		} else {
 			messagebox.error( translateResource( uri="preside-objects.security_user:message.group.add.error", data=[ securityUser.known_as, securityGroup.label ] ) );
 		}
