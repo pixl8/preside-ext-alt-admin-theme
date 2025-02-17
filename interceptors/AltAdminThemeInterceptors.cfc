@@ -55,4 +55,20 @@ component extends="coldbox.system.Interceptor" {
 		}
 	}
 
+	public void function onBuildLink( event, interceptData ) {
+		// Workaround hardcoded cancel link in view.
+		if ( ArrayContainsNoCase( [ "admin.usermanager.groups", "admin.notifications" ], ( interceptData.linkTo ?: "" )  )  ) {
+			var operationSource = event.getAdminOperationSource();
+
+			if ( operationSource == "adminManager" ) {
+				var rc  = event.getCollection();
+
+				if ( !isEmptyString( rc.user_id ?: "" ) ) {
+					interceptData.queryString = "id=#rc.user_id#&tab=#ListLast( interceptData.linkTo, "." )#";
+					interceptData.linkTo      = "admin.datamanager.security_user.viewRecord";
+				}
+			}
+		}
+	}
+
 }
