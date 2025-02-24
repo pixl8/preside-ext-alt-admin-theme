@@ -73,7 +73,7 @@ component {
 
 		settings.adminConfigurationMenuItems = settings.adminConfigurationMenuItems ?: [];
 
-		ArrayAppend( settings.adminConfigurationMenuItems, "adminManager" );
+		ArrayPrepend( settings.adminConfigurationMenuItems, "adminManager" );
 
 		settings.adminMenuItems = settings.adminMenuItems ?: {};
 
