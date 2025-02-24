@@ -4,6 +4,7 @@ component {
 		var conf     = arguments.config;
 		var settings = conf.settings ?: {};
 
+		_setupAdminTheme( settings );
 		_setupFeatures( settings );
 		_setupPermissionsAndRoles( settings );
 		_setupInterceptors( conf );
@@ -12,6 +13,10 @@ component {
 		_setupDerivatives( settings );
 	}
 
+	private void function _setupAdminTheme( required settings ) {
+		settings.adminTheme.defaults.dataCardGrid.resultsPerPageOptions = [ 6, 12, 24, 48 ];
+		settings.adminTheme.defaults.dataCardGrid.resultsPerPage        = 6;
+	}
 
 	private void function _setupFeatures( settings ) {
 		settings.features.siteSwitcher = {
@@ -65,6 +70,22 @@ component {
 			, title         = "cms:sitenav.managesites"
 			, icon          = "fa-globe"
 		};
+
+		settings.adminConfigurationMenuItems = settings.adminConfigurationMenuItems ?: [];
+
+		ArrayPrepend( settings.adminConfigurationMenuItems, "adminManager" );
+
+		settings.adminMenuItems = settings.adminMenuItems ?: {};
+
+		settings.adminMenuItems.adminManager = {
+			  buildLinkArgs = { linkTo="adminManager.users" }
+			, activeChecks  = { handlerPatterns="^admin\.adminManager\.users" }
+			, permissionKey = "usermanager.navigate"
+			, feature       = "cmsUserManager"
+		};
+
+		StructDelete( settings.adminMenuItems, "usermanager" );
+		StructDelete( settings.adminMenuItems, "usergroupmanager" );
 	}
 
 	private void function _setupDerivatives( settings ) {

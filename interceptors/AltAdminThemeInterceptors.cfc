@@ -1,6 +1,7 @@
 component extends="coldbox.system.Interceptor" {
 
-	property name="adminNavMenuCache" inject="cachebox:adminMenuCache";
+	property name="adminNavMenuCache"    inject="cachebox:adminMenuCache";
+	property name="presideObjectService" inject="delayedInjector:PresideObjectService";
 
 // PUBLIC
 	public void function configure() {}
@@ -28,19 +29,46 @@ component extends="coldbox.system.Interceptor" {
 		}
 	}
 
+	public void function postParseSelectFields( event, interceptData ) {
+		if ( interceptData.objectName == "security_group" && interceptData.includeAllFormulaFields ) {
+			// Prevent include formula fields view record error.
+			ArrayDelete( interceptData.selectFields, "coalesce( group_concat( case when users.id = :userId then 1 else null end ), 0 ) as `is_assigned`" );
+			ArrayDelete( interceptData.extraSelectFields, "coalesce( group_concat( case when users.id = :userId then 1 else null end ), 0 ) as `is_assigned`" );
+		}
+	}
+
 	public void function postUpdateObjectData( event, interceptData ) {
 		if ( ( arguments.interceptData.objectName == "security_user" && StructKeyExists( interceptData.data, "groups" ) ) || arguments.interceptData.objectName == "security_group" ) {
 			adminNavMenuCache.clearAll();
 		}
 	}
+
 	public void function postInsertObjectData( event, interceptData ) {
 		if ( arguments.interceptData.objectName == "security_group" ) {
 			adminNavMenuCache.clearAll();
 		}
 	}
+
 	public void function postDeleteObjectData( event, interceptData ) {
 		if ( arguments.interceptData.objectName == "security_group" ) {
 			adminNavMenuCache.clearAll();
 		}
 	}
+
+	public void function onBuildLink( event, interceptData ) {
+		// Workaround hardcoded cancel link in view.
+		if ( ArrayContainsNoCase( [ "admin.usermanager.groups", "admin.notifications" ], ( interceptData.linkTo ?: "" )  )  ) {
+			var operationSource = event.getAdminOperationSource();
+
+			if ( operationSource == "adminManager" ) {
+				var rc  = event.getCollection();
+
+				if ( !isEmptyString( rc.user_id ?: "" ) ) {
+					interceptData.queryString = "id=#rc.user_id#&tab=#ListLast( interceptData.linkTo, "." )#";
+					interceptData.linkTo      = "admin.datamanager.security_user.viewRecord";
+				}
+			}
+		}
+	}
+
 }

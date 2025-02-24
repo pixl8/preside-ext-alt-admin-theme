@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.1.0
+
+* New admin user management UI Using datamanager + latest UI pattern features
+* New "data card grid" option for listing screens
+
 ## v1.0.14
 
 * Fix for missing cachebox config

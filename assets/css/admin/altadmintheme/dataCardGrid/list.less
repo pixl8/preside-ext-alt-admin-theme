@@ -1,0 +1,296 @@
+@import url( "../../lessglobals/globals.less" );
+
+.presidecms .page-content {
+
+	.btn {
+
+		&.btn-transparent {
+			background-color : transparent !important;
+
+			&:focus:hover {
+				background-color : transparent !important;
+			}
+		}
+	}
+
+	.card {
+		border-radius  : 8px;
+		border-width   : 1px;
+		border-style   : solid;
+		border-color   : @color-border;
+		height         : 100%;
+		display        : flex;
+		flex-direction : column;
+
+		&.mod-new-record {
+			border-style : dashed;
+
+			.card-body {
+				display : flex;
+				width   : 100%;
+				height  : 100%;
+				padding : 0;
+
+				a {
+					color           : @card-list-link-font-color;
+					font-weight     : var( --font-weight-bold, 700 );
+					display         : flex;
+					width           : 100%;
+					height          : 100%;
+					flex-direction  : column;
+					align-items     : center;
+					justify-content : center;
+					gap             : 24px;
+					padding         : 40px 20px;
+				}
+
+				.fa {
+					font-size : 50px;
+				}
+			}
+		}
+
+		&-header {
+			border-bottom-width : 1px;
+			border-bottom-style : solid;
+			border-bottom-color : @color-border;
+			display             : flex;
+			justify-content     : space-between;
+			align-items         : center;
+			padding             : 16px 24px 16px 24px;
+			gap                 : 10px;
+
+			&-label {
+				display : flex;
+				gap     : 8px;
+				margin  : 0;
+
+				a {
+					color: inherit;
+				}
+			}
+
+			&-options {
+				display : flex;
+				gap     : 8px;
+
+				.btn {
+					font-weight : var( --font-weight-bold, 700 );
+				}
+
+				.dropdown {
+
+					&-toggle {
+						background-color : @card-header-dropdown-toggle-bg-color !important;
+						border-color     : transparent !important;
+
+						> .fa {
+							margin-right : 0;
+						}
+
+						&:focus {
+							border-color : var( --button-neutral-10, @color-border ) !important;
+						}
+
+						&:active,
+						&:hover {
+							background-color : @card-header-dropdown-toggle-bg-color !important;
+						}
+					}
+
+					&.open {
+
+						.dropdown-toggle {
+							background-color : @card-header-dropdown-toggle-open-bg-color !important;
+						}
+					}
+
+					&-menu {
+						border-radius : 8px !important;
+						padding       : 0;
+						left          : auto;
+						right         : 0;
+
+						> li {
+							padding : 4px;
+							margin  : 0;
+
+							a {
+								padding       : 6px 8px;
+								border-radius : 8px;
+								width         : 100%;
+							}
+
+							&:hover {
+
+								a {
+									background-color : @card-link-hover-bg-color;
+								}
+							}
+
+							&.divider {
+								margin  : 0;
+								padding : 0;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		&-body, &-body-link {
+			display        : flex;
+			flex-direction : column;
+			align-items    : center;
+			text-align     : center;
+			padding        : 24px;
+			gap            : 24px;
+			height         : 100%;
+			width          : 100%;
+
+			> a:first-child {
+				.transition( background-color 150ms linear );
+
+				&:hover {
+					background-color: @card-link-hover-bg-color;
+					.transition( background-color 150ms linear );
+				}
+			}
+
+		}
+		&-body-with-link {
+			padding : 0;
+			gap     : 0;
+		}
+		&-body-link {
+			color: inherit;
+		}
+
+		&-footer {
+			border-top-width : 1px;
+			border-top-style : solid;
+			border-top-color : @color-border;
+			align-items         : center;
+			padding             : 8px 24px;
+		}
+	}
+
+	.card-listing {
+		display               : grid;
+		grid-template-columns : repeat(3, 1fr);
+		grid-template-rows    : auto;
+		grid-column-gap       : 48px;
+		grid-row-gap          : 32px;
+
+		@media @md {
+			grid-template-columns : repeat(1, 1fr);
+		}
+
+		&-item {
+		}
+
+		&-footer {
+			display         : flex;
+			justify-content : space-between;
+			align-items     : center;
+			margin-top      : 32px;
+			margin-bottom   : 32px;
+
+			@media @md {
+				flex-wrap : wrap;
+			}
+
+			&-pagination {
+
+				@media @md {
+					order         : -1;
+					width         : 100%;
+					margin-bottom : 20px;
+				}
+
+				.pagination {
+					display : flex;
+					gap     : 8px;
+					margin  : 0;
+
+					> li {
+
+						> a {
+							min-width        : 33px;
+							border-radius    : 8px !important;
+							background-clip  : padding-box;
+							background-color : @pagination-item-bg-color;
+							border-color     : @pagination-item-border-color;
+							color            : @pagination-item-font-color;
+
+							&:hover {
+								background-color : @pagination-item-hover-bg-color;
+							}
+						}
+
+						&.disabled {
+							cursor : not-allowed;
+
+							> a {
+								background-color : @pagination-item-disabled-bg-color;
+								color            : @pagination-item-disabled-font-color;
+								pointer-events   : none;
+							}
+						}
+
+						&.active {
+
+							> a {
+								background-color : @pagination-item-active-bg-color;
+								color            : @pagination-item-active-font-color;
+								pointer-events   : none;
+							}
+						}
+					}
+				}
+			}
+
+			&-results-per-page {
+
+				@media @xs {
+					width      : 100%;
+					margin-top : 20px;
+				}
+
+				select {
+					border-color  : @color-border;
+					border-radius : 8px;
+					padding       : 8px 12px;
+					margin-left   : 8px;
+				}
+			}
+		}
+
+		&[aria-busy] {
+			--loading-size     : 64px;
+			--loading-stroke   : 6px;
+			--loading-duration : 1s;
+			position           : relative;
+			opacity            : .75
+		}
+
+		&[aria-busy]:before {
+			content          : '';
+			position         : absolute;
+			top              : 50%;
+			left             : 50%;
+			width            : var(--loading-size);
+			height           : var(--loading-size);
+			margin-top       : ~"calc(var(--loading-size) / 2 * -1)";
+			margin-left      : ~"calc(var(--loading-size) / 2 * -1)";
+			border           : var(--loading-stroke) solid rgba(0, 0, 0, 0.15);
+			border-radius    : 50%;
+			border-top-color : rgba(0, 0, 0, 0.5);
+			animation        : ~"rotate calc(var(--loading-duration)) linear infinite";
+		}
+
+		@keyframes rotate {
+			100% { transform: rotate(360deg); }
+		}
+	}
+}
