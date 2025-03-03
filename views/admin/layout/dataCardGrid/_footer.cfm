@@ -32,7 +32,9 @@
 		<cfif showResultsCount>
 
 			<div class="card-listing-footer-results-count">
-				#translateResource( uri="admin.dataCardGrid:pagination.info.label", data=[ startRow, endRow, totalResults ] )#
+				<cfif totalResults gt 0>
+					#translateResource( uri="admin.dataCardGrid:pagination.info.label", data=[ startRow, endRow, totalResults ] )#
+				</cfif>
 			</div>
 
 		</cfif>
@@ -40,25 +42,27 @@
 		<cfif showPagination>
 
 			<div class="card-listing-footer-pagination">
-				<nav aria-label="Page navigation">
-					<ul class="pagination">
-						<li#( hasPreviousPage ? '' : ' class="disabled"' )#>
-							<a href="#( hasPreviousPage ? ( paginationLink & "&page=#( currentPage - 1 )#" ) : "" )#" aria-label="Previous" x-target="cards pagination" x-headers="{ 'X-Requested-With': 'XMLHttpRequest' }">
-								<span aria-hidden="true">#translateResource( uri="admin.dataCardGrid:pagination.previous.label" )#</span>
-							</a>
-						</li>
+				<cfif totalResults gt 0>
+					<nav aria-label="Page navigation">
+						<ul class="pagination">
+							<li#( hasPreviousPage ? '' : ' class="disabled"' )#>
+								<a href="#( hasPreviousPage ? ( paginationLink & "&page=#( currentPage - 1 )#" ) : "" )#" aria-label="Previous" x-target="cards pagination" x-headers="{ 'X-Requested-With': 'XMLHttpRequest' }">
+									<span aria-hidden="true">#translateResource( uri="admin.dataCardGrid:pagination.previous.label" )#</span>
+								</a>
+							</li>
 
-						<cfloop index="i" from="1" to="#totalPages#">
-							<li#( i == currentPage ? ' class="active"' : '' )#><a href="#( paginationLink & "&page=#i#" )#" x-target.push="cards pagination" x-headers="{ 'X-Requested-With': 'XMLHttpRequest' }">#i#</a></li>
-						</cfloop>
+							<cfloop index="i" from="1" to="#totalPages#">
+								<li#( i == currentPage ? ' class="active"' : '' )#><a href="#( paginationLink & "&page=#i#" )#" x-target.push="cards pagination" x-headers="{ 'X-Requested-With': 'XMLHttpRequest' }">#i#</a></li>
+							</cfloop>
 
-						<li#( hasNextPage ? '' : ' class="disabled"' )#>
-							<a href="#( hasNextPage ? ( paginationLink & "&page=#( currentPage + 1 )#" ) : "" )#" aria-label="Next" x-target="cards pagination" x-headers="{ 'X-Requested-With': 'XMLHttpRequest' }">
-								<span aria-hidden="true">#translateResource( uri="admin.dataCardGrid:pagination.next.label" )#</span>
-							</a>
-						</li>
-					</ul>
-				</nav>
+							<li#( hasNextPage ? '' : ' class="disabled"' )#>
+								<a href="#( hasNextPage ? ( paginationLink & "&page=#( currentPage + 1 )#" ) : "" )#" aria-label="Next" x-target="cards pagination" x-headers="{ 'X-Requested-With': 'XMLHttpRequest' }">
+									<span aria-hidden="true">#translateResource( uri="admin.dataCardGrid:pagination.next.label" )#</span>
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</cfif>
 			</div>
 
 		</cfif>
