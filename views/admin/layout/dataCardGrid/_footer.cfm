@@ -26,23 +26,17 @@
 </cfscript>
 
 <cfoutput>
+	<cfif totalResults gt 0>
+		<div id="pagination" class="card-listing-footer">
 
-	<div id="pagination" class="card-listing-footer">
-
-		<cfif showResultsCount>
-
-			<div class="card-listing-footer-results-count">
-				<cfif totalResults gt 0>
+			<cfif showResultsCount>
+				<div class="card-listing-footer-results-count">
 					#translateResource( uri="admin.dataCardGrid:pagination.info.label", data=[ startRow, endRow, totalResults ] )#
-				</cfif>
-			</div>
+				</div>
+			</cfif>
 
-		</cfif>
-
-		<cfif showPagination>
-
-			<div class="card-listing-footer-pagination">
-				<cfif totalResults gt 0>
+			<cfif showPagination>
+				<div class="card-listing-footer-pagination">
 					<nav aria-label="Page navigation">
 						<ul class="pagination">
 							<li#( hasPreviousPage ? '' : ' class="disabled"' )#>
@@ -62,32 +56,26 @@
 							</li>
 						</ul>
 					</nav>
-				</cfif>
-			</div>
-
-		</cfif>
-
-		<cfif showResultsPerPage>
-
-			<form action="#resultsPerPageAction#" x-target.push="cards pagination"  x-headers="{ 'X-Requested-With': 'XMLHttpRequest' }">
-
-				<input type="hidden" name="id" value="#objectName#" />
-				<input type="hidden" name="q"  value="#search#" />
-
-				<div class="card-listing-footer-results-per-page">
-					#translateResource( uri="admin.dataCardGrid:pagination.length.label" )#
-
-					<select name="len" size="1" @change="$el.form.requestSubmit()">
-						<cfloop index="i" item="option" array="#resultsPerPageOptions#">
-							<option#( option == maxRows ? ' selected' : '' )# value="#option#">#option#</option>
-						</cfloop>
-					</select>
 				</div>
+			</cfif>
 
-			</form>
+			<cfif showResultsPerPage>
+				<form action="#resultsPerPageAction#" x-target.push="cards pagination"  x-headers="{ 'X-Requested-With': 'XMLHttpRequest' }">
+					<input type="hidden" name="id" value="#objectName#" />
+					<input type="hidden" name="q"  value="#search#" />
 
-		</cfif>
+					<div class="card-listing-footer-results-per-page">
+						#translateResource( uri="admin.dataCardGrid:pagination.length.label" )#
 
-	</div>
+						<select name="len" size="1" @change="$el.form.requestSubmit()">
+							<cfloop index="i" item="option" array="#resultsPerPageOptions#">
+								<option#( option == maxRows ? ' selected' : '' )# value="#option#">#option#</option>
+							</cfloop>
+						</select>
+					</div>
+				</form>
+			</cfif>
 
+		</div>
+	</cfif>
 </cfoutput>
