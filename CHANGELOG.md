@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.1.1
+
+* Theme listing of paging and numbers showing incorrectly
+
 ## v1.1.0
 
 * New admin user management UI Using datamanager + latest UI pattern features
