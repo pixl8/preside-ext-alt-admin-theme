@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.1.2
+
+* [ADMINTHEME-73](https://projects.pixl8.london/browse/ADMINTHEME-73) - Ditch support for IE6 (and jquery 1 :o)
+
 ## v1.1.1
 
 * Theme listing of paging and numbers showing incorrectly

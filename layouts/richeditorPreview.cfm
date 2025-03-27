@@ -8,7 +8,6 @@
 	bottomJs   = event.renderIncludes( "js" );
 
 	event.include( assetId="/js/admin/coretop/", group="top" );
-	event.include( assetId="/js/admin/coretop/ie/", group="top" );
 	topJs      = event.renderIncludes( "js", "top" );
 
 	htmlTitle = translateResource( uri="app:browser.title.prefix" ) & " " & ( prc.pageTitle ?: translateResource( uri="app:browser.title.tagline", defaultValue="" ) );
