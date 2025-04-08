@@ -82,7 +82,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 	private array function getTopRightButtonsForViewRecord( event, rc, prc, args ) {
 		var recordId    = prc.recordId ?: "";
-		var recordLabel = prc.record.known_as ?: "";
+		var recordLabel = Len( Trim( prc.record.known_as ?: "" ) ) ? prc.record.known_as : ( prc.recordLabel ?: "" );
 
 		var actions  = [];
 		var children = [];
