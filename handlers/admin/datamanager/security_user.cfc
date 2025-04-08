@@ -81,13 +81,13 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	}
 
 	private array function getTopRightButtonsForViewRecord( event, rc, prc, args ) {
-		var recordId    = args.recordId ?: "";
-		var recordLabel = args.record.known_as ?: "";
+		var recordId    = prc.recordId ?: "";
+		var recordLabel = prc.record.known_as ?: "";
 
 		var actions  = [];
 		var children = [];
 
-		if ( isTrue( args.record.active ) ) {
+		if ( isTrue( prc.record.active ?: "" ) ) {
 			if ( recordId != event.getAdminUserId() ) {
 				ArrayAppend( children, {
 					  link   = event.buildAdminLink( linkTo="datamanager.security_user.setUserActivationAction", queryString="id=#recordId#&active=false" )
@@ -96,7 +96,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 					, prompt = translateResource( uri="preside-objects.security_user:action.deactivate.prompt", data=[ recordLabel ] )
 				} );
 
-				if ( isTrue( args.record.subscribed_to_all_notifications ) ) {
+				if ( isTrue( prc.record.subscribed_to_all_notifications ?:"" ) ) {
 					ArrayAppend( children, {
 						  link   = event.buildAdminLink( linkTo="datamanager.security_user.setNotificationSubscriptionAction", queryString="user_id=#recordId#&all=false" )
 						, icon   = "fa-bell-slash red"
@@ -114,7 +114,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			}
 
 			if ( loginService.isTwoFactorAuthenticationEnabled() ) {
-				if ( isTrue( args.record.two_step_auth_key_in_use ) ) {
+				if ( isTrue( prc.record.two_step_auth_key_in_use ?: "" ) ) {
 					ArrayAppend( children, {
 						  link   = event.buildAdminLink( linkTo="datamanager.security_user.disableTwoFactorAuthAction", queryString="id=#recordId#" )
 						, icon   = "fa-unlock red"
@@ -135,7 +135,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 					  link   = event.buildAdminLink( linkTo="datamanager.security_user.setUserActivationAction", queryString="id=#recordId#&active=true" )
 					, icon   = "fa-check-circle green"
 					, title  = translateResource( uri="preside-objects.security_user:action.activate.label" )
-					, prompt = translateResource( uri="preside-objects.security_user:action.activate.prompt", data=[ args.record.known_as ] )
+					, prompt = translateResource( uri="preside-objects.security_user:action.activate.prompt", data=[ recordLabel ] )
 				} );
 			}
 		}
