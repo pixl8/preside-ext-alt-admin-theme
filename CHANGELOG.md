@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.1.4
+
+* Missing security user record label in activate user prompt
+
 ## v1.1.3
 
 * Error viewing security user record
