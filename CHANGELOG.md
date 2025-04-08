@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.1.3
+
+* Error viewing security user record
+
 ## v1.1.2
 
 * [ADMINTHEME-73](https://projects.pixl8.london/browse/ADMINTHEME-73) - Ditch support for IE6 (and jquery 1 :o)
