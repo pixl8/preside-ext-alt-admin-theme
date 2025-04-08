@@ -135,7 +135,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 					  link   = event.buildAdminLink( linkTo="datamanager.security_user.setUserActivationAction", queryString="id=#recordId#&active=true" )
 					, icon   = "fa-check-circle green"
 					, title  = translateResource( uri="preside-objects.security_user:action.activate.label" )
-					, prompt = translateResource( uri="preside-objects.security_user:action.activate.prompt", data=[ args.record.known_as ] )
+					, prompt = translateResource( uri="preside-objects.security_user:action.activate.prompt", data=[ recordLabel ] )
 				} );
 			}
 		}
