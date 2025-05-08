@@ -13,7 +13,14 @@
 	systemAlertsMenu  = renderViewlet( "admin.systemAlerts.systemAlertsMenuItem" );
 	sitePicker        = isFeatureEnabled( "siteSwitcher" ) ? renderViewlet( "admin.sites.sitePicker" ) : "";
 
-	userMenu = Replace( userMenu, "{{userhomepage}}", EncodeForUrl( event.getCurrentUrl() ), "all" );
+	if ( Find( userMenu, "{{userhomepagelink}}" ) ) {
+		userHomepageLink = event.buildAdminLink(
+			  linkTo      = "editProfile.setUserHomepageAction"
+			, queryString = "url=" & EncodeForUrl( event.getCurrentUrl() )
+		);
+
+		userMenu = Replace( userMenu, "{{userhomepagelink}}", userHomepageLink, "all" );
+	}
 
 	if ( isFeatureEnabled( "launcherExtension" ) ) {
 		launcher = renderViewlet( event="admin.layout.launcher" );
