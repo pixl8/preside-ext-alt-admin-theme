@@ -13,7 +13,7 @@
 	systemAlertsMenu  = renderViewlet( "admin.systemAlerts.systemAlertsMenuItem" );
 	sitePicker        = isFeatureEnabled( "siteSwitcher" ) ? renderViewlet( "admin.sites.sitePicker" ) : "";
 
-	if ( Find( userMenu, "{{userhomepagelink}}" ) ) {
+	if ( Find( "{{userhomepagelink}}", userMenu ) ) {
 		userHomepageLink = event.buildAdminLink(
 			  linkTo      = "editProfile.setUserHomepageAction"
 			, queryString = "url=" & EncodeForUrl( event.getCurrentUrl() )
