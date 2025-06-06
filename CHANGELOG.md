@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.1.5
+
+* Do not cache user menu with set homepage action for too long
+
 ## v1.1.4
 
 * Missing security user record label in activate user prompt
@@ -10,7 +14,7 @@
 
 ## v1.1.2
 
-* [ADMINTHEME-73](https://projects.pixl8.london/browse/ADMINTHEME-73) - Ditch support for IE6 (and jquery 1 :o)
+* Ditch support for IE6 (and jquery 1 :o)
 
 ## v1.1.1
 
