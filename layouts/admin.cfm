@@ -71,7 +71,7 @@
 			#siteAlerts#
 
 			<div class="main-container" id="main-container">
-				<script type="text/javascript">
+				<script type="text/javascript" nonce="#event?.getRequestNonce()#">
 					try{ace.settings.check('main-container' , 'fixed')}catch(e){}
 				</script>
 
@@ -102,7 +102,7 @@
 
 		#notifications#
 
-		<script>
+		<script nonce="#event?.getRequestNonce()#">
 			var topRightButtonGroups = document.querySelectorAll( "div.top-right-button-group" )
 			  , breadcrumbDiv        = document.querySelector( "##breadcrumbs")
 			  , moved                = false;
