@@ -45,6 +45,8 @@
 	htmlTitle = translateResource( uri="app:browser.title.prefix" ) & " " & ( prc.pageTitle ?: translateResource( uri="app:browser.title.tagline", defaultValue="" ) );
 	favicon   = getSetting( name="admin.favicon", defaultValue="" );
 
+	event?.addToContentSecurityPolicy( "img-src", "//www.gravatar.com" );
+
 	header name="cache-control" value="no-store";
 	header name="expires"       value="Fri, 20 Nov 2015 00:00:00 GMT";
 </cfscript>
@@ -72,7 +74,7 @@
 			#siteAlerts#
 
 			<div class="main-container" id="main-container">
-				<script type="text/javascript">
+				<script type="text/javascript" nonce="#event?.getRequestNonce()#">
 					try{ace.settings.check('main-container' , 'fixed')}catch(e){}
 				</script>
 
@@ -103,7 +105,7 @@
 
 		#notifications#
 
-		<script>
+		<script nonce="#event?.getRequestNonce()#">
 			var topRightButtonGroups = document.querySelectorAll( "div.top-right-button-group" )
 			  , breadcrumbDiv        = document.querySelector( "##breadcrumbs")
 			  , moved                = false;
