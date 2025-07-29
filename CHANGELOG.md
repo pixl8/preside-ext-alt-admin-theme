@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.16
+
+* Support for CSP features in latest Preside versions
+
 ## v1.0.15
 
 * [ADMINTHEME-73](https://projects.pixl8.london/browse/ADMINTHEME-73) - Ditch support for IE6 (and jquery 1 :o)
