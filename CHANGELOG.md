@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.1.6
+
+* Support for CSP features in latest Preside versions
+
 ## v1.1.5
 
 * Do not cache user menu with set homepage action for too long
