@@ -50,8 +50,8 @@ component {
 			, extraFilters    = args.extraFilters ?: []
 		);
 
-		args.totalPages   = Ceiling( args.totalResults / args.maxRows );
-		args.startRow     = ( ( args.currentPage - 1 ) * args.maxRows ) + 1 + args.offsetRows;
+		args.totalPages = Ceiling( args.totalResults / ( args.maxRows + args.offsetRows ) );
+		args.startRow   = ( ( args.currentPage - 1 ) * args.maxRows ) + 1 + args.offsetRows;
 
 		if ( args.startRow < 1 ) {
 			args.startRow = 1;
