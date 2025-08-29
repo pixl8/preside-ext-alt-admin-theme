@@ -35,7 +35,7 @@ component {
 		args.offsetRows           = args.showAddNewRecordCard ? -1 : ( rc.offset ?: 0 );
 
 		args.totalResults = _getRecords( objectName=arguments.objectName, search=args.search, recordCountOnly=true );
-		args.totalPages   = Ceiling( args.totalResults / args.maxRows );
+		args.totalPages   = Ceiling( args.totalResults / ( args.maxRows + args.offsetRows ) );
 		args.startRow     = ( ( args.currentPage - 1 ) * args.maxRows ) + 1 + args.offsetRows;
 
 		if ( args.startRow < 1 ) {
