@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.7
+
+* Pagination issue on card view when exactly 6 records
+* Depended Preside version is outdated
+* 2FA flag in Admin user list does not match Admin detail page
+
 ## v1.1.6
 
 * Support for CSP features in latest Preside versions
