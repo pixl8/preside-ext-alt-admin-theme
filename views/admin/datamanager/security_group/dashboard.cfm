@@ -73,12 +73,16 @@
 									</tr>
 								</thead>
 								<tbody>
-									<cfloop array="#roles#" item="role">
-										<tr>
-											<td>#translateResource( uri="roles:#role#.title" )#</td>
-											<td><i class="fa fa-check-circle green"></i></td>
-										</tr>
-									</cfloop>
+									<cfif ArrayLen( roles )>
+										<cfloop array="#roles#" item="role">
+											<tr>
+												<td>#translateResource( uri="roles:#role#.title" )#</td>
+												<td><i class="fa fa-check-circle green"></i></td>
+											</tr>
+										</cfloop>
+									<cfelse>
+										<td valign="top" colspan="2" class="dataTables_empty">#translateResource( uri="cms:datatables.emptyTable" )#</td>
+									</cfif>
 								</tbody>
 							</table>
 						</div>

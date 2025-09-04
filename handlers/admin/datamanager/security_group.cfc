@@ -4,6 +4,8 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 	variables.permissionBase = "groupmanager";
 
+	variables.infoCol1 = [ "users", "roles" ];
+
 	variables.tabs = [ "dashboard" ];
 
 	variables.sidebarNavigation = true;
@@ -107,6 +109,28 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 	private function buildListingLink() {
 		return event.buildAdminLink( linkto="adminManager.groups", queryString=( args.queryString ?: "" ) );
+	}
+
+	private string function _infoCard( event, rc, prc, args={} ) {
+		var activeTab = rc.tab ?: "dashboard";
+
+		if ( activeTab == "dashboard" ) {
+			return super._infoCard( argumentCollection=arguments );
+		}
+
+		return "";
+	}
+
+	private string function _infoCardUsers( event, rc, prc, args={} ) {
+		var userCount = getPresideObject( "security_user" ).selectData( filter={ "groups.id"=args.recordId }, recordCountOnly=true );
+
+		return '<i class="fa fa-fw fa-users blue"></i> #translateResource( uri="preside-objects.security_group:infocard.users.label", data=[ NumberFormat( userCount ) ] )#';
+	}
+
+	private string function _infoCardRoles( event, rc, prc, args={} ) {
+		var roleCount = ListLen( getPresideObject( "security_group" ).selectData( selectFields=[ "roles" ], id=args.recordId, returnType="singleValue", columnKey="roles" ) );
+
+		return '<i class="fa fa-fw fa-user-tie green"></i> #translateResource( uri="preside-objects.security_group:infocard.roles.label", data=[ NumberFormat( roleCount ) ] )#';
 	}
 
 	private void function preRenderEditRecordForm( event, rc, prc, args={} ) {
