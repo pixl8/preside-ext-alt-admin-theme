@@ -34,6 +34,29 @@
 			<div class="widget-box">
 				<div class="widget-header">
 					<h4 class="widget-title lighter smaller">
+						<i class="fa fa-fw fa-users"></i>
+						#translateResource( uri="preside-objects.security_group:widget.users.title" )#
+					</h4>
+				</div>
+
+				<div class="widget-body">
+					<div class="widget-main padding-20">
+						#objectDataTable( objectName="security_user", args={
+							  gridFields      = [ "known_as", "email_address" ]
+							, compact         = true
+							, useMultiActions = false
+							, allowFilter     = false
+							, allowDataExport = false
+							, allowSearch     = false
+							, datasourceUrl   = event.buildAdminLink( linkTo="datamanager.security_group.getUsersForAjaxDataTable", queryString="record_id=#recordId#" )
+						} )#
+					</div>
+				</div>
+			</div>
+
+			<div class="widget-box">
+				<div class="widget-header">
+					<h4 class="widget-title lighter smaller">
 						<i class="fa fa-fw fa-user-tie"></i>
 						#translateResource( uri="preside-objects.security_group:widget.roles.title" )#
 					</h4>

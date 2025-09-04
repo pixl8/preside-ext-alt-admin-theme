@@ -23,8 +23,9 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	}
 
 	private array function getRecordActionsForGridListing( event, rc, prc, args={} ) {
-		var objectName = args.objectName ?: "";
-		var record     = args.record     ?: {};
+		var objectName  = args.objectName ?: "";
+		var record      = args.record     ?: {};
+		var isDashboard = isTrue( args.isDashboard ?: "" );
 
 		var actions = [];
 
@@ -119,6 +120,43 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 		args.roles = ListToArray( args.record.roles ?: "" );
 
 		return renderView( view="/admin/datamanager/security_group/dashboard", args=args );
+	}
+
+	public void function getUsersForAjaxDataTable( event, rc, prc ) {
+		runEvent(
+			  event          = "admin.DataManager._getObjectRecordsForAjaxDataTables"
+			, prePostExempt  = true
+			, private        = true
+			, eventArguments = {
+				  object          = "security_user"
+				, gridFields      = "known_as,email_address"
+				, filter          = { "groups.id"=( rc.record_id ?: "" ) }
+				, useMultiActions = false
+				, actionsView     = "admin.datamanager.security_group._getUsersActionsViewForAjaxDataTables"
+				, useCache        = false
+				, orderBy         = rc.order_by ?: ""
+			}
+		);
+	}
+
+	private string function _getUsersActionsViewForAjaxDataTables( event, rc, prc, args={} ) {
+		if ( hasCmsPermission( "groupmanager.edit" ) ) {
+			args.record      = args;
+			args.isDashboard = true;
+
+			var actions = runEvent(
+				  event          = "admin.datamanager.security_user.getRecordActionsForGridListing"
+				, prePostExempt  = true
+				, private        = true
+				, eventArguments = {
+					  args=args
+				  }
+			);
+
+			return renderView( view="/admin/datamanager/_listingActions", args={ actions=actions } );
+		}
+
+		return "";
 	}
 
 }
