@@ -38,7 +38,7 @@
 					</h4>
 
 					<div class="widget-toolbar">
-						<a href="#event.buildAdminLink( objectName="security_user", recordId=recordId, queryString="tab=groups" )#">
+						<a href="#event.buildAdminLink( objectName="security_user", recordId=recordId, queryString="tab=groups" )#" title="#translateResource( uri="preside-objects.security_user:action.groups.label" )#">
 							<i class="fa fa-fw fa-cog"></i>
 						</a>
 					</div>

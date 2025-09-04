@@ -132,6 +132,12 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 				, icon  = "fa-envelope"
 				, title = translateResource( uri="preside-objects.security_user:action.email.welcome.label" )
 			} );
+
+			ArrayAppend( children, {
+				  link  = event.buildAdminLink( objectName="security_user", recordId=recordId, queryString="tab=groups" )
+				, icon  = "fa-users"
+				, title = translateResource( uri="preside-objects.security_user:action.groups.label" )
+			} );
 		} else {
 			if ( recordId != event.getAdminUserId() ) {
 				ArrayAppend( children, {
