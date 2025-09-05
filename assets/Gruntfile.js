@@ -40,6 +40,7 @@ module.exports = function( grunt ) {
 
 		less: {
 			options: {
+				javascriptEnabled : true,
 				paths : [ "css/admin/lessglobals", "css/admin/bootstrap", "css/admin/ace" ],
 			},
 			all : {
