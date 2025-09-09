@@ -1,7 +1,9 @@
 <cfscript>
 	sidebarMenu = args.sidebarMenu ?: "";
 	header      = args.header      ?: "";
+	footer      = args.footer      ?: "";
 	headerClass = prc.sidebarHeaderClass ?: "";
+	footerClass = prc.sidebarFooterClass ?: "";
 
 	event.include( "/js/admin/specific/adminSidebar/" );
 </cfscript>
@@ -29,6 +31,10 @@
 					#sidebarMenu#
 				</ul>
 			</nav>
+
+			<cfif Len( Trim( footer ) )>
+				<footer class="#footerClass#">#footer#</footer>
+			</cfif>
 		</div>
 	</div>
 </cfoutput>

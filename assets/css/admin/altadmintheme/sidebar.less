@@ -26,8 +26,16 @@
 		transition     : transform 300ms ease-in-out;
 
 		header {
-			padding       : var( --sidebar-header-v-padding ) var( --sidebar-header-h-padding );
 			border-bottom : 1px solid var( --color-neutral-20 );
+		}
+
+		footer {
+			border-top : 1px solid var( --color-neutral-20 );
+		}
+
+		header,
+		footer {
+			padding : var( --sidebar-header-v-padding ) var( --sidebar-header-h-padding );
 
 			> * {
 				margin : 0;
