@@ -6,6 +6,7 @@ component {
 	public string function renderAdminSidebar( event, rc, prc, args={} ) {
 		var adminSidebarItems   = prc.adminSidebarItems  ?: [];
 		var adminSidebarHeader  = prc.adminSidebarHeader ?: "";
+		var adminSidebarFooter  = prc.adminSidebarFooter ?: "";
 
 		if ( !ArrayLen( adminSidebarItems ) ) {
 			return "";
@@ -17,7 +18,7 @@ component {
 			, subItemRenderer  = "admin.layout.adminSidebar._menuItem"
 		} );
 
-		return renderView( view="admin/layout/adminSidebar", args={ sidebarMenu=renderedSidebarMenu, header=adminSidebarHeader } );
+		return renderView( view="admin/layout/adminSidebar", args={ sidebarMenu=renderedSidebarMenu, header=adminSidebarHeader, footer=adminSidebarFooter } );
 	}
 
 	private string function topNavItems( event, rc, prc, args={} ) {
