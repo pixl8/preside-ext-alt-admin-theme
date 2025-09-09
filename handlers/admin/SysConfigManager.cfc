@@ -247,6 +247,8 @@ component extends="preside.system.base.AdminHandler" {
 			, useTabs    = args.useTabs    ?: ""
 		};
 
+		prc.adminSiderbarContext = "adminManager";
+
 		prc.adminSidebarHeader = systemConfigurationCustomisationService.runCustomisation(
 			  category       = args.categoryId ?: ""
 			, action         = "sidebarHeader"
