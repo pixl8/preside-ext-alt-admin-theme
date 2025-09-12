@@ -4,7 +4,8 @@
 		const $sidebarMenu            = $( ".page-content-sidebar nav ul" )
 		    , $expandableMenus        = $( ".has-submenu", $sidebarMenu )
 		    , $sideBar                = $sidebarMenu.closest( ".page-content-sidebar" )
-		    , isAdminSidebarCollapsed = cookieFn.getCookie( "isAdminSidebarCollapsed" ) || false;
+		    , cookieName              = $sideBar.data( "cookie" ) || ""
+		    , isAdminSidebarCollapsed = cookieFn.getCookie( `isAdminSidebarCollapsed_${cookieName}` ) || false;
 
 		$expandableMenus.on( "click", function( e ){
 			e.preventDefault();
@@ -20,7 +21,7 @@
 			$sideBar.removeClass( "no-transition" )
 			$sideBar.toggleClass( "is-collapsed" );
 
-			cookieFn.setCookie( "isAdminSidebarCollapsed", $sideBar.hasClass( "is-collapsed" ) );
+			cookieFn.setCookie( `isAdminSidebarCollapsed_${cookieName}`, $sideBar.hasClass( "is-collapsed" ) );
 		} );
 
 		if( JSON.parse( isAdminSidebarCollapsed ) ) {

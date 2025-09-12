@@ -1,15 +1,16 @@
 <cfscript>
-	sidebarMenu = args.sidebarMenu ?: "";
-	header      = args.header      ?: "";
-	footer      = args.footer      ?: "";
-	headerClass = prc.sidebarHeaderClass ?: "";
-	footerClass = prc.sidebarFooterClass ?: "";
+	sidebarMenu     = args.sidebarMenu       ?: "";
+	siderbarContext = args.siderbarContext   ?: "";
+	header          = args.header            ?: "";
+	footer          = args.footer            ?: "";
+	headerClass     = prc.sidebarHeaderClass ?: "";
+	footerClass     = prc.sidebarFooterClass ?: "";
 
 	event.include( "/js/admin/specific/adminSidebar/" );
 </cfscript>
 
 <cfoutput>
-	<div class="page-content-sidebar">
+	<div class="page-content-sidebar" data-cookie="#siderbarContext#" >
 		<div class="page-content-sidebar-toggle">
 			<button class="js-toggle-admin-sidebar page-content-sidebar-toggle-btn" title="#translateResource( uri="admin.adminSidebar:collasibleToggle.title" )#" >
 				<span class="icon-arrow">

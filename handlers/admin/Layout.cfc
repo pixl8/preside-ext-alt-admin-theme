@@ -4,12 +4,24 @@ component {
 	property name="adminMenuItemService" inject="adminMenuItemService";
 
 	public string function renderAdminSidebar( event, rc, prc, args={} ) {
-		var adminSidebarItems   = prc.adminSidebarItems  ?: [];
-		var adminSidebarHeader  = prc.adminSidebarHeader ?: "";
-		var adminSidebarFooter  = prc.adminSidebarFooter ?: "";
+		var adminSidebarItems  = prc.adminSidebarItems    ?: [];
+		var adminSidebarHeader = prc.adminSidebarHeader   ?: "";
+		var adminSidebarFooter = prc.adminSidebarFooter   ?: "";
+		var siderbarContext    = prc.adminSiderbarContext ?: "";
+		var eventHandler       = rc.event                 ?: "";
 
 		if ( !ArrayLen( adminSidebarItems ) ) {
 			return "";
+		}
+
+		if ( !Len( Trim( siderbarContext ) ) ) {
+			siderbarContext = "global";
+
+			if ( Len( Trim( prc.objectName ?: "" ) ) ) {
+				siderbarContext = prc.objectName;
+			} else if ( ListLen( eventHandler, "." ) > 1 ) {
+				siderbarContext = ListGetAt( eventHandler, 2, "." );
+			}
 		}
 
 		var renderedSidebarMenu = renderViewlet( event="admin.layout.renderMenuItems", args={
@@ -18,7 +30,7 @@ component {
 			, subItemRenderer  = "admin.layout.adminSidebar._menuItem"
 		} );
 
-		return renderView( view="admin/layout/adminSidebar", args={ sidebarMenu=renderedSidebarMenu, header=adminSidebarHeader, footer=adminSidebarFooter } );
+		return renderView( view="admin/layout/adminSidebar", args={ sidebarMenu=renderedSidebarMenu, header=adminSidebarHeader, footer=adminSidebarFooter, siderbarContext=siderbarContext } );
 	}
 
 	private string function topNavItems( event, rc, prc, args={} ) {
