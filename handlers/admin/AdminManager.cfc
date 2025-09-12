@@ -170,4 +170,30 @@ component extends="preside.system.base.AdminHandler" {
 		return items;
 	}
 
+	public void function getUserRecordsForAjaxDataTables( event, rc, prc ) {
+		runEvent(
+			  event          = "admin.DataManager._getObjectRecordsForAjaxDataTables"
+			, prePostExempt  = true
+			, private        = true
+			, eventArguments = {
+				  object       = "security_user"
+				, gridFields   = "active,known_as,email_address,last_request_made,group_labels,two_step_auth_enabled"
+				, searchFields = [ "known_as", "email_address" ]
+			}
+		);
+	}
+
+	public void function getGroupRecordsForAjaxDataTables( event, rc, prc ) {
+		runEvent(
+			  event          = "admin.DataManager._getObjectRecordsForAjaxDataTables"
+			, prePostExempt  = true
+			, private        = true
+			, eventArguments = {
+				  object       = "security_group"
+				, gridFields   = "label,group_roles,user_count,is_catch_all"
+				, searchFields = [ "label" ]
+			}
+		);
+	}
+
 }

@@ -260,7 +260,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			, eventArguments = {
 				  object          = "security_group"
 				, gridFields      = "label,group_roles,is_assigned"
-				, searchFields      = [ "label" ]
+				, searchFields    = [ "label" ]
 				, filterParams    = { "userId"={ type="cf_sql_varchar", value=( rc.record_id ?: "" ) } }
 				, useMultiActions = false
 				, actionsView     = "admin.datamanager.security_user._getGroupsActionsViewForAjaxDataTables"
