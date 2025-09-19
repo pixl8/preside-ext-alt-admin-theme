@@ -16,7 +16,8 @@ component extends="preside.system.base.AdminHandler" {
 			, description = translateResource( uri="admin.adminManager:description" )
 		} );
 
-		prc.adminSidebarItems = _loadSidebarItems( argumentCollection=arguments );
+		prc.adminSidebarItems    = _loadSidebarItems( argumentCollection=arguments );
+		prc.adminSiderbarContext = "adminManager";
 	}
 
 	public function index( event, rc, prc ) {
