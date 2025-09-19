@@ -31,8 +31,9 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	}
 
 	private array function getRecordActionsForGridListing( event, rc, prc, args={} ) {
-		var objectName = args.objectName ?: "";
-		var record     = args.record     ?: {};
+		var objectName  = args.objectName ?: "";
+		var record      = args.record     ?: {};
+		var isDashboard = isTrue( args.isDashboard ?: "" );
 
 		var actions = [];
 
@@ -44,7 +45,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			} );
 		}
 
-		if ( hasCmsPermission( "usermanager.edit" ) ) {
+		if ( hasCmsPermission( "usermanager.edit" ) && !isDashboard ) {
 			ArrayAppend( actions, {
 				  link       = event.buildAdminLink( objectName=objectName, recordId=record.id, operation="editRecord", queryString="result_action=manager" )
 				, icon       = "fa-pencil"
@@ -52,21 +53,23 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			} );
 		}
 
-		if ( hasCmsPermission( "usermanager.delete" ) && record.id != event.getAdminUserId() ) {
-			ArrayAppend( actions, {
-				  link       = event.buildAdminLink( objectName=objectName, recordId=record.id, operation="deleteRecordAction" )
-				, icon       = "fa-trash"
-				, contextKey = "d"
-				, class      = "confirmation-prompt"
-				, title      = translateResource( uri="cms:datamanager.deleteRecord.prompt", data=[ translateResource( uri="preside-objects.#objectName#:title.singular", defaultValue=objectName ), record.known_as ] )
-				, match      = dataManagerService.useTypedConfirmationForDeletion( objectName ) ? datamanagerService.getDeletionConfirmationMatch( objectName, record ) : ""
-			} );
-		} else {
-			ArrayAppend( actions, {
-				  link       = "##"
-				, icon       = "fa-trash grey"
-				, contextKey = "d"
-			} );
+		if ( !isDashboard ) {
+			if ( hasCmsPermission( "usermanager.delete" ) && record.id != event.getAdminUserId() ) {
+				ArrayAppend( actions, {
+					  link       = event.buildAdminLink( objectName=objectName, recordId=record.id, operation="deleteRecordAction" )
+					, icon       = "fa-trash"
+					, contextKey = "d"
+					, class      = "confirmation-prompt"
+					, title      = translateResource( uri="cms:datamanager.deleteRecord.prompt", data=[ translateResource( uri="preside-objects.#objectName#:title.singular", defaultValue=objectName ), record.known_as ] )
+					, match      = dataManagerService.useTypedConfirmationForDeletion( objectName ) ? datamanagerService.getDeletionConfirmationMatch( objectName, record ) : ""
+				} );
+			} else {
+				ArrayAppend( actions, {
+					  link       = "##"
+					, icon       = "fa-trash grey"
+					, contextKey = "d"
+				} );
+			}
 		}
 
 		return actions;
@@ -128,6 +131,12 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 				  link  = event.buildAdminLink( linkTo="datamanager.security_user.sendWelcomeEmail", queryString="id=#recordId#" )
 				, icon  = "fa-envelope"
 				, title = translateResource( uri="preside-objects.security_user:action.email.welcome.label" )
+			} );
+
+			ArrayAppend( children, {
+				  link  = event.buildAdminLink( objectName="security_user", recordId=recordId, queryString="tab=groups" )
+				, icon  = "fa-users"
+				, title = translateResource( uri="preside-objects.security_user:action.groups.label" )
 			} );
 		} else {
 			if ( recordId != event.getAdminUserId() ) {
@@ -251,6 +260,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			, eventArguments = {
 				  object          = "security_group"
 				, gridFields      = "label,group_roles,is_assigned"
+				, searchFields    = [ "label" ]
 				, filterParams    = { "userId"={ type="cf_sql_varchar", value=( rc.record_id ?: "" ) } }
 				, useMultiActions = false
 				, actionsView     = "admin.datamanager.security_user._getGroupsActionsViewForAjaxDataTables"
@@ -262,9 +272,25 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 	private string function _getGroupsActionsViewForAjaxDataTables( event, rc, prc, args={} ) {
 		if ( hasCmsPermission( "usermanager.edit" ) ) {
-			args.user_id = rc.record_id ?: "";
+			args.user_id     = rc.record_id ?: "";
+			args.isDashboard = isTrue( rc.is_dashboard ?: "" );
 
-			return renderView( view="/admin/datamanager/security_user/_groupGridActions", args=args );
+			if ( args.isDashboard ) {
+				args.record = args;
+
+				var actions = runEvent(
+					  event          = "admin.datamanager.security_user.getRecordActionsForGridListing"
+					, prePostExempt  = true
+					, private        = true
+					, eventArguments = {
+						  args=args
+					  }
+				);
+
+				return renderView( view="/admin/datamanager/_listingActions", args={ actions=actions } );
+			} else {
+				return renderView( view="/admin/datamanager/security_user/_groupGridActions", args=args );
+			}
 		}
 
 		return "";
