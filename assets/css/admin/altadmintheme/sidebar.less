@@ -3,6 +3,7 @@
 	.page-content-inner {
 		display : flex;
 		flex    : 1;
+		gap     : 20px;
 	}
 
 	.page-content-main {
@@ -15,20 +16,26 @@
 		}
 	}
 
-	.page-content-sidebar + .page-content-main {
-		max-width : ~"calc( 100vw - 40px - var( --sidebar-width ) )";
-	}
-
 	.page-content-sidebar {
-		flex           : 0 0 var( --sidebar-width );
+		flex           : 1 0 var( --sidebar-width );
 		width          : var( --sidebar-width );
 		background     : var( --color-neutral-5 );
-		margin         : 0 20px 0 -20px;
+		margin-left    : -20px;
 		padding-bottom : 50px;
+		position       : relative;
+		transition     : transform 300ms ease-in-out;
 
 		header {
-			padding       : var( --sidebar-header-v-padding ) var( --sidebar-header-h-padding );
 			border-bottom : 1px solid var( --color-neutral-20 );
+		}
+
+		footer {
+			border-top : 1px solid var( --color-neutral-20 );
+		}
+
+		header,
+		footer {
+			padding : var( --sidebar-header-v-padding ) var( --sidebar-header-h-padding );
 
 			> * {
 				margin : 0;
@@ -132,6 +139,77 @@
 			}
 			ul ul ul ul ul ul li a {
 				padding-left : ~"calc( var( --sidebar-h-padding ) + ( var( --sidebar-submenu-indent ) * 5 ) )";
+			}
+		}
+
+		+ .page-content-main {
+			width      : 100%;
+			transition : margin-left 300ms ease-in-out;
+		}
+
+		&-toggle {
+			position : absolute;
+			top      : 30px;
+			right    : -15px;
+			z-index  : 1;
+
+			&-btn {
+				background      : white;
+				border-radius   : 100px;
+				border          : 1px solid var( --color-neutral-20, #D2D3D5 );
+				color           : var( --color-neutral-80, #494F55 );
+				display         : inline-flex;
+				gap             : 10px;
+				align-items     : center;
+				justify-content : center;
+				height          : 30px;
+				width           : 30px;
+				padding         : 6px;
+
+				.icon-arrow {
+					display : inline;
+				}
+
+				.icon-menu {
+					display : none;
+				}
+			}
+		}
+
+		&-content {
+			opacity    : 1;
+			transition : opacity 300ms ease-in-out;
+		}
+
+		&.no-transition {
+			transition : none;
+
+			+ .page-content-main {
+				transition : none;
+			}
+		}
+
+		&.is-collapsed {
+			transform : translateX( calc( var( --sidebar-collapsed-width ) - var( --sidebar-width ) ) );
+
+			+ .page-content-main {
+				margin-left : calc( var( --sidebar-collapsed-width ) - var( --sidebar-width ) );
+			}
+
+			.page-content-sidebar-content {
+				opacity        : 0;
+				pointer-events : none;
+			}
+
+			.page-content-sidebar-toggle-btn {
+
+				.icon-arrow {
+					display : none;
+				}
+
+				.icon-menu {
+					display : inline;
+				}
 			}
 		}
 	}
