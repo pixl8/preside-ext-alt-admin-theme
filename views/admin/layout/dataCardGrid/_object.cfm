@@ -1,7 +1,10 @@
+<cfscript>
+	showSearch = IsTrue( args.showSearch ?: true ) && not event.isAjax();
+</cfscript>
 <cfoutput>
 	<div class="container">
 
-		<cfif not event.isAjax()>
+		<cfif showSearch >
 			#renderViewlet( event="admin.layout.DataCardGrid._search", args=args )#
 		</cfif>
 

@@ -29,13 +29,28 @@ component {
 
 		args.search               = rc.q    ?: "";
 		args.currentPage          = rc.page ?: 1;
-		args.maxRows              = rc.len  ?: getSetting( name="adminTheme.defaults.dataCardGrid.resultsPerPage", defaultValue=12 );
+		args.maxRows              = args.maxRows ?: rc.len  ?: getSetting( name="adminTheme.defaults.dataCardGrid.resultsPerPage", defaultValue=12 );
+		args.totalSlots           = args.totalSlots ?: 0;
+		if ( args.totalSlots ) {
+			args.showSearch           = args.showSearch           ?: false;
+			args.showResultsCount     = args.showResultsCount     ?: false;
+			args.showPagination       = args.showPagination       ?: false;
+			args.showResultsPerPage   = args.showResultsPerPage   ?: false;
+			args.showAddNewRecordCard = args.showAddNewRecordCard ?: false;
+		}
+
 		args.showAddNewRecordCard = isTrue( args.showAddNewRecordCard ?: true ) && args.currentPage == 1;
 		args.showAddNewRecordCard = args.showAddNewRecordCard && runEvent( event="admin.datamanager._checkPermission", private=true, prepostExempt=true, eventArguments={ key="add", object=arguments.objectName, throwOnError=false } );
 		args.offsetRows           = args.showAddNewRecordCard ? -1 : ( rc.offset ?: 0 );
 
-		args.totalResults = _getRecords( objectName=arguments.objectName, search=args.search, recordCountOnly=true );
-		args.totalPages   = Ceiling( args.totalResults / ( args.maxRows + args.offsetRows ) );
+		args.totalResults = _getRecords(
+			  objectName      = arguments.objectName
+			, search          = args.search
+			, recordCountOnly = true
+			, extraFilters    = args.extraFilters ?: []
+		);
+
+		args.totalPages   = Ceiling( args.totalResults / args.maxRows );
 		args.startRow     = ( ( args.currentPage - 1 ) * args.maxRows ) + 1 + args.offsetRows;
 
 		if ( args.startRow < 1 ) {
@@ -45,7 +60,14 @@ component {
 		event.initializeDatamanagerPage( objectName=args.objectName );
 
 		var defaultIcon    = translateResource( uri="preside-objects.#arguments.objectName#:iconClass", defaultValue="" );
-		var records        = _getRecords( objectName=arguments.objectName, search=args.search, maxRows=( args.maxRows - ( args.showAddNewRecordCard ? 1 : 0 ) ), startRow=args.startRow );
+		var records        = _getRecords(
+			  objectName   = arguments.objectName
+			, search       = args.search
+			, maxRows      = ( args.maxRows - ( args.showAddNewRecordCard ? 1 : 0 ) )
+			, startRow     = args.startRow
+			, extraFilters = args.extraFilters ?: []
+		);
+
 		var recordLinkBase = event.buildAdminLink( objectName=arguments.objectName, recordId="{recordId}" );
 
 		args.cardItems = [];
@@ -95,6 +117,76 @@ component {
 					, args           = {
 						  objectName = objectName
 						, record     = record
+					  }
+				  )
+			} );
+		}
+
+		var extraSlots   = Max( args.totalSlots - args.totalResults, 0 );
+
+		for ( var i=1; i<=extraSlots; i++ ) {
+			ArrayAppend( args.cardItems, {
+				  cardLink          = dataManagerCustomizationService.runCustomization(
+					  objectName     = objectName
+					, action         = "getCardLinkForDataCardExtraSlot"
+					, defaultResult  = ""
+					, args           = {
+						  objectName = objectName
+						, slotIndex  = i
+					  }
+				  )
+				, cardHeaderIcon    = dataManagerCustomizationService.runCustomization(
+					  objectName     = objectName
+					, action         = "getHeaderIconForDataCardExtraSlot"
+					, defaultResult  = ""
+					, args           = {
+						  objectName = objectName
+						, slotIndex  = i
+					  }
+				  )
+				, cardHeaderLabel   = dataManagerCustomizationService.runCustomization(
+					  objectName     = objectName
+					, action         = "getHeaderLabelForDataCardExtraSlot"
+					, defaultResult  = ""
+					, args           = {
+						  objectName = objectName
+						, slotIndex  = i
+					  }
+				  )
+				, cardHeaderOptions = dataManagerCustomizationService.runCustomization(
+					  objectName     = objectName
+					, action         = "getHeaderOptionsForDataCardExtraSlot"
+					, defaultResult  = []
+					, args           = {
+						  objectName = objectName
+						, slotIndex  = i
+					  }
+				  )
+				, cardBody          = dataManagerCustomizationService.runCustomization(
+					  objectName     = objectName
+					, action         = "getBodyForDataCardExtraSlot"
+					, defaultResult  = ""
+					, args           = {
+						  objectName = objectName
+						, slotIndex  = i
+					  }
+				  )
+				, cardExtraClass    = dataManagerCustomizationService.runCustomization(
+					  objectName     = objectName
+					, action         = "getCardExtraClassForDataCardExtraSlot"
+					, defaultResult  = ""
+					, args           = {
+						  objectName = objectName
+						, slotIndex  = i
+					  }
+				  )
+				, cardFooter          = dataManagerCustomizationService.runCustomization(
+					  objectName     = objectName
+					, action         = "getFooterForDataCardExtraSlot"
+					, defaultResult  = ""
+					, args           = {
+						  objectName = objectName
+						, slotIndex  = i
 					  }
 				  )
 			} );
@@ -195,15 +287,14 @@ component {
 		,          numeric startRow        = 1
 		,          boolean recordCountOnly = false
 		,          string  search          = ""
+		,          array   extraFilters    = []
 	) {
-		var extraFilters      = [];
 		var filter            = [];
 		var filterParams      = {};
 
-
 		if ( !isEmptyString( arguments.search ) ) {
 			try {
-				ArrayAppend( extraFilters, dataManagerService.buildSearchFilter(
+				ArrayAppend( arguments.extraFilters, dataManagerService.buildSearchFilter(
 						  q            = arguments.search
 						, objectName   = arguments.objectName
 						, gridFields   = dataManagerService.listGridFields( arguments.objectName )
@@ -218,7 +309,7 @@ component {
 			  objectName        = arguments.objectName
 			, filter            = ArrayToList( filter, " and " )
 			, filterParams      = filterParams
-			, extraFilters      = extraFilters
+			, extraFilters      = arguments.extraFilters
 			, orderBy           = arguments.orderBy
 			, maxRows           = arguments.recordCountOnly ? 0 : arguments.maxRows
 			, startRow          = arguments.recordCountOnly ? 1 : arguments.startRow
