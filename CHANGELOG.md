@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.2.0
+
+* Collapsible Sidebar Toggle
+* Include confirmation prompt message display
+
 ## v1.1.7
 
 * Pagination issue on card view when exactly 6 records
