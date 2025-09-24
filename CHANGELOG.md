@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.2.1
+
+* Render site picker directly without feature check
+
 ## v1.2.0
 
 * Collapsible Sidebar Toggle
