@@ -42,8 +42,6 @@ component {
 			args.startRow = 1;
 		}
 
-		event.initializeDatamanagerPage( objectName=args.objectName );
-
 		var defaultIcon    = translateResource( uri="preside-objects.#arguments.objectName#:iconClass", defaultValue="" );
 		var records        = _getRecords( objectName=arguments.objectName, search=args.search, maxRows=( args.maxRows - ( args.showAddNewRecordCard ? 1 : 0 ) ), startRow=args.startRow );
 		var recordLinkBase = event.buildAdminLink( objectName=arguments.objectName, recordId="{recordId}" );
