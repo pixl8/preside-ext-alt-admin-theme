@@ -57,8 +57,6 @@ component {
 			args.startRow = 1;
 		}
 
-		event.initializeDatamanagerPage( objectName=args.objectName );
-
 		var defaultIcon    = translateResource( uri="preside-objects.#arguments.objectName#:iconClass", defaultValue="" );
 		var records        = _getRecords(
 			  objectName   = arguments.objectName
