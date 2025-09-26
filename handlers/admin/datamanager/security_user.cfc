@@ -198,7 +198,10 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 
 	private string function _infoCardTwoFactorAuth( event, rc, prc, args={} ) {
 		if ( loginService.isTwoFactorAuthenticationEnabled() ) {
-			return '<i class="fa fa-fw fa-user-secret grey"></i> #translateResource( uri="preside-objects.security_user:infocard.two_step_auth_key_in_use.label", data=[ renderContent( renderer="TwoFactorAuth", data=args.record.two_step_auth_key_in_use ) ] )#';
+			return '<i class="fa fa-fw fa-user-secret grey"></i> #translateResource(
+				  uri  = "preside-objects.security_user:infocard.two_step_auth_key_in_use.label"
+				, data = [ renderContent( renderer="TwoFactorAuth", data=args.record.has_two_step_auth ) ]
+			)#';
 		}
 
 		return "";
