@@ -178,7 +178,7 @@ component extends="preside.system.base.AdminHandler" {
 			, private        = true
 			, eventArguments = {
 				  object       = "security_user"
-				, gridFields   = "active,known_as,email_address,last_request_made,group_labels,two_step_auth_enabled"
+				, gridFields   = "active,known_as,email_address,last_request_made,group_labels,has_two_step_auth"
 				, searchFields = [ "known_as", "email_address" ]
 			}
 		);
