@@ -145,6 +145,10 @@
 		+ .page-content-main {
 			width      : 100%;
 			transition : margin-left 300ms ease-in-out;
+
+			.dataTables_wrapper {
+				max-width : calc( 100vw - var( --sidebar-width ) - var( --sidebar-collapsed-gap ) );
+			}
 		}
 
 		&-toggle {
@@ -194,6 +198,10 @@
 
 			+ .page-content-main {
 				margin-left : calc( var( --sidebar-collapsed-width ) - var( --sidebar-width ) );
+
+				.dataTables_wrapper {
+					max-width : calc( 100vw - var( --sidebar-collapsed-width ) - var( --sidebar-collapsed-gap ) );
+				}
 			}
 
 			.page-content-sidebar-content {

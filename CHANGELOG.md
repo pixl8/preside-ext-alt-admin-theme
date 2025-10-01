@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.2.2
+
+* Layout issue on Collapse/Expand button
+* Inconsistent 2FA flag between listing and detail pages
+
 ## v1.2.1
 
 * Render site picker directly without feature check
