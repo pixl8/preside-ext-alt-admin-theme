@@ -30,7 +30,6 @@ jobs:
         if: "env.PUBLISH == 'true'"
         uses: pixl8/github-action-push-to-translation-manager@v1
 
-
       - name: Generate release version number
         if: "env.PUBLISH == 'true'"
         id: versiongen
