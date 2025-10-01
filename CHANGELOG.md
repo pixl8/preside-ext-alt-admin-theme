@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.1.8
+
+* Inconsistent 2FA flag between listing and detail pages
+
 ## v1.1.7
 
 * Pagination issue on card view when exactly 6 records
