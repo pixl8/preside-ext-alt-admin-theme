@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.2.3
+
+* [ADMINTHEME-98](https://projects.pixl8.london/browse/ADMINTHEME-98) - Site picker in layout: breaks system when sites feature not enabled
+
 ## v1.2.2
 
 * Layout issue on Collapse/Expand button

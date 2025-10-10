@@ -11,7 +11,7 @@
 	systemMenu        = renderView( view="/admin/util/topnav/system", cache=true, cacheSuffix=cacheSuffix, cacheProvider="adminMenuCache");
 	notificationsMenu = renderViewlet( "admin.notifications.notificationNavPromo" );
 	systemAlertsMenu  = renderViewlet( "admin.systemAlerts.systemAlertsMenuItem" );
-	sitePicker        = renderViewlet( "admin.sites.sitePicker" );
+	sitePicker        = isFeatureEnabled( "sites" ) ? renderViewlet( "admin.sites.sitePicker" ) : "";
 
 	if ( Find( "{{userhomepagelink}}", userMenu ) ) {
 		userHomepageLink = event.buildAdminLink(
