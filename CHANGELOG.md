@@ -1,8 +1,12 @@
 # Changelog
 
+## v1.2.4
+
+* Apply translation manager CI workflow
+
 ## v1.2.3
 
-* [ADMINTHEME-98](https://projects.pixl8.london/browse/ADMINTHEME-98) - Site picker in layout: breaks system when sites feature not enabled
+* Site picker in layout: breaks system when sites feature not enabled
 
 ## v1.2.2
 
