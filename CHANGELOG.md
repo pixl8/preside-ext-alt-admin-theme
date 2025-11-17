@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.2.5
+
+* [ADMINTHEME-103](https://projects.pixl8.london/browse/ADMINTHEME-103) - Progress bars: mini+small classes keep same height
+
 ## v1.2.4
 
 * Apply translation manager CI workflow
