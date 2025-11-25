@@ -117,7 +117,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 			}
 
 			if ( loginService.isTwoFactorAuthenticationEnabled() ) {
-				if ( isTrue( prc.record.two_step_auth_key_in_use ?: "" ) ) {
+				if ( isTrue( prc.record.has_two_step_auth ?: "" ) ) {
 					ArrayAppend( children, {
 						  link   = event.buildAdminLink( linkTo="datamanager.security_user.disableTwoFactorAuthAction", queryString="id=#recordId#" )
 						, icon   = "fa-unlock red"
