@@ -1,5 +1,5 @@
 <cfparam name="args.variant"    type="string"   default="primary">
-<cfparam name="args.id"         type="string"   default=" ">
+<cfparam name="args.id"         type="string"   default="">
 <cfparam name="args.label"      type="string"   default="">
 <cfparam name="args.icon"       type="string"   default="">
 <cfparam name="args.href"       type="string"   default="">
@@ -29,7 +29,6 @@
     >
       <cfif hasIcon>
         <i class="fa fa-#encodeForHtml(args.icon)#" aria-hidden="true"></i>
-        </span>
       </cfif>
       <cfif hasLabel>
         #encodeForHtml(args.label)#
