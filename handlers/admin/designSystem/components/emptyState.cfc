@@ -7,7 +7,7 @@ component extends="preside.system.base.AdminHandler" {
 		prc.pageTitle = "Empty State";
 
 		event.addAdminBreadCrumb(
-			title = "Design System"
+			  title = "Design System"
 			, link  = event.buildAdminLink( linkTo="designSystem" )
 		);
 

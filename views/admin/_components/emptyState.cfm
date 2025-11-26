@@ -1,3 +1,7 @@
+<cfscript>
+	event.include("/css/admin/altadmintheme/components/empty-state/");
+</cfscript>
+
 <cfparam name="args.layout"       default="default">
 <cfparam name="args.title"        default="">
 <cfparam name="args.description"  default="">
@@ -10,8 +14,8 @@
 <cfparam name="args.buttonTarget" default="">
 
 <cfoutput>
-  #renderView(
-    view="/admin/_components/emptyState/#args.layout#",
-    args=args
-  )#
+	#renderView(
+		  view = "/admin/_components/emptyState/#args.layout#"
+		, args = args
+	)#
 </cfoutput>
