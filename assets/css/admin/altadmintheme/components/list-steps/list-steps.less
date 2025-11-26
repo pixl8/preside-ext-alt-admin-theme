@@ -52,12 +52,26 @@
 	display        : flex;
 	height         : calc(32 / var(--root-rem) * 1rem);
 	justify-content: center;
+	transition     : var(--transition-normal);
 	width          : calc(32 / var(--root-rem) * 1rem);
 
 	&--completed {
-		background: var(--color-success-100);
-		color     : var(--color-white) !important;
+		background    : var(--color-success-100);
+		color         : var(--color-white) !important;
+		pointer-events: none;
 	}
+
+	&:hover {
+		background: var(--color-primary-100);
+
+		.c-list-steps__item-action-icon {
+			color: var(--color-white);
+		}
+	}
+}
+
+.c-list-steps__item-action-icon {
+	transition: var(--transition-normal);
 }
 
 @container (width > 640px) {
