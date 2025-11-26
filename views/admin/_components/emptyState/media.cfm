@@ -14,12 +14,15 @@
         </cfif>
         <cfif len(args.buttonLabel) && len(args.buttonLink)>
           <div class="c-empty-state-media__button">	
-            <a href="#args.buttonLink#" class="btn btn-primary">
-              <cfif len(args.buttonIcon)>
-                  <i class="fa fa-#args.buttonIcon#"></i>
-              </cfif>
-              #args.buttonLabel#
-            </a>
+            #renderView(
+              view = "/admin/_components/button",
+              args = { 
+                label = "#args.buttonLabel#",
+                href = "#args.buttonLink#",
+                target = "#args.buttonTarget#",
+                icon = "#args.buttonIcon#", 
+              }
+            )#
           </div>
         </cfif>
       </div>
