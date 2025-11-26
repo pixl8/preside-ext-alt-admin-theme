@@ -1,5 +1,5 @@
 <cfscript>
-	event.include("/css/admin/altadmintheme/components/empty-state/");
+	event.include( "/css/admin/altadmintheme/components/empty-state/" );
 </cfscript>
 
 <cfparam name="args.layout"       default="default">
