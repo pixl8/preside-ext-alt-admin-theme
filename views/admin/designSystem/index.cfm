@@ -5,6 +5,9 @@
 			<a href="#event.buildAdminLink( linkTo="designSystem/components/emptyState" )#">Empty State</a>
 		</li>
 		<li>
+			<a href="#event.buildAdminLink( linkTo="designSystem/components/formWizard" )#">Form Wizard</a>
+		</li>
+		<li>
 			<a href="#event.buildAdminLink( linkTo="designSystem/components/imagePopup" )#">Image Popup</a>
 		</li>
 		<li>
