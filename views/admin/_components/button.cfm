@@ -1,14 +1,14 @@
-<cfparam name="args.variant"  type="string"  default="primary">
-<cfparam name="args.id"       type="string"  default="">
-<cfparam name="args.label"    type="string"  default="">
-<cfparam name="args.icon"     type="string"  default="">
-<cfparam name="args.href"     type="string"  default="">
-<cfparam name="args.target"   type="string"  default="">
-<cfparam name="args.type"     type="string"  default="button">
-<cfparam name="args.disabled" type="boolean" default="false">
+<cfparam name="args.variant"  type="string"  default="primary" />
+<cfparam name="args.id"       type="string"  default="" />
+<cfparam name="args.label"    type="string"  default="" />
+<cfparam name="args.icon"     type="string"  default="" />
+<cfparam name="args.href"     type="string"  default="" />
+<cfparam name="args.target"   type="string"  default="" />
+<cfparam name="args.type"     type="string"  default="button" />
+<cfparam name="args.disabled" type="boolean" default="false" />
 
-<cfset hasIcon  = Len( args.icon )>
-<cfset hasLabel = Len( args.label )>
+<cfset hasIcon  = Len( args.icon ) />
+<cfset hasLabel = Len( args.label ) />
 
 <cfoutput>
 	<cfif Len( args.href )>
