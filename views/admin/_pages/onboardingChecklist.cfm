@@ -2,23 +2,23 @@
 	event.include( "/css/admin/altadmintheme/pages/onboarding-checklist/" );
 </cfscript>
 
-<cfparam name= "args.title"        default = "">
-<cfparam name= "args.description"  default = "">
-<cfparam name= "args.steps"        default = "#[]#">
-<cfparam name= "args.skipLinkText" default = "">
-<cfparam name= "args.skipLinkUrl"  default = "">
-<cfparam name= "args.noticeText"   default = "">
+<cfparam name= "args.title"        default = "" />
+<cfparam name= "args.description"  default = "" />
+<cfparam name= "args.steps"        default = "#[]#" />
+<cfparam name= "args.skipLinkText" default = "" />
+<cfparam name= "args.skipLinkUrl"  default = "" />
+<cfparam name= "args.noticeText"   default = "" />
 
 <cfoutput>
 	<div class="p-onboarding-checklist">
-		<cfif Len(args.title) || Len(args.description)>
+		<cfif Len( args.title ) || Len( args.description )>
 			<div class="p-onboarding-checklist__header">
-				<cfif Len(args.title)>
+				<cfif Len( args.title )>
 					<h1 class="p-onboarding-checklist__header-title">
 						#args.title#
 					</h1>
 				</cfif>
-				<cfif Len(args.description)>
+				<cfif Len( args.description )>
 					<div class="p-onboarding-checklist__header-description">
 						<p>
 							#args.description#
@@ -40,12 +40,12 @@
 			</div>
 		</cfif>
 		<div class="p-onboarding-checklist__footer">
-			<cfif Len(args.skipLinkUrl) && Len(args.skipLinkText)>
+			<cfif Len( args.skipLinkUrl ) && Len( args.skipLinkText )>
 				<div class="p-onboarding-checklist__skip">
-					<a href="#encodeForHtmlAttribute(args.skipLinkUrl)#" class="p-onboarding-checklist__skip-link">#args.skipLinkText#</a>
+					<a href="#encodeForHtmlAttribute( args.skipLinkUrl )#" class="p-onboarding-checklist__skip-link">#args.skipLinkText#</a>
 				</div>
 			</cfif>
-			<cfif Len(args.noticeText)>
+			<cfif Len( args.noticeText )>
 				<div class="p-onboarding-checklist__notice">
 					#args.noticeText#
 				</div>
