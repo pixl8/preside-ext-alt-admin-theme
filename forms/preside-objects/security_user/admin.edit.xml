@@ -3,7 +3,6 @@
 	<tab id="basic">
 		<fieldset id="basic">
 			<field name="active" deleted="true" />
-			<field name="groups" deleted="true" />
 		</fieldset>
 
 		<fieldset id="welcome" deleted="true" />

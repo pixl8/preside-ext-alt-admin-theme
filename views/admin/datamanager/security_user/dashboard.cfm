@@ -38,8 +38,8 @@
 					</h4>
 
 					<div class="widget-toolbar">
-						<a href="#event.buildAdminLink( objectName="security_user", recordId=recordId, queryString="tab=groups" )#">
-							<i class="fa fa-fw fa-users"></i>
+						<a href="#event.buildAdminLink( objectName="security_user", recordId=recordId, queryString="tab=groups" )#" title="#translateResource( uri="preside-objects.security_user:action.groups.label" )#">
+							<i class="fa fa-fw fa-cog"></i>
 						</a>
 					</div>
 				</div>
@@ -53,8 +53,7 @@
 							, allowFilter     = false
 							, allowDataExport = false
 							, allowSearch     = false
-							, datasourceUrl   = event.buildAdminLink( linkTo="datamanager.security_user.getGroupsForAjaxDataTable", queryString="record_id=#recordId#&order_by=is_assigned+desc" )
-							, noActions       = true
+							, datasourceUrl   = event.buildAdminLink( linkTo="datamanager.security_user.getGroupsForAjaxDataTable", queryString="record_id=#recordId#&order_by=is_assigned+desc&is_dashboard=true" )
 						} )#
 					</div>
 				</div>
