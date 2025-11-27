@@ -144,8 +144,8 @@
 					</header>
 					<div class="p-design-system-entry__article-body">
 						#renderView(
-							view="/admin/_components/emptyState",
-							args={
+							  view="/admin/_components/emptyState"
+							, args={
 								  layout      = "media"
 								, title       = "No agents created yet."
 								, description = "Create an agent to define how your assistant behaves — from its tone to its access and skills."

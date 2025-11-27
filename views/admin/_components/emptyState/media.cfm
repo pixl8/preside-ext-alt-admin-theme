@@ -15,7 +15,7 @@
 				<cfif Len(args.buttonLabel) && Len(args.buttonLink)>
 					<div class="c-empty-state-media__button">
 						#renderView(
-							  view = "/admin/_components/button",
+							  view = "/admin/_components/button"
 							, args = {
 								  label  = "#args.buttonLabel#"
 								, href   = "#args.buttonLink#"
