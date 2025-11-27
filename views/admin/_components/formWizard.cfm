@@ -5,12 +5,12 @@
 <cfparam name="args.title"                  type="string" default="" />
 <cfparam name="args.helpText"               type="string" default="" />
 <cfparam name="args.helpUrl"                type="string" default="" />
-<cfparam name="args.steps"                  type="array"  default=#[]# />
+<cfparam name="args.steps"                  type="array"  default="#[]#" />
 <cfparam name="args.currentStep"            type="string" default="1" />
 <cfparam name="args.currentStepTitle"       type="string" default="" />
 <cfparam name="args.currentStepDescription" type="string" default="" />
 <cfparam name="args.formView"               type="string" default="" />
-<cfparam name="args.formArgs"               type="struct" default=#{}# />
+<cfparam name="args.formArgs"               type="struct" default="#{}#" />
 
 <cfoutput>
 	<div class="c-form-wizard">

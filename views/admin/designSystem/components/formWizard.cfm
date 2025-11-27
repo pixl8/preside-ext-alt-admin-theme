@@ -129,8 +129,8 @@
 									, helpUrl = "##"
 									, steps = [
 											{ title="Agent Configuration", isCompleted=true }
-										, { title="Model Setup", isCompleted=false }
-										, { title="Behaviour Settings", isCompleted=false }
+										, { title="Model Setup",         isCompleted=false }
+										, { title="Behaviour Settings",  isCompleted=false }
 									]
 									, currentStep = "1"
 									, currentStepTitle = "Define your agents’s identity"
