@@ -1,8 +1,13 @@
 # Changelog
 
+## v1.2.6
+
+* Show admin users belonging to an admin group
+* 2FA flag are incorrect if a site has Authentication enforced
+
 ## v1.2.5
 
-* [ADMINTHEME-103](https://projects.pixl8.london/browse/ADMINTHEME-103) - Progress bars: mini+small classes keep same height
+* Progress bars: mini+small classes keep same height
 
 ## v1.2.4
 
