@@ -139,18 +139,18 @@
 						#renderView(
 							  view = "/admin/_components/button"
 							, args = {
-								  id = "design-system-demo-open-button"
+								  id    = "design-system-demo-open-button"
 								, label = "Show the popup"
 							}
 						)#
 
 						<script type="module" nonce="#event?.getRequestNonce()#">
-							const popup      = document.querySelector("##design-system-demo");
-							const showButton = document.querySelector("##design-system-demo-open-button");
+							const popup      = document.querySelector( "##design-system-demo" );
+							const showButton = document.querySelector( "##design-system-demo-open-button" );
 
-							showButton.addEventListener("click", () => {
+							showButton.addEventListener( "click", () => {
 								popup.showModal();
-							});
+							} );
 						</script>
 					</div>
 				</article>
