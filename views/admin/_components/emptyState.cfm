@@ -2,16 +2,16 @@
 	event.include( "/css/admin/altadmintheme/components/empty-state/" );
 </cfscript>
 
-<cfparam name="args.layout"       default="default">
-<cfparam name="args.title"        default="">
-<cfparam name="args.description"  default="">
-<cfparam name="args.icon"         default="">
-<cfparam name="args.videoUrl"     default="">
-<cfparam name="args.videoNote"    default="">
-<cfparam name="args.buttonLabel"  default="">
-<cfparam name="args.buttonLink"   default="">
-<cfparam name="args.buttonIcon"   default="plus">
-<cfparam name="args.buttonTarget" default="">
+<cfparam name="args.layout"       type="string" default="default">
+<cfparam name="args.title"        type="string" default="">
+<cfparam name="args.description"  type="string" default="">
+<cfparam name="args.icon"         type="string" default="">
+<cfparam name="args.videoUrl"     type="string" default="">
+<cfparam name="args.videoNote"    type="string" default="">
+<cfparam name="args.buttonLabel"  type="string" default="">
+<cfparam name="args.buttonLink"   type="string" default="">
+<cfparam name="args.buttonIcon"   type="string" default="plus">
+<cfparam name="args.buttonTarget" type="string" default="">
 
 <cfoutput>
 	#renderView(
