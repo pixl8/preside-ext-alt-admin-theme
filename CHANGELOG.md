@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.1.9
+
+* 2FA flag are incorrect if a site has authentication enforced
+
 ## v1.1.8
 
 * Inconsistent 2FA flag between listing and detail pages
