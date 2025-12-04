@@ -3,7 +3,7 @@ component extends="preside.system.base.AdminHandler" {
 		super.preHandler( argumentCollection = arguments );
 	}
 
-	function index( event, rc, prc ) {
+	function emptyState( event, rc, prc ) {
 		prc.pageTitle = "Empty State";
 
 		event.addAdminBreadCrumb(

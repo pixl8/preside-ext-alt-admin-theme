@@ -1,3 +1,12 @@
+<cfparam name="args.title"        type="string" default="" />
+<cfparam name="args.description"  type="string" default="" />
+<cfparam name="args.videoUrl"     type="string" default="" />
+<cfparam name="args.videoNote"    type="string" default="" />
+<cfparam name="args.buttonLabel"  type="string" default="" />
+<cfparam name="args.buttonLink"   type="string" default="" />
+<cfparam name="args.buttonIcon"   type="string" default="plus" />
+<cfparam name="args.buttonTarget" type="string" default="" />
+
 <cfoutput>
 	<div class="c-empty-state-media">
 		<div class="c-empty-state-media__container">
@@ -14,13 +23,13 @@
 				</cfif>
 				<cfif Len( args.buttonLabel ) && Len( args.buttonLink )>
 					<div class="c-empty-state-media__button">
-						#renderView(
-							  view = "/admin/_components/button"
-							, args = {
-								  label  = "#args.buttonLabel#"
-								, href   = "#args.buttonLink#"
-								, target = "#args.buttonTarget#"
-								, icon   = "#args.buttonIcon#"
+						#renderViewlet(
+								event = "admin.layout.components.button"
+							, args  = {
+									label  = args.buttonLabel
+								, href   = args.buttonLink
+								, target = args.buttonTarget
+								, icon   = args.buttonIcon
 							}
 						)#
 					</div>
