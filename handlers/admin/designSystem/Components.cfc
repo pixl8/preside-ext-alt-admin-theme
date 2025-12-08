@@ -13,7 +13,7 @@ component extends="preside.system.base.AdminHandler" {
 
 		event.addAdminBreadCrumb(
 			  title = "Empty State"
-			, link  = event.buildAdminLink( linkTo="designSystem/components/emptyState" )
+			, link  = event.buildAdminLink( linkTo="designSystem.components.emptyState" )
 		);
 
 		event.setView( view = "admin/designSystem/components/emptyState" );
