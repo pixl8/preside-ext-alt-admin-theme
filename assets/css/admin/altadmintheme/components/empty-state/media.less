@@ -1,64 +1,64 @@
 .c-empty-state-media {
-  container-type: inline-size;
-  width: 100%;
+	container-type: inline-size;
+	width         : 100%;
 }
 
 .c-empty-state-media__container {
-  border-radius: var(--border-radius-lg);
-  border: solid 1px var(--color-neutral-20);
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-12);
-  justify-content: center;
-  padding: var(--spacing-12);
-  text-align: center;
+	border-radius  : var(--border-radius-lg);
+	border         : solid 1px var(--color-neutral-20);
+	display        : flex;
+	flex-direction : column;
+	gap            : var(--spacing-12);
+	justify-content: center;
+	padding        : var(--spacing-12);
+	text-align     : center;
 }
 
 .c-empty-state-media__wrapper-one,
 .c-empty-state-media__wrapper-two {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-4);
+	display       : flex;
+	flex-direction: column;
+	gap           : var(--spacing-4);
 }
 
 .c-empty-state-media__title {
-  font-size: var(--font-size-xl);
-  font-weight: bold;
-  text-wrap: balance;
+	font-size  : var(--font-size-xl);
+	font-weight: bold;
+	text-wrap  : balance;
 }
 
 .c-empty-state-media__description {
-  color: var(--color-neutral-60);
+	color: var(--color-neutral-60);
 }
 
 .c-empty-state-media__video-wrapper {
-  border-radius: var(--border-radius-3xl);
-  overflow: hidden;
-  padding-bottom: 56.25%;
-  position: relative;
+	border-radius : var(--border-radius-3xl);
+	overflow      : hidden;
+	padding-bottom: 56.25%;
+	position      : relative;
 }
 
 .c-empty-state-media__video {
-  height: 100%;
-  inset: 0;
-  position: absolute;
-  width: 100%;
+	height  : 100%;
+	inset   : 0;
+	position: absolute;
+	width   : 100%;
 }
 
 .c-empty-state-media__video-note {
-  color: var(--color-neutral-60);
-  text-align: center;
+	color     : var(--color-neutral-60);
+	text-align: center;
 }
 
 @container (width > 640px) {
-  .c-empty-state-media__container {
-    align-items: center;
-    flex-direction: row;
-    text-align: left;
-  }
+	.c-empty-state-media__container {
+		align-items   : center;
+		flex-direction: row;
+		text-align    : left;
+	}
 
-  .c-empty-state-media__wrapper-one,
-  .c-empty-state-media__wrapper-two {
-    flex: 1;
-  }
+	.c-empty-state-media__wrapper-one,
+	.c-empty-state-media__wrapper-two {
+		flex: 1;
+	}
 }
