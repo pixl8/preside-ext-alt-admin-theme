@@ -13,7 +13,7 @@
 <cfoutput>
 	<cfif Len( args.href )>
 		<a
-			class="btn btn-#args.variant#"
+			class="btn btn-#encodeForHtmlAttribute( args.variant )#"
 			<cfif Len( args.id )>
 				id="#encodeForHtmlAttribute( args.id )#"
 			</cfif>
