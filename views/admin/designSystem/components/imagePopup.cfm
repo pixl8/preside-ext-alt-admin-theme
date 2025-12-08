@@ -122,10 +122,10 @@
 			<div class="p-design-system-entry__section-body">
 				<article class="p-design-system-entry__article">
 					<div class="p-design-system-entry__article-body">
-						#renderView(
-							  view="/admin/_components/imagePopup"
-							, args={
-								  id          = "design-system-demo"
+						#renderViewlet(
+							  event = "admin.layout.components.imagePopup"
+							, args  = {
+									id          = "design-system-demo"
 								, closeLabel  = "Close popup"
 								, title       = "Vimeo integration now available"
 								, description = "Add Vimeo videos as data sources to expand your assistant’s knowledge. Perfect for showcasing tutorials, talks, or media-based content."
@@ -136,9 +136,9 @@
 							}
 						)#
 
-						#renderView(
-							  view = "/admin/_components/button"
-							, args = {
+						#renderViewlet(
+								event = "admin.layout.components.button"
+							, args  = {
 								  id    = "design-system-demo-open-button"
 								, label = "Show the popup"
 							}

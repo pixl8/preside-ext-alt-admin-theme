@@ -3,7 +3,7 @@
 </cfscript>
 
 <cfparam name="args.id"           type="string" default="" />
-<cfparam name="args.closeLabel"   type="string" default="Close" />
+<cfparam name="args.closeLabel"   type="string" default="#translateResource( uri="admin.components.imagePopup:close.label" )#" />
 <cfparam name="args.title"        type="string" default="" />
 <cfparam name="args.description"  type="string" default="" />
 <cfparam name="args.image"        type="string" default="" />
@@ -38,23 +38,23 @@
 			<div class="c-image-popup__main">
 				<cfif Len( args.title )>
 					<div class="c-image-popup__title">
-						#args.title#
+						#encodeForHTML( args.title )#
 					</div>
 				</cfif>
 				<cfif Len( args.description )>
 					<div class="c-image-popup__description">
-						#args.description#
+						#encodeForHTML( args.description )#
 					</div>
 				</cfif>
 				<cfif Len( args.buttonLabel ) && Len( args.buttonLink )>
 					<div class="c-image-popup__button">
-						#renderView(
-							  view = "/admin/_components/button"
-							, args = {
-								  label  = "#args.buttonLabel#"
-								, href   = "#args.buttonLink#"
-								, target = "#args.buttonTarget#"
-								, icon   = "#args.buttonIcon#"
+						#renderViewlet(
+								event = "admin.layout.components.button"
+							, args  = {
+									label  = args.buttonLabel
+								, href   = args.buttonLink
+								, target = args.buttonTarget
+								, icon   = args.buttonIcon
 							}
 						)#
 					</div>
