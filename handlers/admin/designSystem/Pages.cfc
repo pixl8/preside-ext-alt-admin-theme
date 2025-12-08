@@ -1,10 +1,9 @@
 component extends="preside.system.base.AdminHandler" {
-
 	function preHandler( event, rc, prc ) {
 		super.preHandler( argumentCollection = arguments );
 	}
 
-	function index( event, rc, prc ) {
+	function onboardingChecklist( event, rc, prc ) {
 		prc.pageTitle = "Onboarding Checklist";
 
 		event.addAdminBreadCrumb(
@@ -13,8 +12,8 @@ component extends="preside.system.base.AdminHandler" {
 		);
 
 		event.addAdminBreadCrumb(
-			  title = "Page - Onboarding Checklist"
-			, link  = event.buildAdminLink( linkTo="designSystem/pages/onboardingChecklist" )
+			  title = "Onboarding Checklist"
+			, link  = event.buildAdminLink( linkTo="designSystem.pages.onboardingChecklist" )
 		);
 
 		event.setView( view = "admin/designSystem/pages/onboardingChecklist" );

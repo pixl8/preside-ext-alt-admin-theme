@@ -18,4 +18,20 @@ component extends="preside.system.base.AdminHandler" {
 
 		event.setView( view = "admin/designSystem/components/emptyState" );
 	}
+
+	function listSteps( event, rc, prc ) {
+		prc.pageTitle = "List Steps";
+
+		event.addAdminBreadCrumb(
+			  title = "Design System"
+			, link  = event.buildAdminLink( linkTo="designSystem" )
+		);
+
+		event.addAdminBreadCrumb(
+			  title = "List Steps"
+			, link  = event.buildAdminLink( linkTo="designSystem.components.listSteps" )
+		);
+
+		event.setView( view = "admin/designSystem/components/listSteps" );
+	}
 }

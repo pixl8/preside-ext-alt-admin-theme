@@ -15,13 +15,13 @@
 			<div class="p-onboarding-checklist__header">
 				<cfif Len( args.title )>
 					<h1 class="p-onboarding-checklist__header-title">
-						#args.title#
+						#encodeForHTML( args.title )#
 					</h1>
 				</cfif>
 				<cfif Len( args.description )>
 					<div class="p-onboarding-checklist__header-description">
 						<p>
-							#args.description#
+							#encodeForHTML( args.description )#
 						</p>
 					</div>
 				</cfif>
@@ -30,9 +30,9 @@
 		<cfif !ArrayIsEmpty( args.steps )>
 			<div class="p-onboarding-checklist__body">
 				<div class="p-onboarding-checklist__list">
-					#renderView(
-						  view = "/admin/_components/listSteps"
-						, args = {
+					#renderViewlet(
+						  event = "admin.layout.components.listSteps"
+						, args  = {
 								steps = args.steps
 							}
 					)#
@@ -42,12 +42,12 @@
 		<div class="p-onboarding-checklist__footer">
 			<cfif Len( args.skipLinkUrl ) && Len( args.skipLinkText )>
 				<div class="p-onboarding-checklist__skip">
-					<a href="#encodeForHtmlAttribute( args.skipLinkUrl )#" class="p-onboarding-checklist__skip-link">#args.skipLinkText#</a>
+					<a href="#encodeForHtmlAttribute( args.skipLinkUrl )#" class="p-onboarding-checklist__skip-link">#encodeForHTML( args.skipLinkText )#</a>
 				</div>
 			</cfif>
 			<cfif Len( args.noticeText )>
 				<div class="p-onboarding-checklist__notice">
-					#args.noticeText#
+					#encodeForHTML( args.noticeText )#
 				</div>
 			</cfif>
 		</div>

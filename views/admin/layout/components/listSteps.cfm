@@ -16,12 +16,12 @@
 					<div class="c-list-steps__item-content">
 						<cfif structKeyExists( step, "title" ) && Len( step.title )>
 							<div class="c-list-steps__item-title">
-								#step.title#
+								#encodeForHTML( step.title )#
 							</div>
 						</cfif>
 						<cfif structKeyExists( step, "description" ) && Len( step.description )>
 							<div class="c-list-steps__item-description">
-								#step.description#
+								#encodeForHTML( step.description )#
 							</div>
 						</cfif>
 					</div>
