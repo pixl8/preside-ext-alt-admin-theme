@@ -13,12 +13,12 @@
 			<div class="c-empty-state-media__wrapper-one">
 				<cfif Len( args.title )>
 					<div class="c-empty-state-media__title">
-						#args.title#
+						#encodeForHTML( args.title )#
 					</div>
 				</cfif>
 				<cfif Len( args.description )>
 					<div class="c-empty-state-media__description">
-						#args.description#
+						#encodeForHTML( args.description )#
 					</div>
 				</cfif>
 				<cfif Len( args.buttonLabel ) && Len( args.buttonLink )>
@@ -42,7 +42,7 @@
 					</div>
 					<cfif Len( args.videoNote )>
 						<div class="c-empty-state-media__video-note">
-							#args.videoNote#
+							#encodeForHTML( args.videoNote )#
 						</div>
 					</cfif>
 				</cfif>

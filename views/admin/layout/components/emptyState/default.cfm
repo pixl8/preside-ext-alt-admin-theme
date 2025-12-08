@@ -13,12 +13,12 @@
 		</cfif>
 		<cfif Len( args.title )>
 			<div class="c-empty-state__title">
-				#args.title#
+				#encodeForHTML( args.title )#
 			</div>
 		</cfif>
 		<cfif Len( args.description )>
 			<div class="c-empty-state__description">
-				#args.description#
+				#encodeForHTML( args.description )#
 			</div>
 		</cfif>
 		<cfif Len( args.buttonLabel ) && Len( args.buttonLink )>

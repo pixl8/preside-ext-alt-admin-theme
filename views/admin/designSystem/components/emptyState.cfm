@@ -152,7 +152,7 @@
 								, buttonLabel = "Create agent"
 								, buttonLink  = "##"
 								, videoUrl    = "https://player.vimeo.com/video/662689422"
-								, videoNote   = "&rarr; Watch our 5 minute guide on agents"
+								, videoNote   = "Watch our 5 minute guide on agents"
 							}
 						)#
 					</div>
