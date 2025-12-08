@@ -126,9 +126,9 @@
 						<h3 class="p-design-system-entry__article-title">Layout: Default</h3>
 					</header>
 					<div class="p-design-system-entry__article-body">
-						#renderView(
-							  view="/admin/_components/emptyState"
-							, args={
+						#renderViewlet(
+							  event = "admin.layout.components.emptyState"
+							, args  = {
 								  icon        = "key"
 								, title       = "No agents created yet."
 								, description = "Create an agent to define how your assistant behaves — from its tone to its access and skills."
@@ -143,16 +143,16 @@
 						<h3 class="p-design-system-entry__article-title">Layout: Media</h3>
 					</header>
 					<div class="p-design-system-entry__article-body">
-						#renderView(
-							  view="/admin/_components/emptyState"
-							, args={
+						#renderViewlet(
+							  event = "admin.layout.components.emptyState"
+							, args  = {
 								  layout      = "media"
 								, title       = "No agents created yet."
 								, description = "Create an agent to define how your assistant behaves — from its tone to its access and skills."
 								, buttonLabel = "Create agent"
 								, buttonLink  = "##"
 								, videoUrl    = "https://player.vimeo.com/video/662689422"
-								, videoNote   = "&rarr; Watch our 5 minute guide on agents"
+								, videoNote   = "Watch our 5 minute guide on agents"
 							}
 						)#
 					</div>
