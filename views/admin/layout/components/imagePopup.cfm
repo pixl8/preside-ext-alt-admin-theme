@@ -24,10 +24,10 @@
 	<dialog class="c-image-popup" id="#encodeForHtmlAttribute( args.id )#">
 		<div class="c-image-popup__wrapper">
 			<button class="c-image-popup__close" aria-label="#encodeForHtmlAttribute( args.closeLabel )#">
-				#renderView(
-					  view = "/admin/_components/icon"
-					, args = {
-						  icon      = "x"
+				#renderViewlet(
+						event = "admin.layout.components.icon"
+					, args  = {
+							icon  = "x"
 						, className = "c-image-popup__close-icon"
 					}
 				)#
