@@ -121,9 +121,9 @@
 			<div class="p-design-system-entry__section-body">
 				<article class="p-design-system-entry__article">
 					<div class="p-design-system-entry__article-body">
-						#renderView(
-								view = "/admin/_components/formWizard"
-							, args = {
+						#renderViewlet(
+							  event = "admin.layout.components.formWizard"
+							, args  = {
 										title = "Agent Setup Wizard"
 									, helpText = "Need help?"
 									, helpUrl = "##"

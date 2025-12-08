@@ -13,4 +13,8 @@ component {
 
 		return renderView( view="/admin/layout/components/emptyState/#layout#", args=args );
 	}
+
+	private function formWizard( event, rc, prc, args={} ) {
+		return renderView( view="/admin/layout/components/formWizard", args=args );
+	}
 }

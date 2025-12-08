@@ -19,7 +19,7 @@
 				<header class="c-form-wizard__aside-header">
 					<cfif Len(args.title)>
 						<h1 class="c-form-wizard__title">
-							#args.title#
+							#encodeForHtml( args.title )#
 						</h1>
 					</cfif>
 					<cfif ArrayLen( args.steps ) gt 0>
@@ -28,7 +28,7 @@
 								<div class="c-form-wizard__progress-bar-fill" style="width:calc((#args.currentStep# / #ArrayLen( args.steps )#) * 100%);"></div>
 							</div>
 							<div class="c-form-wizard__progress-text">
-								#args.currentStep#/#ArrayLen( args.steps )# Completed
+								#encodeForHtml( args.currentStep )#/#ArrayLen( args.steps )# #translateResource( uri="admin.components.formWizard:stepsCompleted" )#
 							</div>
 						</div>
 					</cfif>
@@ -38,7 +38,9 @@
 						<cfset i = 1>
 						<cfloop array="#args.steps#" index="step">
 							<div class="c-form-wizard__step<cfif args.currentStep eq i> is-active</cfif><cfif step.isCompleted> is-completed</cfif>">
-								<div class="c-form-wizard__step-title">#step.title#</div>
+								<div class="c-form-wizard__step-title">
+									#encodeForHtml( step.title )#
+								</div>
 								<div class="c-form-wizard__step-status">
 									<cfif step.isCompleted>
 										<i class="c-form-wizard__step-icon fa fa-check"></i>
@@ -50,17 +52,21 @@
 					</div>
 				</cfif>
 				<cfif Len( args.helpText ) && Len( args.helpUrl )>
-					<a class="c-form-wizard__help" href="#encodeForHtmlAttribute( args.helpUrl )#" target="_blank">#args.helpText#</a>
+					<a class="c-form-wizard__help" href="#encodeForHtmlAttribute( args.helpUrl )#" target="_blank">#encodeForHtml( args.helpText )#</a>
 				</cfif>
 			</aside>
 			<main class="c-form-wizard__main">
 				<cfif Len( args.currentStepTitle ) || Len( args.currentStepDescription )>
 					<header class="c-form-wizard__main-header">
 						<cfif Len( args.currentStepTitle )>
-							<h2 class="c-form-wizard__current-step-title">#args.currentStepTitle#</h2>
+							<h2 class="c-form-wizard__current-step-title">
+								#encodeForHtml( args.currentStepTitle )#
+							</h2>
 						</cfif>
 						<cfif Len( args.currentStepDescription )>
-							<div class="c-form-wizard__current-step-description">#args.currentStepDescription#</div>
+							<div class="c-form-wizard__current-step-description">
+								#encodeForHtml( args.currentStepDescription )#
+							</div>
 						</cfif>
 					</header>
 				</cfif>
