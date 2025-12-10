@@ -63,8 +63,8 @@
 		</div>
 	</dialog>
 	<script type="module" nonce="#event?.getRequestNonce()#">
-		const popup = document.querySelector( "###args.id#" );
-		const closeButton = document.querySelector( "###args.id# .c-image-popup__close" );
+		const popup       = document.querySelector("###encodeForJavaScript(args.id)#");
+		const closeButton = document.querySelector("###encodeForJavaScript(args.id)# .c-image-popup__close");
 
 		closeButton.addEventListener( "click", () => {
 			popup.close();

@@ -52,7 +52,7 @@ component extends="preside.system.base.AdminHandler" {
 	}
 
 	function listSteps( event, rc, prc ) {
-		prc.pageTitle = "Image Popup";
+		prc.pageTitle = "List Steps";
 
 		event.addAdminBreadCrumb(
 			  title = "Design System"
