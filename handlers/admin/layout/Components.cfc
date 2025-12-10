@@ -17,4 +17,12 @@ component {
 	private function formWizard( event, rc, prc, args={} ) {
 		return renderView( view="/admin/layout/components/formWizard", args=args );
 	}
+
+	private function icon( event, rc, prc, args={} ) {
+		return renderView( view="/admin/layout/components/icon", args=args );
+	}
+
+	private function imagePopup( event, rc, prc, args={} ) {
+		return renderView( view="/admin/layout/components/imagePopup", args=args );
+	}
 }
