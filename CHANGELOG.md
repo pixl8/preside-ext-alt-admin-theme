@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.3.0
+
+* DataCardGrid extra slots
+* Card grid view duplicates breadcrumb
+
 ## v1.2.6
 
 * Show admin users belonging to an admin group
