@@ -1,0 +1,131 @@
+.c-form-wizard {
+	container-type: inline-size;
+	width         : 100%;
+}
+
+.c-form-wizard__container {
+	background    : var(--color-white);
+	border        : solid 1px var(--color-neutral-20);
+	border-radius : var(--border-radius-lg);
+	display       : flex;
+	flex-direction: column;
+	overflow      : hidden;
+}
+
+.c-form-wizard__aside {
+	border-bottom : solid 1px var(--color-neutral-20);
+	display       : flex !important;
+	flex-direction: column;
+	gap           : var(--spacing-6);
+	padding       : var(--spacing-6);
+}
+
+.c-form-wizard__title {
+	font-size  : var(--font-size-md) !important;
+	font-weight: var(--font-weight-bold) !important;
+	margin     : 0 0 var(--spacing-6) 0 !important;
+}
+
+.c-form-wizard__progress-bar {
+	background   : var(--color-neutral-10);
+	border-radius: var(--border-radius-md);
+	height       : calc(4 / var(--root-rem) * 1rem);
+	margin-bottom: var(--spacing-2);
+	overflow     : hidden;
+	width        : 100%;
+}
+
+.c-form-wizard__progress-bar-fill {
+	height    : 100%;
+	background: var(--color-success-100);
+}
+
+.c-form-wizard__progress-text {
+	color    : var(--color-neutral-60);
+	font-size: var(--font-size-xs) !important;
+}
+
+.c-form-wizard__steps {
+	display: none;
+}
+
+.c-form-wizard__main {
+	flex: 1;
+}
+
+.c-form-wizard__main-header {
+	border-bottom: solid 1px var(--color-neutral-20);
+	padding      : var(--spacing-6);
+	width        : 100%;
+}
+
+.c-form-wizard__current-step-title {
+	font-size  : var(--font-size-2xl) !important;
+	font-weight: var(--font-weight-bold) !important;
+}
+
+.c-form-wizard__current-step-description {
+	color: var(--color-neutral-60);
+	font-size  : var(--font-size-md) !important;
+}
+
+.c-form-wizard__main-body {
+	padding: var(--spacing-6);
+}
+
+@container (width > 960px) {
+	.c-form-wizard__container {
+		flex-direction: row;
+	}
+
+	.c-form-wizard__aside {
+		border-bottom: none;
+		border-right : solid 1px var(--color-neutral-20);
+		gap          : var(--spacing-12);
+		max-width    : 100%;
+		padding      : var(--spacing-12) var(--spacing-6);
+		width        : calc(300 / var(--root-rem) * 1rem);
+	}
+
+	.c-form-wizard__steps {
+		display       : flex;
+		flex-direction: column;
+	}
+
+	.c-form-wizard__step {
+		align-items    : center;
+		color          : var(--color-neutral-60);
+		display        : flex;
+		justify-content: space-between;
+		padding        : var(--spacing-3) 0;
+
+		&:not(:last-child) {
+			border-bottom: solid 1px var(--color-neutral-20);
+		}
+
+		&.is-active {
+			color: var(--font-color-base);
+		}
+
+		&.is-completed {
+			.c-form-wizard__step-status {
+				background: var(--color-success-100);
+				border    : solid 1px var(--color-success-100);
+				color     : var(--color-white) !important;
+			}
+		}
+
+		.c-form-wizard__step-status {
+			align-items    : center;
+			background     : var(--color-neutral-10);
+			border         : dashed 1px var(--color-neutral-20);
+			border-radius  : 100%;
+			color          : var(--font-color-base) !important;
+			display        : flex;
+			height         : calc(24 / var(--root-rem) * 1rem);
+			justify-content: center;
+			transition     : var(--transition-normal);
+			width          : calc(24 / var(--root-rem) * 1rem);
+		}
+	}
+}
