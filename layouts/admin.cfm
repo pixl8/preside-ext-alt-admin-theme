@@ -2,7 +2,7 @@
 	body             = renderView();
 	navbar           = renderView( "admin/util/topNav" );
 	siteAlerts       = renderViewlet( "admin.layout.siteAlerts" );
-	breadcrumbs      = ( prc.hideBreadcrumbs ?: false ) ? "" : renderView( "admin/layout/breadcrumbs" );
+	breadcrumbs      = IsTrue( prc.hideBreadcrumbs ?: false ) ? "" : renderView( "admin/layout/breadcrumbs" );
 	adminSidebar     = renderViewlet( "admin.layout.renderAdminSidebar" );
 	adminFooter      = renderViewlet( "admin.general.footer" );
 	notifications    = renderView( "admin/general/notifications" );
