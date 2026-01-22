@@ -2,7 +2,7 @@
 	body             = renderView();
 	navbar           = renderView( "admin/util/topNav" );
 	siteAlerts       = renderViewlet( "admin.layout.siteAlerts" );
-	breadcrumbs      = renderView( "admin/layout/breadcrumbs" );
+	breadcrumbs      = IsTrue( prc.hideBreadcrumbs ?: false ) ? "" : renderView( "admin/layout/breadcrumbs" );
 	adminSidebar     = renderViewlet( "admin.layout.renderAdminSidebar" );
 	adminFooter      = renderViewlet( "admin.general.footer" );
 	notifications    = renderView( "admin/general/notifications" );
@@ -106,16 +106,18 @@
 
 		<script nonce="#event?.getRequestNonce()#">
 			var topRightButtonGroups = document.querySelectorAll( "div.top-right-button-group" )
-			  , breadcrumbDiv        = document.querySelector( "##breadcrumbs")
+			  , breadcrumbDiv        = document.querySelector( "##breadcrumbs" )
 			  , moved                = false;
 
-			topRightButtonGroups.forEach( function( buttonGroup ){
-			    buttonGroup = buttonGroup.parentNode.removeChild( buttonGroup );
-				if ( !moved ) {
-					breadcrumbDiv.insertAdjacentHTML( "beforeend", buttonGroup.outerHTML );
-					moved = true;
-				}
-			} );
+			if ( breadcrumbDiv ) {
+				topRightButtonGroups.forEach( function( buttonGroup ){
+					buttonGroup = buttonGroup.parentNode.removeChild( buttonGroup );
+					if ( !moved ) {
+						breadcrumbDiv.insertAdjacentHTML( "beforeend", buttonGroup.outerHTML );
+						moved = true;
+					}
+				} );
+			}
 		</script>
 
 		#ckEditorJs#
