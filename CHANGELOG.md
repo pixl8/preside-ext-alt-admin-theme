@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.3.1
+
+* Option to hide breadcrumbs
+
 ## v1.3.0
 
 * DataCardGrid extra slots
