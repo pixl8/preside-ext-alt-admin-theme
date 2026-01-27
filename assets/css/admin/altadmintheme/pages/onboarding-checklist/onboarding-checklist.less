@@ -1,0 +1,56 @@
+.page-content {
+	&:has(.p-onboarding-checklist) {
+		background-image: linear-gradient( to bottom, var(--navbar-color) 0%, var(--navbar-color) 50%, var(--color-white) 50%, var(--color-white) 100%);
+	}
+}
+
+.p-onboarding-checklist {
+	display       : flex;
+	flex-direction: column;
+	gap           : var(--spacing-12);
+	margin        : 0 auto;
+	max-width     : var(--screen-md);
+	padding-top   : var(--spacing-12);
+	width         : 100%;
+}
+
+.p-onboarding-checklist__header {
+	margin    : 0 auto;
+	max-width : var(--screen-sm);
+	text-align: center;
+}
+
+.p-onboarding-checklist__header-title {
+	color    : var(--color-white) !important;
+	font-size: var(--font-size-5xl) !important;
+}
+
+.p-onboarding-checklist__header-description {
+	color     : var(--color-white);
+	font-size : var(--font-size-lg) !important;
+	margin-top: var(--spacing-6);
+}
+
+.p-onboarding-checklist__list {
+	margin   : 0 auto;
+	max-width: var(--screen-md);
+	width    : 100%;
+}
+
+.p-onboarding-checklist__skip {
+	text-align: center;
+}
+
+.p-onboarding-checklist__skip-link {
+	border-bottom : solid 1px var(--color-link);
+	color         : var(--font-color-base) !important;
+	display       : inline-flex;
+	padding-bottom: var(--spacing-0-5);
+}
+
+.p-onboarding-checklist__notice {
+	color     : var(--color-neutral-60);
+	font-size : var(--font-size-xs);
+	margin-top: var(--spacing-6);
+	text-align: center;
+}
