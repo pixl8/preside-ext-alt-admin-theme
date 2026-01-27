@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.4.0
+
+* Possibility to hide breadcrumbs in layout
+* Add styling for new preside admin filter segmentations dynamic tag style
+* Beginnings of new viewlet framework for design patterns, including an endpoint to preview design patterns
+
 ## v1.3.1
 
 * Option to hide breadcrumbs
