@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.4.1
+
+* Fix colouring of progress bars
+
 ## v1.4.0
 
 * Possibility to hide breadcrumbs in layout
