@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.3.2
+
+* Fix progress bar colourings
+
 ## v1.3.1
 
 * Option to hide breadcrumbs
