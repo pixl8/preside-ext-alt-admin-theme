@@ -1,6 +1,7 @@
 component {
 
 	property name="navItems"             inject="coldbox:setting:admin.topNavItems";
+	property name="settingsMenuItems"    inject="coldbox:setting:adminConfigurationMenuItems";
 	property name="adminMenuItemService" inject="adminMenuItemService";
 
 	public string function renderAdminSidebar( event, rc, prc, args={} ) {
@@ -52,6 +53,53 @@ component {
 		}
 
 		return "";
+	}
+
+	public string function mainNavigationItems( event, rc, prc, args={} ) {
+		_prepareMainNavigationItems( argumentCollection=arguments );
+
+		return renderViewlet( event="admin.layout.renderMenuItems", args={
+			  menuItems       = prc._mainNavigationItems
+			, itemRenderer    = "/admin/layout/structure/header/navigation/_menuItem"
+			, subItemRenderer = "/admin/layout/structure/header/navigation/_menuSubItem"
+		} );
+	}
+
+	public string function mobileMainNavigationItems( event, rc, prc, args={} ) {
+		_prepareMainNavigationItems( argumentCollection=arguments );
+
+		return renderViewlet( event="admin.layout.renderMenuItems", args={
+			  menuItems       = prc._mainNavigationItems
+			, itemRenderer    = "/admin/layout/structure/mobileNavigation/_menuItem"
+			, subItemRenderer = "/admin/layout/structure/mobileNavigation/_menuSubItem"
+		} );
+	}
+
+	public void function _prepareMainNavigationItems( event, rc, prc, args={} ) {
+		if ( !StructKeyExists( prc, "_mainNavigationItems" ) ) {
+			var menuArgs = {
+				  menuItems       = navItems
+				, legacyViewBase  = "/admin/util/topNav/"
+				, runActiveChecks = true
+			};
+
+			announceInterception( "onAdminThemePrepareTopNavigationItems", { args=menuArgs } );
+
+			prc._mainNavigationItems = adminMenuItemService.prepareMenuItemsForRequest( argumentCollection=menuArgs );
+		}
+	}
+
+	public void function _prepareSettingsMenuItems( event, rc, prc, args={} ) {
+		if ( !StructKeyExists( prc, "_settingsMenuItems" ) ) {
+			var menuArgs = {
+				  menuItems      = settingsMenuItems
+				, legacyViewBase = "/admin/layout/configurationMenu/"
+			};
+
+			announceInterception( "onAdminThemePrepareSettingsNavigationItems", { args=menuArgs } );
+
+			prc._settingsMenuItems = adminMenuItemService.prepareMenuItemsForRequest( argumentCollection=menuArgs );
+		}
 	}
 
 }

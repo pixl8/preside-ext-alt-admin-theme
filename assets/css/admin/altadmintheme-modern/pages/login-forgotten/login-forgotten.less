@@ -1,0 +1,51 @@
+@import url("../../global/variables.less");
+@import url("../../global/mixins.less");
+
+#app {
+  .p-login-forgotten__header {
+    margin-bottom: @spacing-6;
+    text-align: center;
+  }
+
+  .p-login-forgotten__header-title {
+    color: @color-white;
+    font-size: @font-size-3xl;
+    font-weight: @font-weight-bold;
+    margin: 0 0 @spacing-6 0;
+  }
+
+  .p-login-forgotten__header-description {
+    color: @color-white;
+  }
+
+  .p-login-forgotten__body {
+    margin-bottom: @spacing-6;
+  }
+
+  .p-login-forgotten__body-notification {
+    margin-bottom: @spacing-6;
+  }
+
+  .p-login-forgotten__body-forgotten {
+    text-align: center;
+  }
+
+  .p-login-forgotten__footer {
+    text-align: center;
+  }
+
+  .p-login-forgotten__footer-link {
+    color: @color-white;
+    text-decoration: underline @color-secondary-100;
+    text-underline-offset: @spacing-2;
+    transition: @transition-normal;
+
+    &:hover {
+      text-underline-offset: @spacing-3;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

@@ -1,0 +1,75 @@
+@import url("../../global/variables.less");
+@import url("../../global/mixins.less");
+
+#app {
+  // Form: Fields
+  .c-form__fields {
+    display: flex;
+    flex-direction: column;
+    gap: @spacing-3;
+    margin-bottom: @spacing-6;
+  }
+
+  // Form: Field
+  .c-form__field {
+    &--skin-white {
+      .c-form__field-checkbox-label {
+        color: @color-white;
+      }
+    }
+  }
+
+  // Form: Input
+  .c-form__field-input-wrapper {
+    position: relative;
+  }
+
+  .c-form__field-input {
+    border-radius: @border-radius-md !important;
+    padding: @spacing-3;
+    width: 100%;
+  }
+
+  .c-form__field-input-toggle {
+    .size(20);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    position: absolute;
+    right: @spacing-3;
+    top: @spacing-3;
+  }
+
+  .c-form__field-input-toggle-icon {
+    .size(20);
+    color: @text-color;
+
+    &--off {
+      display: none;
+    }
+  }
+
+  .c-form__field-input-icon {
+    .size(20);
+    color: @icon-color;
+    pointer-events: none;
+    position: absolute;
+    right: @spacing-3;
+    top: @spacing-3;
+  }
+
+  // Form: Checkbox
+  .c-form__field-checkbox {
+    display: flex;
+    gap: @spacing-2;
+  }
+
+  .c-form__field-checkbox-input {
+    margin: 0;
+  }
+
+  .c-form__field-checkbox-label {
+    margin: 0;
+  }
+}

@@ -176,6 +176,14 @@
 	.outer-container {
 		display        : flex;
 		flex-direction : column;
+
+		> .footer {
+			position    : static;
+			width       : auto;
+			height      : auto;
+			flex-shrink : 0;
+			margin-top  : auto;
+		}
 	}
 
 	#main-container {

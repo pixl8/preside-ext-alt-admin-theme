@@ -1,0 +1,18 @@
+@import url("variables.less");
+
+.width(@px) {
+  width: (@px / @root-rem) * 1rem;
+}
+
+.height(@px) {
+  height: (@px / @root-rem) * 1rem;
+}
+
+.max-height(@px) {
+  max-height: (@px / @root-rem) * 1rem;
+}
+
+.size(@px) {
+  .width(@px);
+  .height(@px);
+}

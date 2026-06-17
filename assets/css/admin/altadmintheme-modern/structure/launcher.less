@@ -1,0 +1,138 @@
+@import url("../global/variables.less");
+
+.s-launcher {
+  border: none;
+  padding: 0;
+  max-width: 600px;
+  width: calc(100% - @spacing-8);
+  margin-top: 15vh;
+  background: @color-white;
+  border-radius: @border-radius-lg;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  &[popover] {
+    &:popover-open {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+.s-launcher__panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.s-launcher__search {
+  display: flex;
+  flex-direction: column;
+}
+
+.s-launcher__input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: @spacing-3;
+  padding: @spacing-4 @spacing-5;
+  border-bottom: solid 1px @color-neutral-10;
+}
+
+.s-launcher__search-icon {
+  color: @color-neutral-40;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.s-launcher__input {
+  all: unset;
+  flex: 1;
+  font-size: 16px;
+  color: @color-neutral-100;
+  min-width: 0;
+
+  &::placeholder {
+    color: @color-neutral-40;
+  }
+}
+
+.s-launcher__results {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+// Typeahead overrides within the launcher
+.s-launcher {
+  .tt-dropdown-menu {
+    position: static !important;
+    display: block !important;
+    width: 100% !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: @spacing-2 0 !important;
+  }
+
+  .tt-suggestion {
+    padding: @spacing-2 @spacing-5;
+    cursor: pointer;
+
+    &.tt-cursor {
+      background-color: @color-primary-5 !important;
+    }
+  }
+
+  .launcher-result-datasource-header {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: @color-neutral-60;
+    margin: @spacing-3 @spacing-5 @spacing-1;
+    padding-bottom: @spacing-1;
+    border-bottom: solid 1px @color-neutral-10;
+  }
+
+  .launcher-result-container {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: @spacing-2;
+
+    .fa {
+      color: @color-neutral-40;
+    }
+
+    .title {
+      color: @color-neutral-100;
+    }
+
+    .subtitle {
+      font-size: 12px;
+      color: @color-neutral-60;
+    }
+  }
+
+  .launcher-results-footer {
+    border-top: solid 1px @color-neutral-10;
+    padding: @spacing-3 @spacing-5;
+    background: @color-neutral-5;
+
+    p {
+      margin: 0;
+      font-size: 12px;
+      color: @color-neutral-60;
+      line-height: normal;
+    }
+  }
+
+  .twitter-typeahead {
+    flex: 1;
+    min-width: 0;
+  }
+}

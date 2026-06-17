@@ -1,4 +1,9 @@
 <cfscript>
+	if ( getSetting( name="adminTheme.layout", defaultValue="sidebar" ) == "header" ) {
+		include template="adminHeader.cfm";
+		abort;
+	}
+
 	body             = renderView();
 	navbar           = renderView( "admin/util/topNav" );
 	siteAlerts       = renderViewlet( "admin.layout.siteAlerts" );

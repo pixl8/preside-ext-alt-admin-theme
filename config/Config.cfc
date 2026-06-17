@@ -14,6 +14,14 @@ component {
 	}
 
 	private void function _setupAdminTheme( required settings ) {
+		settings.adminTheme.layout = settings.adminTheme.layout ?: "sidebar";
+
+		settings.adminTheme.features = settings.adminTheme.features ?: {};
+		settings.adminTheme.features.modernComponents  = settings.adminTheme.features.modernComponents  ?: false;
+		settings.adminTheme.features.modernDataTables  = settings.adminTheme.features.modernDataTables  ?: false;
+
+		settings.adminTheme.iconBasePath = settings.adminTheme.iconBasePath ?: "/application/extensions/preside-ext-alt-admin-theme/assets/icons/adminui";
+
 		settings.adminTheme.defaults.dataCardGrid.resultsPerPageOptions = [ 6, 12, 24, 48 ];
 		settings.adminTheme.defaults.dataCardGrid.resultsPerPage        = 6;
 	}
@@ -34,6 +42,11 @@ component {
 
 	private void function _setupInterceptors( conf ) {
 		ArrayAppend( conf.interceptors, { class="app.extensions.preside-ext-alt-admin-theme.interceptors.AltAdminThemeInterceptors", properties={} } );
+
+		conf.interceptorSettings = conf.interceptorSettings ?: {};
+		conf.interceptorSettings.customInterceptionPoints = conf.interceptorSettings.customInterceptionPoints ?: [];
+		ArrayAppend( conf.interceptorSettings.customInterceptionPoints, "onAdminThemePrepareTopNavigationItems" );
+		ArrayAppend( conf.interceptorSettings.customInterceptionPoints, "onAdminThemePrepareSettingsNavigationItems" );
 	}
 
 	private void function _configureAdminTheme( settings ) {

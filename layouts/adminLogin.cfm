@@ -1,4 +1,9 @@
 <cfscript>
+	if ( getSetting( name="adminTheme.layout", defaultValue="sidebar" ) == "header" ) {
+		include template="adminLoginHeader.cfm";
+		abort;
+	}
+
 	body          = renderView();
 	notifications = renderView( 'admin/general/notifications' );
 

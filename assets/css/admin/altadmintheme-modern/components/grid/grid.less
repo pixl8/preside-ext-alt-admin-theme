@@ -1,0 +1,89 @@
+@import url("../../global/variables.less");
+
+@grid-columns: 12;
+@grid-gutter: @spacing-3;
+
+@breakpoint-xs: 480px;
+@breakpoint-sm: 640px;
+@breakpoint-md: 768px;
+@breakpoint-lg: 1024px;
+@breakpoint-xl: 1280px;
+@breakpoint-2xl: 1536px;
+
+.c-grid {
+  width: 100%;
+}
+
+.c-grid__row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: calc(@grid-gutter * -1);
+
+  + .c-grid__row {
+    margin-top: @grid-gutter;
+  }
+}
+
+.c-grid__col {
+  box-sizing: border-box;
+  padding: @grid-gutter;
+  position: relative;
+  width: 100%;
+
+  &--align-left,
+  &--align-center,
+  &--align-right {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &--align-left {
+    align-items: flex-start;
+  }
+
+  &--align-center {
+    align-items: center;
+  }
+
+  &--align-right {
+    align-items: flex-end;
+  }
+
+  .generate-columns(size);
+
+  @media (min-width: @breakpoint-xs) {
+    .generate-columns(size-xs);
+  }
+
+  @media (min-width: @breakpoint-sm) {
+    .generate-columns(size-sm);
+  }
+
+  @media (min-width: @breakpoint-md) {
+    .generate-columns(size-md);
+  }
+
+  @media (min-width: @breakpoint-lg) {
+    .generate-columns(size-lg);
+  }
+
+  @media (min-width: @breakpoint-xl) {
+    .generate-columns(size-xl);
+  }
+
+  @media (min-width: @breakpoint-2xl) {
+    .generate-columns(size-2xl);
+  }
+}
+
+.generate-column(@size) {
+  flex: 0 0 auto;
+  width: percentage((@size / @grid-columns));
+}
+
+.generate-columns(@prefix, @i: 1) when (@i <= @grid-columns) {
+  &--@{prefix}-@{i} {
+    .generate-column(@i);
+  }
+  .generate-columns(@prefix, (@i + 1));
+}

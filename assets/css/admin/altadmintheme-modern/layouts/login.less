@@ -1,0 +1,89 @@
+@import url("../global/variables.less");
+@import url("../global/mixins.less");
+
+.l-login {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh !important;
+  width: 100%;
+}
+
+.l-login__background {
+  background-color: var(--login-bg-color);
+  background-image: var(--login-bg-image);
+  background-position: var(--login-bg-position, center center);
+  background-repeat: var(--login-bg-repeat, no-repeat);
+  background-size: var(--login-bg-size, cover);
+  height: 100%;
+  position: fixed;
+  width: 100%;
+}
+
+.l-login__toolbar {
+  align-items: center;
+  display: flex;
+  position: relative;
+  width: 100%;
+  padding: @spacing-6;
+  z-index: 1;
+}
+
+.l-login__toolbar-logo-image {
+  background-image: var(--navbar-logo-image);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: block;
+  height: var(--navbar-logo-height, 42px);
+  width: var(--navbar-logo-width, 45px);
+}
+
+.l-login__toolbar-locale-button {
+  align-items: center;
+  color: @color-white;
+  display: inline-flex;
+  gap: @spacing-1;
+  background: transparent;
+  border: none;
+
+  &:hover {
+    .l-login__toolbar-locale-button-toggle-icon {
+      transform: translateY(10%);
+    }
+  }
+}
+
+.l-login__toolbar-locale-button-toggle-icon {
+  .size(16);
+  color: @color-white;
+  transition: @transition-normal;
+}
+
+.l-login__main {
+  display: flex;
+  flex: 1;
+  position: relative;
+  width: 100%;
+}
+
+.l-login__main-wrapper {
+  margin: auto;
+  max-width: @screen-xs;
+  padding: @spacing-12 @spacing-6;
+  width: 100%;
+}
+
+@media @mq-lg {
+  .l-login__background {
+    width: 50vw;
+  }
+
+  .l-login__toolbar {
+    position: absolute;
+  }
+
+  .l-login__main {
+    width: 50vw;
+    margin-left: auto;
+  }
+}

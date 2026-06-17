@@ -1,0 +1,77 @@
+@import url("../../global/variables.less");
+@import url("../../global/mixins.less");
+
+.c-image-popup {
+  background: @color-white;
+  border: none;
+  border-radius: @border-radius-lg;
+  margin: auto;
+  max-width: @screen-xs;
+  overflow: hidden;
+  padding: 0;
+  width: 100%;
+
+  &::backdrop {
+    background: @color-black;
+    opacity: 0.5;
+  }
+}
+
+.c-image-popup__wrapper {
+  position: relative;
+}
+
+.c-image-popup__close {
+  .size(48);
+  background: color-mix(in srgb, @color-black, transparent 50%);
+  border-radius: 100%;
+  border: none;
+  display: flex;
+  position: absolute;
+  right: @spacing-3;
+  top: @spacing-3;
+  transition: @transition-normal;
+
+  &:hover {
+    background: @color-primary-100;
+    transform: scale(1.1);
+  }
+
+  &:focus {
+    background: @color-primary-100;
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+.c-image-popup__close-icon {
+  color: @color-white;
+  margin: auto;
+}
+
+.c-image-popup__image {
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  width: 100%;
+}
+
+.c-image-popup__main {
+  display: flex;
+  flex-direction: column;
+  gap: @spacing-4;
+  justify-content: center;
+  padding: @spacing-12;
+  text-align: center;
+}
+
+.c-image-popup__title {
+  font-size: @font-size-xl;
+  font-weight: bold;
+  text-wrap: balance;
+}
+
+.c-image-popup__description {
+  color: @text-color-muted;
+}
