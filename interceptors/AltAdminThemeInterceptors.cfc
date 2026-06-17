@@ -23,10 +23,32 @@ component extends="coldbox.system.Interceptor" {
 				event.include( "/css/admin/altadmintheme/login/" );
 			}
 
+			var isHeaderLayout = getSetting( name="adminTheme.layout", defaultValue="sidebar" ) == "header";
+			var isLoginLayout  = event.getCurrentLayout() == "adminLogin.cfm";
+
+			if ( IsTrue( getSetting( name="adminTheme.features.modernComponents", defaultValue=false ) ) ) {
+				if ( !isLoginLayout || isHeaderLayout ) {
+					event.include( "/css/admin/altadmintheme-modern/" );
+				}
+			}
+
+			if ( IsTrue( getSetting( name="adminTheme.features.modernDataTables", defaultValue=false ) ) ) {
+				event.include( "/css/admin/altadmintheme-modern-data-tables/" );
+			}
+
 			for( var cssFile in cssFiles ) {
 				event.include( cssFile, false );
 			}
 		}
+	}
+
+	public void function postExtraTopRightButtons( event, interceptData ) {
+		if ( getSetting( name="adminTheme.layout", defaultValue="sidebar" ) != "header" ) {
+			return;
+		}
+
+		event.setPrivateValue( "topRightButtonActions", Duplicate( interceptData.actions ?: [] ) );
+		interceptData.actions.clear();
 	}
 
 	public void function postParseSelectFields( event, interceptData ) {

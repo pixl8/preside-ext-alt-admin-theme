@@ -1,0 +1,77 @@
+@import url("../global/variables.less");
+
+#app {
+  .nav-tabs {
+    border-bottom: solid 1px @color-neutral-10 !important;
+    margin-bottom: @spacing-6 !important;
+
+    li {
+      margin-bottom: 0;
+
+      a {
+        background: transparent;
+        border: solid 1px transparent;
+        border-bottom: none;
+        border-radius: @border-radius-lg @border-radius-lg 0 0 !important;
+        box-shadow: none !important;
+        padding: @spacing-4 !important;
+        position: relative;
+        top: 2px;
+        color: @text-color-muted;
+
+        > i {
+          display: none;
+        }
+
+        &:has(> i) {
+          padding-left: @spacing-3 !important;
+        }
+      }
+
+      &.active {
+        a {
+          background: @color-white;
+          border-color: @color-neutral-10;
+          border-bottom-color: transparent;
+          color: @text-color-highlight;
+          font-weight: @font-weight-bold;
+        }
+      }
+    }
+  }
+
+  .tab-content {
+    clear: both;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  // Tabs: Left Variation
+  .tabs-left {
+    .nav-tabs {
+      border-bottom: none !important;
+      border-right: solid 1px @color-neutral-10 !important;
+
+      li {
+        margin-bottom: 0;
+
+        a {
+          border-right: none;
+          border-radius: @border-radius-lg 0 0 @border-radius-lg !important;
+          top: 0;
+        }
+
+        &.active {
+          a {
+            border-bottom: solid 1px @color-neutral-10;
+          }
+        }
+      }
+    }
+
+    .tab-content {
+      clear: none;
+      padding: 0 @spacing-4 !important;
+    }
+  }
+}

@@ -3,6 +3,10 @@ component {
 		return renderView( view="/admin/layout/components/button", args=args );
 	}
 
+	private function label( event, rc, prc, args={} ) {
+		return renderView( view="/admin/layout/components/label", args=args );
+	}
+
 	private function emptyState( event, rc, prc, args={} ) {
 		var layout       = args.layout ?: "default";
 		var validLayouts = [ "default", "media" ];
