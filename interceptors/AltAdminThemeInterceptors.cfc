@@ -2,9 +2,25 @@ component extends="coldbox.system.Interceptor" {
 
 	property name="adminNavMenuCache"    inject="cachebox:adminMenuCache";
 	property name="presideObjectService" inject="delayedInjector:PresideObjectService";
+	property name="adminThemeLayout"     inject="coldbox:setting:adminTheme.layout";
+	property name="useModernComponents"  inject="coldbox:setting:adminTheme.features.modernComponents";
+	property name="useModernDataTables"  inject="coldbox:setting:adminTheme.features.modernDataTables";
+	property name="customCss"            inject="coldbox:setting:admin.customCss";
 
 // PUBLIC
 	public void function configure() {}
+
+	public void function preViewRecord( event, interceptData ) {
+		var prc = event.getCollection( private=true );
+
+		if ( StructKeyExists( prc, "infoCardPlacement" ) ) {
+			return;
+		}
+
+		var useSidebarInfoCard = adminThemeLayout == "header" && IsTrue( useModernComponents );
+
+		prc.infoCardPlacement = useSidebarInfoCard ? "sidebar" : "inline";
+	}
 
 	public void function preLayoutRender( event, interceptData ) {
 		if( event.isAdminRequest() || event.isAdminUser() ) {
@@ -16,34 +32,34 @@ component extends="coldbox.system.Interceptor" {
 				}
 			}
 
-			var cssFiles = getSetting( "admin.customCss" );
-
 			event.include( "/css/admin/altadmintheme/" );
 			if ( event.getCurrentLayout() == "adminLogin.cfm" ) {
 				event.include( "/css/admin/altadmintheme/login/" );
 			}
 
-			var isHeaderLayout = getSetting( name="adminTheme.layout", defaultValue="sidebar" ) == "header";
+			var isHeaderLayout = adminThemeLayout == "header";
 			var isLoginLayout  = event.getCurrentLayout() == "adminLogin.cfm";
 
-			if ( IsTrue( getSetting( name="adminTheme.features.modernComponents", defaultValue=false ) ) ) {
+			if ( IsTrue( useModernComponents ) ) {
 				if ( !isLoginLayout || isHeaderLayout ) {
 					event.include( "/css/admin/altadmintheme-modern/" );
 				}
 			}
 
-			if ( IsTrue( getSetting( name="adminTheme.features.modernDataTables", defaultValue=false ) ) ) {
+			if ( IsTrue( useModernDataTables ) ) {
 				event.include( "/css/admin/altadmintheme-modern-data-tables/" );
 			}
 
-			for( var cssFile in cssFiles ) {
-				event.include( cssFile, false );
+			if ( IsArray( customCss ) && ArrayLen( customCss ) ) {
+				for( var cssFile in customCss ) {
+					event.include( cssFile, false );
+				}
 			}
 		}
 	}
 
 	public void function postExtraTopRightButtons( event, interceptData ) {
-		if ( getSetting( name="adminTheme.layout", defaultValue="sidebar" ) != "header" ) {
+		if ( adminThemeLayout != "header" ) {
 			return;
 		}
 
