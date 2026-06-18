@@ -1,11 +1,12 @@
 <cfscript>
-	infoCard = prc.infoCard ?: "";
-	body     = renderView();
+	infoCard          = prc.infoCard          ?: "";
+	infoCardPlacement = prc.infoCardPlacement ?: "inline";
+	body              = renderView();
 </cfscript>
 
 <cfoutput>
 	<div class="s-main__body">
-		<cfif Len( Trim( infoCard ) )>
+		<cfif infoCardPlacement == "sidebar" && Len( Trim( infoCard ) )>
 			<div class="s-main__body-meta">
 				#infoCard#
 			</div>

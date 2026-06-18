@@ -1,5 +1,7 @@
 <!---@feature admin--->
 <cfscript>
+	infoCard              = prc.infoCard              ?: "";
+	infoCardPlacement     = prc.infoCardPlacement     ?: "inline";
 	topRightButtons       = prc.topRightButtons       ?: "";
 	tabs                  = prc.tabs                  ?: "";
 	preViewRecordContent  = prc.preViewRecordContent  ?: "";
@@ -14,6 +16,9 @@
 	</cfif>
 
 	#preViewRecordContent#
+	<cfif infoCardPlacement == "inline">
+		#infoCard#
+	</cfif>
 	#tabs#
 	#postViewRecordContent#
 </cfoutput>
