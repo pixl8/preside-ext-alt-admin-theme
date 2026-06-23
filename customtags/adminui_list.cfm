@@ -14,7 +14,7 @@
 							<cf_adminui_icon name="#attributes.icon#" class="c-list__item-icon c-list__item-icon--icon-#encodeForHTMLAttribute( attributes.icon )#" />
 						</cfif>
 
-						#encodeForHTML( item )#
+						#item#
 					</li>
 				</cfloop>
 			</ul>
