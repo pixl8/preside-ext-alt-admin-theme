@@ -10,7 +10,7 @@
 							#encodeForHTML( item.label )#
 						</dt>
 						<dd class="c-description-list__item-value">
-							#encodeForHTML( item.value )#
+							#item.value#
 						</dd>
 					</div>
 				</cfif>
