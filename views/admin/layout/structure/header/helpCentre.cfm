@@ -2,7 +2,7 @@
 	link = getSetting( 'presideHelpAndSupportLink' );
 </cfscript>
 
-<cfif Len( link ) && !isSaasManagementDomain()>
+<cfif Len( link )>
 	<cfoutput>
 		<a class="s-header__help-centre" href="#link#" target="_blank" rel="noopener noreferrer nofollow">
 			<cf_adminui_icon class="s-header__help-centre-icon" name="badge-question-mark" ariaHidden="true" />
