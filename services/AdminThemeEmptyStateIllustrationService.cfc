@@ -20,13 +20,15 @@ component {
 	}
 
 	public struct function resolveIllustration( required string name ) {
-		var safeName = _sanitizeName( arguments.name );
+		var safeName          = _sanitizeName( arguments.name );
+		var illustrationIndex = _getIllustrationIndex();
 
 		if ( !Len( safeName ) ) {
 			return _notFoundResult();
 		}
 
-		return _getIllustrationIndex()[ safeName ] ?: _notFoundResult();
+
+		return illustrationIndex[ safeName ] ?: _notFoundResult();
 	}
 
 	public void function clearCache() {
