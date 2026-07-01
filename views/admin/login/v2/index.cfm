@@ -24,20 +24,6 @@
 			</cfif>
 		</div>
 		<div class="p-login__body">
-			<cfset dummyCardActions = [
-				  { icon="plus",  href="##", label="Add item", skin="primary" }
-				, { icon="settings", href="##", label="Settings", skin="secondary" }
-				, { icon="trash", href="##", label="Delete", confirmTitle="Delete panel", confirmMessage="This cannot be undone." }
-			] />
-			<cf_adminui_card
-				  title       = "Panel Title"
-				  titleIcon   = "layout-panel-top"
-				  description = "This is the panel description"
-				  style       = "bordered"
-				  actions     = "#dummyCardActions#"
-			>
-				<p>Panel content goes here. This is just a dummy card to check the header, description, tooltips, and actions all render correctly.</p>
-			</cf_adminui_card>
 			<cfif renderedProviders.count()>
 				<cfloop array="#loginProviders#" index="i" item="provider">
 					<cfif StructKeyExists( renderedProviders, provider )>
