@@ -1,0 +1,92 @@
+@import url("../../global/variables.less");
+@import url("../../global/mixins.less");
+
+.c-button-icon {
+  align-items: center;
+  background: transparent;
+  border-radius: @border-radius-md;
+  border: solid 1px transparent;
+  color: @icon-color;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  position: relative;
+  transition: @transition-normal;
+  .size(32);
+
+  &:hover {
+    text-decoration: none !important;
+
+    .c-button-icon__tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  &:focus-visible {
+    .c-button-icon__tooltip {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  &--skin-primary {
+    background: @color-primary-100;
+    color: @color-white !important;
+
+    &:hover {
+      background: @color-primary-110;
+    }
+  }
+
+  &--skin-secondary {
+    background: @color-secondary-100;
+    color: @color-white !important;
+
+    &:hover {
+      background: @color-secondary-110;
+    }
+  }
+
+  &--skin-tertiary {
+    background: @color-tertiary-100;
+    color: @color-white !important;
+
+    &:hover {
+      background: @color-tertiary-110;
+    }
+  }
+
+  &--skin-bordered-neutral-20 {
+    border-color: @color-neutral-20;
+    color: @color-neutral-80 !important;
+
+    &:hover {
+      background: @color-neutral-40;
+    }
+  }
+}
+
+.c-button-icon__icon {
+  .size(16);
+  flex-shrink: 0;
+  stroke-width: 2;
+}
+
+.c-button-icon__tooltip {
+  background: @color-neutral-100;
+  border-radius: @border-radius-md;
+  color: @color-white;
+  font-size: @font-size-xs;
+  left: 50%;
+  opacity: 0;
+  padding: @spacing-1 @spacing-2;
+  pointer-events: none;
+  position: absolute;
+  top: calc(100% + @spacing-2);
+  transform: translateX(-50%);
+  transition: @transition-fast;
+  visibility: hidden;
+  white-space: nowrap;
+  z-index: 10;
+}

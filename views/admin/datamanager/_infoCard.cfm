@@ -5,7 +5,7 @@
 
 <cfif infoCardPlacement == "none">
 <cfelseif infoCardPlacement == "sidebar">
-	<cfinclude template="_infoCardModern.cfm" />
+	<cfinclude template="_infoCardV2.cfm" />
 <cfelse>
 	<cfinclude template="/preside/system/views/admin/datamanager/_infoCard.cfm" />
 </cfif>

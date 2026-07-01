@@ -1,9 +1,4 @@
 <cfscript>
-	if ( getSetting( name="adminTheme.layout", defaultValue="sidebar" ) == "v2" ) {
-		include template="adminLoginV2.cfm";
-		abort;
-	}
-
 	body          = renderView();
 	notifications = renderView( 'admin/general/notifications' );
 
@@ -28,7 +23,7 @@
 </cfscript>
 
 <cfoutput><!DOCTYPE html>
-<html lang="en" class="presidecms login">
+<html id="html" lang="en" class="presidecms login">
 	<head>
 		<meta charset="utf-8" />
 		<title>#htmlTitle#</title>
@@ -42,22 +37,23 @@
 		#topJs#
 	</head>
 
-	<body class="login-layout #layoutClass# preside-theme">
-		<div class="main-container">
-			<div class="main-content">
-				<div class="row">
-					<div class="col-sm-10 col-sm-offset-1">
-						<div class="login-container">
-							<div class="pull-right admin-locale-picker-container">
-								#renderViewlet( event='admin.Layout.localePicker' )#
-							</div>
-							#body#
-						</div>
-					</div><!--/span-->
-				</div><!--/row-->
+	<body class="body body--login #layoutClass# preside-theme" id="app">
+		<div class="l-login">
+			<div class="l-login__image"></div>
+			<div class="l-login__toolbar">
+				<cfif event.getCurrentEvent() neq "admin.login.index">
+					<a class="l-login__toolbar-logo" href="#event.buildLink( linkto='admin.login.index' )#">
+						<img class="l-login__toolbar-logo-image" src="#encodeForHTMLAttribute( getSetting( name='adminTheme.v2.loginToolbarLogo', defaultValue='' ) )#" alt="#encodeForHTMLAttribute( translateResource( 'cms:cms.title' ) )#" />
+					</a>
+				</cfif>
+				#renderViewlet( event='admin.layout.localePicker' )#
+			</div>
+			<div class="l-login__main">
+				<div class="l-login__main-wrapper">
+					#body#
+				</div>
 			</div>
 		</div>
-
 		#notifications#
 
 		#bottomJs#

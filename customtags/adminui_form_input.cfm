@@ -57,11 +57,11 @@
 				/>
 				<cfif attributes.toggleVisibility>
 					<button type="button" class="#local.baseClass#-input-toggle" data-target="###EncodeForHTMLAttribute( local.inputId )#" aria-label="Toggle visibility">
-						<cf_adminui_icon name="eye" class="#local.baseClass#-input-toggle-icon #local.baseClass#-input-toggle-icon--on" strokeWidth="2" />
-						<cf_adminui_icon name="eye-off" class="#local.baseClass#-input-toggle-icon #local.baseClass#-input-toggle-icon--off" strokeWidth="2" />
+						<cf_adminui_icon name="eye" class="#local.baseClass#-input-toggle-icon #local.baseClass#-input-toggle-icon--on" strokeWidth="1.5" />
+						<cf_adminui_icon name="eye-off" class="#local.baseClass#-input-toggle-icon #local.baseClass#-input-toggle-icon--off" strokeWidth="1.5" />
 					</button>
 				<cfelseif Len( attributes.icon )>
-					<cf_adminui_icon name="#attributes.icon#" class="#local.baseClass#-input-icon" strokeWidth="2" />
+					<cf_adminui_icon name="#attributes.icon#" class="#local.baseClass#-input-icon" strokeWidth="1.5" />
 				</cfif>
 			<cfif Len( attributes.icon ) OR attributes.toggleVisibility>
 				</div>

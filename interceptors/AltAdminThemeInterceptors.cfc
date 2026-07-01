@@ -3,8 +3,7 @@ component extends="coldbox.system.Interceptor" {
 	property name="adminNavMenuCache"    inject="cachebox:adminMenuCache";
 	property name="presideObjectService" inject="delayedInjector:PresideObjectService";
 	property name="adminThemeLayout"     inject="coldbox:setting:adminTheme.layout";
-	property name="useModernComponents"  inject="coldbox:setting:adminTheme.features.modernComponents";
-	property name="useModernDataTables"  inject="coldbox:setting:adminTheme.features.modernDataTables";
+	property name="useV2Components"      inject="coldbox:setting:adminTheme.features.v2Components";
 	property name="customCss"            inject="coldbox:setting:admin.customCss";
 
 // PUBLIC
@@ -17,7 +16,7 @@ component extends="coldbox.system.Interceptor" {
 			return;
 		}
 
-		var useSidebarInfoCard = adminThemeLayout == "header" && IsTrue( useModernComponents );
+		var useSidebarInfoCard = adminThemeLayout == "v2" && IsTrue( useV2Components );
 
 		prc.infoCardPlacement = useSidebarInfoCard ? "sidebar" : "inline";
 	}
@@ -37,17 +36,26 @@ component extends="coldbox.system.Interceptor" {
 				event.include( "/css/admin/altadmintheme/login/" );
 			}
 
-			var isHeaderLayout = adminThemeLayout == "header";
-			var isLoginLayout  = event.getCurrentLayout() == "adminLogin.cfm";
+			var isV2Layout    = adminThemeLayout == "v2";
+			var isLoginLayout = event.getCurrentLayout() == "adminLogin.cfm";
 
-			if ( IsTrue( useModernComponents ) ) {
-				if ( !isLoginLayout || isHeaderLayout ) {
-					event.include( "/css/admin/altadmintheme-modern/" );
+			if ( isV2Layout && isLoginLayout ) {
+				var loginViews = "index,forgottenPassword,resetPassword,twoStep,firstTimeUserSetup";
+
+				var loginView = ListLast( event.getCurrentView(), "/" );
+				if ( !ListFindNoCase( loginViews, loginView ) ) {
+					loginView = ListLast( event.getCurrentEvent(), "." );
+				}
+
+				if ( ListFindNoCase( loginViews, loginView ) ) {
+					event.setView( "admin/login/v2/" & loginView );
 				}
 			}
 
-			if ( IsTrue( useModernDataTables ) ) {
-				event.include( "/css/admin/altadmintheme-modern-data-tables/" );
+			if ( isV2Layout ) {
+				event.include( "/css/admin/altadmintheme-v2/" );
+			} else if ( IsTrue( useV2Components ) && !isLoginLayout ) {
+				event.include( "/css/admin/altadmintheme-v2-components/" );
 			}
 
 			if ( IsArray( customCss ) && ArrayLen( customCss ) ) {
@@ -59,7 +67,7 @@ component extends="coldbox.system.Interceptor" {
 	}
 
 	public void function postExtraTopRightButtons( event, interceptData ) {
-		if ( adminThemeLayout != "header" ) {
+		if ( adminThemeLayout != "v2" ) {
 			return;
 		}
 

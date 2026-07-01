@@ -1,8 +1,8 @@
 <!---@feature admin--->
 
 <cfscript>
-	if ( IsTrue( getSetting( name="adminTheme.features.modernDataTables", defaultValue=false ) ) ) {
-		include template="_listingActionsModern.cfm";
+	if ( getSetting( name="adminTheme.layout", defaultValue="sidebar" ) == "v2" ) {
+		include template="_listingActionsV2.cfm";
 	} else {
 		include template="_listingActionsSidebar.cfm";
 	}
