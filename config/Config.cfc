@@ -14,15 +14,10 @@ component {
 	}
 
 	private void function _setupAdminTheme( required settings ) {
-		settings.adminTheme.layout = settings.adminTheme.layout ?: "sidebar";
+		settings.adminTheme.layout = settings.adminTheme.layout ?: "v1";
 
-		settings.adminTheme.features = settings.adminTheme.features ?: {};
+		settings.adminTheme.features              = settings.adminTheme.features ?: {};
 		settings.adminTheme.features.v2Components = settings.adminTheme.features.v2Components ?: false;
-
-		settings.adminTheme.v2 = settings.adminTheme.v2 ?: {};
-		settings.adminTheme.v2.loginLogo        = settings.adminTheme.v2.loginLogo        ?: "/preside/system/assets/extension/preside-ext-alt-admin-theme/assets/images/logos/preside-logo-reverse.svg";
-		settings.adminTheme.v2.loginToolbarLogo = settings.adminTheme.v2.loginToolbarLogo ?: "/preside/system/assets/extension/preside-ext-alt-admin-theme/assets/images/logos/preside-logomark-reverse.svg";
-		settings.adminTheme.v2.headerLogo       = settings.adminTheme.v2.headerLogo       ?: "/preside/system/assets/extension/preside-ext-alt-admin-theme/assets/images/logos/preside-logomark-reverse.svg";
 
 		settings.adminTheme.iconBasePath = settings.adminTheme.iconBasePath ?: "/application/extensions/preside-ext-alt-admin-theme/assets/icons/adminui";
 

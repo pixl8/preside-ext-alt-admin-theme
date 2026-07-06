@@ -2,7 +2,7 @@
 	// admin.layout.environmentBanner handler always renders this view path. When the
 	// v2 layout is active, delegate to the v2 partial (s-environment-banner markup, styled
 	// by the altadmintheme-v2 bundle); otherwise fall back to the core banner markup.
-	useV2 = getSetting( name="adminTheme.layout", defaultValue="sidebar" ) == "v2";
+	useV2 = getSetting( name="adminTheme.layout", defaultValue="v1" ) == "v2";
 
 	iconClass = args.iconClass ?: "";
 	cssClass  = args.cssClass  ?: "alert-danger";
