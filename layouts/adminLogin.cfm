@@ -1,6 +1,6 @@
 <cfscript>
-	if ( getSetting( name="adminTheme.layout", defaultValue="sidebar" ) == "header" ) {
-		include template="adminLoginHeader.cfm";
+	if ( getSetting( name="adminTheme.layout", defaultValue="v1" ) == "v2" ) {
+		include template="adminLoginV2.cfm";
 		abort;
 	}
 

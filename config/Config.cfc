@@ -14,11 +14,10 @@ component {
 	}
 
 	private void function _setupAdminTheme( required settings ) {
-		settings.adminTheme.layout = settings.adminTheme.layout ?: "sidebar";
+		settings.adminTheme.layout = settings.adminTheme.layout ?: "v1";
 
-		settings.adminTheme.features = settings.adminTheme.features ?: {};
-		settings.adminTheme.features.modernComponents  = settings.adminTheme.features.modernComponents  ?: false;
-		settings.adminTheme.features.modernDataTables  = settings.adminTheme.features.modernDataTables  ?: false;
+		settings.adminTheme.features              = settings.adminTheme.features ?: {};
+		settings.adminTheme.features.v2Components = settings.adminTheme.features.v2Components ?: false;
 
 		settings.adminTheme.iconBasePath = settings.adminTheme.iconBasePath ?: "/application/extensions/preside-ext-alt-admin-theme/assets/icons/adminui";
 

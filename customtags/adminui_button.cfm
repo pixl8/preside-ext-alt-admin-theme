@@ -48,6 +48,7 @@
 			<cfif Len( attributes.id )>id="#EncodeForHTMLAttribute( attributes.id )#"</cfif>
 			<cfif Len( attributes.href )>href="#EncodeForHTMLAttribute( attributes.href )#"</cfif>
 			<cfif Len( attributes.target )>target="#EncodeForHTMLAttribute( attributes.target )#"</cfif>
+			<cfif Len( attributes.text ) && attributes.style == "icon">aria-label="#EncodeForHTMLAttribute( attributes.text )#"</cfif>
 			<cfif Len( attributes.confirmTitle )>title="#EncodeForHTMLAttribute( attributes.confirmTitle )#"</cfif>
 			<cfif Len( attributes.confirmMessage )>data-message="#EncodeForHTMLAttribute( attributes.confirmMessage )#"</cfif>
 			<cfif Len( attributes.confirmMatch )>data-confirmation-match="#EncodeForHTMLAttribute( attributes.confirmMatch )#"</cfif>
@@ -57,8 +58,11 @@
 			<cfif Len(attributes.icon)>
 				<cf_adminui_icon class="#local.baseClass#__icon" name="#attributes.icon#" />
 			</cfif>
-			<cfif Len(attributes.text)>
+			<cfif Len(attributes.text) && attributes.style != "icon">
 				#encodeForHTML(attributes.text)#
+			</cfif>
+			<cfif attributes.style == "icon" && Len( attributes.text )>
+				<span class="#local.baseClass#__tooltip" aria-hidden="true">#encodeForHTML( attributes.text )#</span>
 			</cfif>
 			<cfif attributes.dropdown>
 				<cf_adminui_icon class="#local.baseClass#__icon-toggle" name="chevron-down" />

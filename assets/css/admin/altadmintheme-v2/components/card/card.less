@@ -1,0 +1,53 @@
+@import url("../../global/variables.less");
+@import url("../../global/mixins.less");
+
+.c-card {
+  &--style-bordered {
+    border-radius: @border-radius-lg;
+    border: solid 1px @color-neutral-10;
+    padding: @spacing-6;
+  }
+}
+
+.c-card__header {
+  display: flex;
+  gap: @spacing-4;
+  justify-content: space-between;
+  margin-bottom: @spacing-6;
+}
+
+.c-card__header-wrapper-one {
+  display: flex;
+  gap: @spacing-2;
+  min-width: 0;
+}
+
+.c-card__header-icon {
+  .size(20);
+  color: @icon-color-highlight;
+  flex-shrink: 0;
+}
+
+.c-card__header-title-description {
+  display: flex;
+  flex-direction: column;
+  gap: @spacing-1;
+  min-width: 0;
+}
+
+.c-card__header-title {
+  color: @text-color-highlight;
+  font-weight: @font-weight-bold;
+}
+
+.c-card__header-description {
+  color: @text-color-muted;
+  font-size: @font-size-sm;
+}
+
+.c-card__header-actions {
+  align-items: center;
+  display: flex;
+  flex-shrink: 0;
+  gap: @spacing-1;
+}
