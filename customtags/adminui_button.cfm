@@ -16,6 +16,7 @@
 <cfparam name="attributes.popovertarget"  type="string"  default="" />
 <cfparam name="attributes.textAlign"      type="string"  default="" />
 <cfparam name="attributes.dropdown"       type="boolean" default="false" />
+<cfparam name="attributes.attribs"        type="struct"  default="#StructNew()#" /><!--- passthrough html attributes, e.g. data-*, aria-* --->
 
 <cfif thisTag.executionMode is "start">
 	<cfscript>
@@ -39,6 +40,13 @@
 		}
 
 		local.tagName = ListFindNoCase( "button,submit", attributes.type ) ? "button" : "a";
+
+		local.extraAttribs = "";
+		for ( local.attribName in attributes.attribs ) {
+			if ( ReFindNoCase( "^[a-z][a-z0-9\-_:]*$", local.attribName ) ) {
+				local.extraAttribs &= ' #local.attribName#="#EncodeForHTMLAttribute( attributes.attribs[ local.attribName ] )#"';
+			}
+		}
 	</cfscript>
 
 	<cfoutput>
@@ -54,6 +62,7 @@
 			<cfif Len( attributes.confirmMatch )>data-confirmation-match="#EncodeForHTMLAttribute( attributes.confirmMatch )#"</cfif>
 			<cfif Len( attributes.shortcutKey )>data-global-key="#EncodeForHTMLAttribute( attributes.shortcutKey )#"</cfif>
 			<cfif Len( attributes.popovertarget )>popovertarget="#EncodeForHTMLAttribute( attributes.popovertarget )#"</cfif>
+			#local.extraAttribs#
 		>
 			<cfif Len(attributes.icon)>
 				<cf_adminui_icon class="#local.baseClass#__icon" name="#attributes.icon#" />
