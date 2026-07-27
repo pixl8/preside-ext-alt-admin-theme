@@ -6,6 +6,23 @@ It is designed so you can adopt components gradually on the classic (v1) admin, 
 
 Related ticket: [ADMINTHEME-117](https://projects.pixl8.london/browse/ADMINTHEME-117).
 
+## Preside dependency
+
+The `cf_adminui_*` custom tags live in this extension’s `customtags/` directory. That only works if Preside can register extension (and application) custom tag paths — added in [PRESIDECMS-682](https://presidecms.atlassian.net/browse/PRESIDECMS-682).
+
+You need a Preside build that includes that change. Minimum hotfixed versions per minor line:
+
+| Minor line | Minimum version |
+|------------|-----------------|
+| 10.26 | **10.26.134** |
+| 10.27 | **10.27.104** |
+| 10.28 | **10.28.68** |
+| 10.29 | **10.29.46** |
+| 10.30 | **10.30.30** |
+| 10.31+ | Included in the 10.31 release line |
+
+Without one of those builds (or newer on the same line), the `cf_adminui_*` tags will not resolve.
+
 ## Enabling the system
 
 Configuration lives under `settings.adminTheme` (see `config/Config.cfc`):

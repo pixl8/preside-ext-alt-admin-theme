@@ -92,6 +92,8 @@ If displaying a sidebar menu, you may optionally specify a header panel by setti
 
 This extension now ships a **v2 components system**: a modern design-system layer of CFML custom tags (`cf_adminui_*`), Lucide icons, CSS tokens, and optional full admin / login chrome. You can adopt it gradually on the classic layout, or switch the entire admin shell to v2.
 
+The custom tags require Preside support for extension/application custom tag paths ([PRESIDECMS-682](https://presidecms.atlassian.net/browse/PRESIDECMS-682)). Minimum hotfixes: **10.26.134**, **10.27.104**, **10.28.68**, **10.29.46**, **10.30.30**, or **10.31+**. See [docs/v2-components-system.md](docs/v2-components-system.md#preside-dependency) for the full table.
+
 Enable it from your application config:
 
 ```cfscript

@@ -2,6 +2,8 @@
 
 Tags live in `customtags/` and are invoked as `cf_adminui_*` (filename without `.cfm`, with a `cf_` prefix). Nested tags such as icons inside buttons work without an explicit `cfimport`.
 
+**Preside requirement:** extension custom tags depend on [PRESIDECMS-682](https://presidecms.atlassian.net/browse/PRESIDECMS-682). Use at least **10.26.134**, **10.27.104**, **10.28.68**, **10.29.46**, **10.30.30**, or a **10.31+** build. See [V2 components system: Preside dependency](v2-components-system.md#preside-dependency).
+
 Shared helpers used by some tags live in `_adminuiHelpers.cfm` (settings, i18n, empty-state illustrations). Custom tags do not inherit Preside view helpers, so those helpers talk to ColdBox via `application.cbBootstrap.getController()`.
 
 ---
