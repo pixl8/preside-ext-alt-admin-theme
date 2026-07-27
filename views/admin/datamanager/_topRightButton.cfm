@@ -9,18 +9,20 @@
 	children  = args.children  ?: [];
 	target    = args.target    ?: "";
 	match     = args.match     ?: "";
+
+	linkAttributes = renderHtmlAttributes( attribs=( args.linkAttributes ?: {} ), attribPrefix=( args.linkAttributePrefix ?: "" ) );
 </cfscript>
 
 <cfoutput>
 	<cfif !children.len()>
-		<a class="pull-right btn #btnClass# btn-sm inline<cfif prompt.len()> confirmation-prompt</cfif>" href="#link#"<cfif not isEmptyString( globalKey )> data-global-key="#globalKey#"</cfif><cfif prompt.len()> title="#HtmlEditFormat( prompt )#"</cfif><cfif Len( message )> data-message="#EncodeForHTML( message )#"</cfif><cfif target.len()> target="#target#"</cfif><cfif match.len()> data-confirmation-match="#match#"</cfif>>
+		<a class="pull-right btn #btnClass# btn-sm inline<cfif prompt.len()> confirmation-prompt</cfif>" href="#link#"<cfif not isEmptyString( globalKey )> data-global-key="#globalKey#"</cfif><cfif prompt.len()> title="#HtmlEditFormat( prompt )#"</cfif><cfif Len( message )> data-message="#EncodeForHTML( message )#"</cfif><cfif target.len()> target="#target#"</cfif><cfif match.len()> data-confirmation-match="#match#"</cfif> #linkAttributes#>
 			<cfif !isEmpty(iconClass)><i class="fa fa-fw #iconClass#"></i></cfif>
 			#title#
 		</a>
 	<cfelse>
 		<div class="btn-group<cfif Len( link )> primary-action-with-dropdown</cfif> pull-right">
 			<cfif Len( link )>
-				<a class="btn #btnClass# btn-sm inline<cfif prompt.len()> confirmation-prompt</cfif>" href="#link#"<cfif not isEmptyString( globalKey )> data-global-key="#globalKey#"</cfif><cfif prompt.len()> title="#HtmlEditFormat( prompt )#"</cfif><cfif target.len()> target="#target#"</cfif><cfif match.len()> data-confirmation-match="#match#"</cfif>>
+				<a class="btn #btnClass# btn-sm inline<cfif prompt.len()> confirmation-prompt</cfif>" href="#link#"<cfif not isEmptyString( globalKey )> data-global-key="#globalKey#"</cfif><cfif prompt.len()> title="#HtmlEditFormat( prompt )#"</cfif><cfif target.len()> target="#target#"</cfif><cfif match.len()> data-confirmation-match="#match#"</cfif> #linkAttributes#>
 					<cfif !isEmpty(iconClass)><i class="fa fa-fw #iconClass#"></i></cfif>
 					#title#
 				</a>

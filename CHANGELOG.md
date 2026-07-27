@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.5.1
+
+* Compatability fix for top right buttons
+
 ## v1.5.0
 
 * New "v2" components system (see README and supplementary docs)
