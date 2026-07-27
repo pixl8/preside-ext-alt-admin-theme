@@ -86,3 +86,40 @@ With the main navigation moved to the top of the page, this frees up the side of
 Set an array of menu items ([defined as per the main menus](https://docs.preside.org/devguides/adminMenuItems.html)) into `prc.adminSidebarItems`, and the menu will be rendered in the sidebar. These menus can be nested several levels deep, and will auto-expand when clicked. Note that the parent of children will not itself be a link; it just acts as a title and open/close trigger for the child menu.
 
 If displaying a sidebar menu, you may optionally specify a header panel by setting rendered HTML into `prc.adminSidebarHeader`. This might contain basic information about a record, for instance.
+
+
+## V2 components system (v1.5.0 onwards)
+
+This extension now ships a **v2 components system**: a modern design-system layer of CFML custom tags (`cf_adminui_*`), Lucide icons, CSS tokens, and optional full admin / login chrome. You can adopt it gradually on the classic layout, or switch the entire admin shell to v2.
+
+Enable it from your application config:
+
+```cfscript
+// Use v2 components on the classic (v1) chrome
+settings.adminTheme.features.v2Components = true;
+
+// Or switch the full admin + login chrome to v2
+settings.adminTheme.layout = "v2";
+```
+
+| Mode | Settings | Effect |
+|------|----------|--------|
+| Components only | `layout = "v1"`, `v2Components = true` | Classic layout; v2 component CSS loaded so you can use `cf_adminui_*` tags |
+| Full v2 layout | `layout = "v2"` | New header / structure / login layouts plus component CSS |
+| Full v2 + sidebar info cards | `layout = "v2"`, `v2Components = true` | As above, with datamanager view-record info cards in the sidebar |
+
+Example usage:
+
+```html
+<cf_adminui_button text="Save" type="submit" />
+<cf_adminui_alert type="success" text="Record updated." />
+```
+
+### Documentation
+
+* [V2 components system overview](docs/v2-components-system.md) — enabling modes, architecture, asset loading
+* [Custom tag reference](docs/v2-custom-tags.md) — attributes and examples for every `cf_adminui_*` tag
+* [Theming, branding and icons](docs/v2-theming.md) — CSS variables, logos, Lucide icons, empty-state illustrations
+* [V2 layouts and structure](docs/v2-layouts.md) — admin / login chrome, navigation hooks, datamanager integrations
+
+Work tracked under [ADMINTHEME-117](https://projects.pixl8.london/browse/ADMINTHEME-117) (branch name still references ADMINTHEME-115).
