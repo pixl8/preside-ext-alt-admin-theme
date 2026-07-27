@@ -1,0 +1,46 @@
+@import url("../../global/mixins.less");
+
+.c-empty-state {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: @screen-sm;
+  text-align: center;
+}
+
+.c-empty-state__image {
+  .size(160);
+  margin: 0 auto @spacing-6 auto;
+}
+
+.c-empty-state__title {
+  color: @text-color-highlight;
+  font-size: @font-size-lg;
+  font-weight: @font-weight-bold;
+  margin-bottom: @spacing-2;
+  text-wrap: balance;
+
+  + .c-empty-state__description {
+    text-wrap: initial;
+  }
+}
+
+.c-empty-state__description {
+  color: @text-color-muted;
+  text-wrap: balance;
+
+  &:not(:last-child) {
+    margin-bottom: @spacing-6;
+  }
+}
+
+@media @mq-md {
+  .c-empty-state__image {
+    .size(240);
+  }
+
+  .c-empty-state__title {
+    font-size: @font-size-2xl;
+  }
+}

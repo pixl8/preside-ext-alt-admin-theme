@@ -1,0 +1,48 @@
+@import url("../../global/variables.less");
+@import url("../../global/mixins.less");
+
+.c-progress-bar {
+  margin-bottom: @spacing-3;
+}
+
+.c-progress-bar__track {
+  .height(8);
+  background: @color-neutral-10;
+  border-radius: @border-radius-sm;
+  overflow: hidden;
+}
+
+.c-progress-bar__fill {
+  border-radius: @border-radius-sm;
+  height: 100%;
+  transition: width @transition-normal ease;
+}
+
+.c-progress-bar--skin-primary .c-progress-bar__fill {
+  background: @color-primary-100;
+}
+
+.c-progress-bar--skin-secondary .c-progress-bar__fill {
+  background: @color-secondary-100;
+}
+
+.c-progress-bar--skin-tertiary .c-progress-bar__fill {
+  background: @color-tertiary-100;
+}
+
+.c-progress-bar__footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: @spacing-2;
+}
+
+.c-progress-bar__label {
+  color: @text-color;
+  font-size: @font-size-sm;
+}
+
+.c-progress-bar__value {
+  color: @text-color-highlight;
+  font-size: @font-size-sm;
+  font-weight: @font-weight-bold;
+}

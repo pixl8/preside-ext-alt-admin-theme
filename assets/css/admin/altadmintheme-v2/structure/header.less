@@ -1,0 +1,319 @@
+@import url("../global/mixins.less");
+
+.s-header {
+  border-top: solid 1px
+    ~"color-mix(in srgb, var(--body-background-color), white 12.5%)";
+  border-radius: @border-radius-3xl @border-radius-3xl 0 0;
+  display: flex !important;
+  gap: @spacing-6;
+}
+
+.s-header__wrapper-one {
+  display: flex;
+  gap: @spacing-6;
+  min-width: 0;
+}
+
+.s-header__wrapper-two {
+  align-items: center;
+  display: flex;
+  gap: @spacing-4;
+  margin-left: auto;
+  padding-right: @spacing-6;
+}
+
+// Header: Mobile Navigation Trigger
+.s-header__mobile-navigation-trigger {
+  align-items: center;
+  background: transparent;
+  border-right: solid 1px
+    ~"color-mix(in srgb, var(--body-background-color), white 12.5%)" !important;
+  border: none;
+  display: flex;
+  gap: @spacing-2;
+  padding: @spacing-6;
+
+  &:focus-visible {
+    border-radius: @border-radius-lg;
+    outline-offset: -@spacing-1;
+    outline: solid 2px;
+  }
+}
+
+.s-header__mobile-navigation-trigger-icon {
+  .size(20);
+  color: var(
+    --structure-header-mobile-navigation-trigger-icon-color,
+    @color-secondary-100
+  );
+}
+
+.s-header__mobile-navigation-trigger-text {
+  display: none;
+}
+
+// Header: Branding
+.s-header__branding {
+  display: none;
+}
+
+.s-header__branding-logo {
+  display: block;
+  .size(40);
+  object-fit: contain;
+}
+
+// Header: Navigation
+.s-header__navigation {
+  display: none;
+}
+
+// Header: Help Centre
+.s-header__help-centre {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  padding: 0;
+
+  &:focus {
+    border-radius: 100%;
+    outline-offset: @spacing-1 !important;
+    outline: solid 2px @color-secondary-100 !important;
+  }
+}
+
+.s-header__help-centre-icon {
+  color: @color-white;
+  .size(20);
+}
+
+.s-header__help-centre-text {
+  display: none;
+}
+
+// Header: Search
+.s-header__search {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  padding: 0;
+
+  &:focus {
+    border-radius: 100%;
+    outline-offset: @spacing-1 !important;
+    outline: solid 2px @color-secondary-100 !important;
+  }
+}
+
+.s-header__search-icon {
+  .size(20);
+  color: @color-white;
+}
+
+// Header: Alerts
+.s-header__alerts {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  padding: 0;
+  position: relative;
+
+  &:hover {
+    .s-header__alerts-icon {
+      transform: scale(1.1);
+    }
+  }
+
+  &:active {
+    .s-header__alerts-icon {
+      transform: scale(0.9);
+    }
+  }
+
+  &:focus-visible {
+    border-radius: 100%;
+    outline-offset: @spacing-1 !important;
+    outline: solid 2px @color-secondary-100 !important;
+  }
+}
+
+.s-header__alerts-icon {
+  .size(20);
+  color: @color-white;
+  transition: @transition-normal;
+}
+
+.s-header__alerts-badge {
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translate(75%, -75%);
+}
+
+// Header: Settings
+.s-header__settings-button {
+  align-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  padding: 0;
+
+  &:hover {
+    .s-header__settings-button-icon {
+      transform: scale(1.1);
+    }
+  }
+
+  &:active {
+    .s-header__settings-button-icon {
+      transform: scale(0.9);
+    }
+  }
+
+  &:focus-visible {
+    border-radius: 100%;
+    outline-offset: @spacing-1;
+    outline: solid 2px @color-secondary-100;
+  }
+}
+
+.s-header__settings-button-icon {
+  .size(20);
+  color: @color-white;
+  transition: @transition-normal;
+}
+
+// Header: User
+.s-header__user-button {
+  align-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  gap: @spacing-1;
+  padding: 0;
+
+  &:hover {
+    .s-header__user-button-toggle-icon {
+      transform: translateY(10%);
+    }
+  }
+
+  &:active {
+    .s-header__user-button-image {
+      transform: scale(0.9);
+    }
+  }
+
+  &:focus-visible {
+    border-radius: @border-radius-sm;
+    outline-offset: @spacing-1;
+    outline: solid 2px @color-secondary-100;
+  }
+}
+
+.s-header__user-button-image {
+  .size(32);
+  border-radius: @border-radius-sm;
+  object-fit: cover;
+  transition: @transition-normal;
+}
+
+.s-header__user-button-toggle-icon {
+  .size(16);
+  color: @color-white;
+  transition: @transition-normal;
+}
+
+@media @mq-sm {
+  // Header: Mobile Navigation Trigger
+  .s-header__mobile-navigation-trigger-text {
+    color: @color-white;
+    display: inline-flex;
+    font-weight: @font-weight-bold;
+  }
+
+  // Header: User
+  .s-header__user-button-image {
+    .size(40);
+  }
+}
+
+@media @mq-lg {
+  .s-header__wrapper-one {
+    padding-left: @spacing-8;
+  }
+
+  .s-header__wrapper-two {
+    padding-right: @spacing-6;
+  }
+
+  // Header: Navigation Trigger
+  .s-header__mobile-navigation-trigger {
+    display: none;
+  }
+
+  // Header: Branding
+  .s-header__branding {
+    align-self: center;
+    display: inline-flex;
+
+    &:focus {
+      outline: none !important;
+    }
+
+    &:focus-visible {
+      border-radius: @border-radius-md;
+      outline-offset: @spacing-1 !important;
+      outline: solid 2px @color-secondary-100 !important;
+    }
+  }
+
+  // Header: Navigation
+  .s-header__navigation {
+    display: flex;
+    min-width: 0;
+  }
+}
+
+@media @mq-xl {
+  // Header: Help Centre
+  .s-header__help-centre {
+    align-self: stretch;
+    border-left: solid 1px
+      ~"color-mix(in srgb, var(--body-background-color), white 12.5%)";
+    border-right: solid 1px
+      ~"color-mix(in srgb, var(--body-background-color), white 12.5%)";
+    gap: @spacing-2;
+    padding: @spacing-6 @spacing-4;
+
+    &:hover {
+      text-decoration: none !important;
+
+      .s-header__help-centre-icon {
+        transform: scale(1.1);
+      }
+    }
+
+    &:focus {
+      border-radius: @border-radius-md;
+      outline-offset: -@spacing-1 !important;
+      outline: solid 2px @color-secondary-100 !important;
+    }
+  }
+
+  .s-header__help-centre-icon {
+    color: @color-secondary-100;
+    transition: @transition-normal;
+  }
+
+  .s-header__help-centre-text {
+    color: @color-white;
+    display: inline-flex;
+    font-weight: @font-weight-bold;
+  }
+}

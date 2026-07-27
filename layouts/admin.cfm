@@ -1,4 +1,9 @@
 <cfscript>
+	if ( getSetting( name="adminTheme.layout", defaultValue="v1" ) == "v2" ) {
+		include template="adminV2.cfm";
+		abort;
+	}
+
 	body             = renderView();
 	navbar           = renderView( "admin/util/topNav" );
 	siteAlerts       = renderViewlet( "admin.layout.siteAlerts" );

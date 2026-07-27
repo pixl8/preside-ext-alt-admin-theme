@@ -1,0 +1,43 @@
+@import url("../../global/variables.less");
+
+.c-stack {
+  display: flex;
+  flex-direction: column;
+  gap: @spacing-6;
+
+  &--has-separators {
+    .c-stack__item {
+      &:not(:last-child) {
+        border-bottom: solid 1px @color-neutral-10;
+        padding-bottom: @spacing-6;
+      }
+    }
+  }
+
+  &--style-bordered {
+    border-radius: @border-radius-lg;
+    border: solid 1px @color-neutral-10;
+    padding: @spacing-6;
+  }
+
+  &__item {
+    &--align-left,
+    &--align-center,
+    &--align-right {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &--align-left {
+      align-items: flex-start;
+    }
+
+    &--align-center {
+      align-items: center;
+    }
+
+    &--align-right {
+      align-items: flex-end;
+    }
+  }
+}
