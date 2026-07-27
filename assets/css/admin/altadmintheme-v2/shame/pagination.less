@@ -1,0 +1,24 @@
+@import url("../global/variables.less");
+
+.pagination {
+  display: inline-flex !important;
+  gap: @spacing-2;
+
+  li.disabled {
+    opacity: 0.3;
+  }
+
+  li.active {
+    a {
+      background: @color-primary-100 !important;
+      border-color: @color-primary-100 !important;
+      color: @color-white !important;
+    }
+  }
+
+  a {
+    background: @color-white !important;
+    border-radius: @border-radius-md !important;
+    border: solid 1px @color-neutral-10 !important;
+  }
+}

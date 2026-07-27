@@ -1,0 +1,35 @@
+// Root: Themeable custom properties and their defaults.
+@import url("global/root");
+
+// Global: LESS aliases for the tokens above (no CSS output).
+@import url("global/variables");
+
+// Components: Shared component library.
+@import url("components/components");
+
+// Layouts: Full-page layout styling.
+@import url("layouts/login");
+
+// Structure: Admin chrome (header, breadcrumbs, main).
+@import url("structure/breadcrumbs");
+@import url("structure/environment-banner");
+@import url("structure/header");
+@import url("structure/main");
+@import url("structure/mobile-navigation");
+
+// Shame: Overrides to align core Preside markup with this theme.
+@import url("shame/forms");
+@import url("shame/tabs");
+@import url("shame/datatable");
+@import url("shame/pagination");
+@import url("shame/table-responsive");
+
+#html {
+  background: transparent !important;
+}
+
+#app {
+  background: var(--body-background-color);
+  display: flex;
+  flex-direction: column;
+}

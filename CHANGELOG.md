@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.5.0
+
+* New "v2" components system (see README and supplementary docs)
+
 ## v1.4.1
 
 * Fix colouring of progress bars

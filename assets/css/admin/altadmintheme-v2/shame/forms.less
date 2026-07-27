@@ -1,0 +1,25 @@
+@import url("../global/variables.less");
+@import url("../global/mixins.less");
+
+#app {
+  .form-horizontal {
+    fieldset {
+      > h3.header {
+        color: @text-color !important;
+        font-size: @font-size-md;
+        font-weight: @font-weight-bold;
+      }
+    }
+  }
+
+  .form-control {
+    border-radius: @border-radius-md !important;
+    border-color: @color-neutral-10;
+  }
+
+  .form-group {
+    .required sup i {
+      color: @color-secondary-100;
+    }
+  }
+}

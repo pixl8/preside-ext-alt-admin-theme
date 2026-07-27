@@ -1,0 +1,76 @@
+@import url("../../global/variables.less");
+@import url("../../global/mixins.less");
+
+.c-card-stat {
+  &--style-bordered {
+    border-radius: @border-radius-lg;
+    border: solid 1px @color-neutral-10;
+    padding: @spacing-6;
+  }
+}
+
+.c-card-stat__header {
+  margin-bottom: @spacing-2;
+}
+
+.c-card-stat__header-title {
+  color: @text-color-muted;
+}
+
+.c-card-stat__body {
+  margin-bottom: @spacing-6;
+}
+
+.c-card-stat__value {
+  color: @text-color-highlight;
+  font-size: @font-size-3xl;
+  font-weight: @font-weight-bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.c-card-stat__trend {
+  align-items: center;
+  display: flex;
+  gap: @spacing-2;
+}
+
+.c-card-stat__trend-badge {
+  align-items: center;
+  border-radius: @border-radius-lg;
+  border: solid 1px @color-neutral-10;
+  display: inline-flex;
+  gap: @spacing-1;
+  padding: @spacing-1 @spacing-2;
+
+  &--increase {
+    .c-card-stat__trend-badge-icon {
+      color: @color-success-100;
+    }
+  }
+
+  &--decrease {
+    .c-card-stat__trend-badge-icon {
+      color: @color-error-100;
+    }
+  }
+}
+
+.c-card-stat__trend-badge-icon {
+  color: @icon-color-muted;
+  .size(16);
+}
+
+.c-card-stat__trend-badge-value {
+  color: @text-color-highlight;
+  font-size: @font-size-2xs;
+}
+
+.c-card-stat__trend-label {
+  color: @text-color-muted;
+  font-size: @font-size-2xs;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -1,4 +1,9 @@
 <cfscript>
+	if ( getSetting( name="adminTheme.layout", defaultValue="v1" ) == "v2" ) {
+		include template="adminLoginV2.cfm";
+		abort;
+	}
+
 	body          = renderView();
 	notifications = renderView( 'admin/general/notifications' );
 
