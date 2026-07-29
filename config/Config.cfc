@@ -57,6 +57,7 @@ component {
 			, "fa-eye"                  = { path = basePath & "/eye.svg" }
 			, "fa-file-pdf"             = { path = basePath & "/file-text.svg" }
 			, "fa-globe"                = { path = basePath & "/globe.svg" }
+			, "fa-graduation-cap"       = { path = basePath & "/graduation-cap.svg" }
 			, "fa-history"              = { path = basePath & "/history.svg" }
 			, "fa-hourglass-half"       = { path = basePath & "/hourglass.svg" }
 			, "fa-info-circle"          = { path = basePath & "/info.svg" }
