@@ -77,6 +77,19 @@
 	</cfscript>
 </cffunction>
 
+<cffunction name="_adminuiRenderIcon" access="public" returntype="string" output="false">
+	<cfargument name="name"        type="string" required="true" />
+	<cfargument name="class"       type="string" required="false" default="c-icon" />
+	<cfargument name="strokeWidth" type="any"    required="false" default="" />
+	<cfargument name="ariaHidden"  type="string" required="false" default="" />
+
+	<cfscript>
+		var value = _getController()?.getWireBox().getInstance( "adminThemeIconService" ).renderIcon( argumentCollection=arguments );
+
+		return local.value ?: "";
+	</cfscript>
+</cffunction>
+
 <cffunction name="_getController" access="public" returntype="any" output="false">
 	<cfscript>
 		if ( StructKeyExists( application, "cbBootstrap" ) && IsDefined( 'application.cbBootstrap.getController' ) ) {
