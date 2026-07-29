@@ -15,7 +15,7 @@
 	<cfelseif hasSubMenu OR Len( Trim( itemLink ) )>
 		<li class="c-menu-app__item<cfif active> is-active</cfif>">
 			<cfif hasSubMenu>
-				<button class="c-menu-app__item-link" popovertarget="menu-app-submenu-#EncodeForHtmlAttribute( itemId )#">
+				<button class="c-menu-app__item-link" popovertarget="menu-app-submenu-#EncodeForHtmlAttribute( itemId )#" style="anchor-name: --popover-anchor-menu-app-submenu-#EncodeForHtmlAttribute( itemId )#;">
 			<cfelse>
 				<a class="c-menu-app__item-link" href="#itemLink#">
 			</cfif>
@@ -32,7 +32,7 @@
 				</a>
 			</cfif>
 			<cfif hasSubMenu>
-				<ul class="c-menu-app__submenu" id="menu-app-submenu-#EncodeForHtmlAttribute( itemId )#" popover>
+				<ul class="c-menu-app__submenu" id="menu-app-submenu-#EncodeForHtmlAttribute( itemId )#" popover style="position-anchor: --popover-anchor-menu-app-submenu-#EncodeForHtmlAttribute( itemId )#;">
 					#subMenu#
 				</ul>
 			</cfif>

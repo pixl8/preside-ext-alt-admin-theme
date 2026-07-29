@@ -61,7 +61,7 @@
 			<cfif Len( attributes.confirmMessage )>data-message="#EncodeForHTMLAttribute( attributes.confirmMessage )#"</cfif>
 			<cfif Len( attributes.confirmMatch )>data-confirmation-match="#EncodeForHTMLAttribute( attributes.confirmMatch )#"</cfif>
 			<cfif Len( attributes.shortcutKey )>data-global-key="#EncodeForHTMLAttribute( attributes.shortcutKey )#"</cfif>
-			<cfif Len( attributes.popovertarget )>popovertarget="#EncodeForHTMLAttribute( attributes.popovertarget )#"</cfif>
+			<cfif Len( attributes.popovertarget )>popovertarget="#EncodeForHTMLAttribute( attributes.popovertarget )#" style="anchor-name: --popover-anchor-#EncodeForHTMLAttribute( attributes.popovertarget )#;"</cfif>
 			#local.extraAttribs#
 		>
 			<cfif Len(attributes.icon)>

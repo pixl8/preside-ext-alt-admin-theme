@@ -10,7 +10,8 @@
 		        aria-expanded="false"
 		        aria-controls="#encodeForHtmlAttribute( attributes.target )#"
 		        <cfif Len( attributes.ariaLabel )>aria-label="#encodeForHtmlAttribute( attributes.ariaLabel )#"</cfif>
-		        <cfif Len( attributes.class )>class="#encodeForHtmlAttribute( attributes.class )#"</cfif>>
+		        <cfif Len( attributes.class )>class="#encodeForHtmlAttribute( attributes.class )#"</cfif>
+		        style="anchor-name: --popover-anchor-#encodeForHtmlAttribute( attributes.target )#;">
 	</cfoutput>
 </cfif>
 

@@ -4,7 +4,7 @@ Tags live in `customtags/` and are invoked as `cf_adminui_*` (filename without `
 
 **Preside requirement:** extension custom tags depend on [PRESIDECMS-682](https://presidecms.atlassian.net/browse/PRESIDECMS-682). Use at least **10.26.134**, **10.27.104**, **10.28.68**, **10.29.46**, **10.30.30**, or a **10.31+** build. See [V2 components system: Preside dependency](v2-components-system.md#preside-dependency).
 
-Shared helpers used by some tags live in `_adminuiHelpers.cfm` (settings, i18n, empty-state illustrations). Custom tags do not inherit Preside view helpers, so those helpers talk to ColdBox via `application.cbBootstrap.getController()`.
+Shared helpers used by some tags live in `_adminuiHelpers.cfm` (settings, i18n, empty-state illustrations, icons). Custom tags do not inherit Preside view helpers, so those helpers talk to ColdBox via `application.cbBootstrap.getController()`.
 
 ---
 
@@ -269,7 +269,7 @@ Labeled text-like input (or hidden). Self-closing.
 
 ## Icon — `cf_adminui_icon`
 
-Inline Lucide SVG loaded from disk. Self-closing.
+Inline Lucide SVG resolved via `AdminThemeIconService`. Self-closing.
 
 | Attribute | Default | Notes |
 |-----------|---------|--------|
@@ -278,7 +278,9 @@ Inline Lucide SVG loaded from disk. Self-closing.
 | `strokeWidth` | `1.5` | |
 | `ariaHidden` | `true` | |
 
-Icons are resolved from `adminTheme.iconBasePath` (default points at this extension’s `assets/icons/adminui`). Missing or invalid names produce no output. Common Font Awesome class names are remapped to Lucide equivalents inside the tag.
+Icons are resolved via `AdminThemeIconService.renderIcon()`. Mapped names use `adminTheme.icons[ name ].path`; unmapped Lucide-style names fall back to `{adminTheme.iconBasePath}/{name}.svg`. Rendered markup is cached in memory per name/class/stroke/aria combination. Missing or invalid names produce no output.
+
+See [Theming: icons](v2-theming.md#icons).
 
 ```html
 <cf_adminui_icon name="triangle-alert" />

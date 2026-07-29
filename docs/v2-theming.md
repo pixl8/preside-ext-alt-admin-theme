@@ -71,15 +71,28 @@ Login background image: `assets/images/backgrounds/login.jpg` (referenced by `--
 
 ## Icons
 
-* Setting: `adminTheme.iconBasePath`
-* Default: `/application/extensions/preside-ext-alt-admin-theme/assets/icons/adminui`
-* Files: Lucide SVGs named `{name}.svg`
+`cf_adminui_icon` and the legacy `admin.layout.components.icon` viewlet resolve icons via `AdminThemeIconService`.
 
-`cf_adminui_icon` loads the SVG from that path and injects class / stroke-width / aria attributes. Invalid names or missing files produce empty output.
+### Settings
 
-Legacy Font Awesome-style names (`fa-*`) are mapped to Lucide equivalents inside `customtags/adminui_icon.cfm` so menu definitions and older views can keep FA-style icon keys where a mapping exists.
+* `adminTheme.iconBasePath` — default directory for unmapped Lucide names (default: this extension’s `assets/icons/adminui`)
+* `adminTheme.icons` — explicit icon mappings; each key is an icon name (including legacy `fa-*` names) and each value is either a path string or `{ path = "..." }`
 
-To add an icon: drop a Lucide SVG into the icons directory (or your overridden `iconBasePath`) and reference it by filename stem.
+### Resolution and caching
+
+1. If `adminTheme.icons[ name ]` defines a `path`, that file is used
+2. Otherwise, for safe Lucide-style names (`[a-zA-Z0-9\-_]+`), the service uses `{iconBasePath}/{name}.svg`
+
+There is no directory scanning. Resolved paths, raw SVG contents, and fully rendered markup (per name/class/stroke/aria combination) are cached in memory. Call `adminThemeIconService.clearCache()` after deploying icon file changes without a full application reload.
+
+Missing or invalid names produce empty output (the legacy viewlet emits an HTML comment instead).
+
+To add or override an icon from app/extension config:
+
+```cfscript
+settings.adminTheme.icons[ "fa-my-icon" ] = { path = "/application/assets/icons/my-icon.svg" };
+settings.adminTheme.icons[ "my-icon" ] = { path = "/application/assets/icons/my-icon.svg" };
+```
 
 ## Empty-state illustrations
 

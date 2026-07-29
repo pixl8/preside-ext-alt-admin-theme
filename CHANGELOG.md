@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.5.2
+
+* icon component improvements (extensiblity and performance)
+* firefox compat for v2 dropdown menu positioning
+
 ## v1.5.1
 
 * Compatability fix for top right buttons
