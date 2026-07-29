@@ -3,7 +3,7 @@
 
 <cfif thisTag.executionMode is "start">
 	<cfoutput>
-		<dialog class="c-popover-menu" id="#encodeForHtmlAttribute( attributes.id )#" popover>
+		<dialog class="c-popover-menu" id="#encodeForHtmlAttribute( attributes.id )#" popover style="position-anchor: --popover-anchor-#encodeForHtmlAttribute( attributes.id )#;">
 			<nav class="c-popover-menu__nav">
 				<ul class="c-popover-menu__items" role="menu">
 					<cfloop array="#attributes.items#" item="local.item">
