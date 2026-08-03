@@ -152,18 +152,29 @@ component {
 			return _notFoundResult();
 		}
 
-		var mapping  = _getIconMapping( arguments.requestedName );
+		var lookupName = arguments.requestedName;
+		var mapping    = _getIconMapping( lookupName );
+
+		// Icon classes are sometimes declared with trailing colour/modifier
+		// classes (e.g. "fa-trash red", "fa-thumbs-up green"). When the full
+		// string isn't mapped, fall back to the first token so the icon still
+		// resolves rather than rendering blank.
+		if ( !Len( Trim( mapping.path ?: "" ) ) && ListLen( lookupName, " " ) > 1 ) {
+			lookupName = ListFirst( lookupName, " " );
+			mapping    = _getIconMapping( lookupName );
+		}
+
 		var filePath = Trim( mapping.path ?: "" );
 		var iconName = "";
 
 		if ( Len( filePath ) ) {
 			iconName = ListFirst( ListLast( Replace( filePath, "\", "/", "all" ), "/" ), "." );
 		} else {
-			if ( !REFindNoCase( "^[a-zA-Z0-9\-_]+$", arguments.requestedName ) ) {
+			if ( !REFindNoCase( "^[a-zA-Z0-9\-_]+$", lookupName ) ) {
 				return _notFoundResult();
 			}
 
-			iconName = arguments.requestedName;
+			iconName = lookupName;
 			filePath = ( iconBasePath ?: "" ) & "/" & iconName & ".svg";
 		}
 
