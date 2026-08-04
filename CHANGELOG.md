@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.5.3
+
+* add more lucide icons for v2 layouts
+* other minor fixes and tweaks in v2 layouts
+
 ## v1.5.2
 
 * icon component improvements (extensiblity and performance)
