@@ -3,6 +3,36 @@
 
 .c-progress-bar {
   margin-bottom: @spacing-3;
+
+  &--skin-primary {
+    .c-progress-bar__fill {
+      background: @color-primary-100;
+    }
+  }
+
+  &--skin-secondary {
+    .c-progress-bar__fill {
+      background: @color-secondary-100;
+    }
+  }
+
+  &--skin-tertiary {
+    .c-progress-bar__fill {
+      background: @color-tertiary-100;
+    }
+  }
+
+  &--skin-warning {
+    .c-progress-bar__fill {
+      background: @color-warning-100;
+    }
+  }
+
+  &--skin-danger {
+    .c-progress-bar__fill {
+      background: @color-error-100;
+    }
+  }
 }
 
 .c-progress-bar__track {
@@ -16,18 +46,6 @@
   border-radius: @border-radius-sm;
   height: 100%;
   transition: width @transition-normal ease;
-}
-
-.c-progress-bar--skin-primary .c-progress-bar__fill {
-  background: @color-primary-100;
-}
-
-.c-progress-bar--skin-secondary .c-progress-bar__fill {
-  background: @color-secondary-100;
-}
-
-.c-progress-bar--skin-tertiary .c-progress-bar__fill {
-  background: @color-tertiary-100;
 }
 
 .c-progress-bar__footer {
