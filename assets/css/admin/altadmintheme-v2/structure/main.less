@@ -6,6 +6,18 @@
   display: flex !important;
   flex-direction: column;
   flex: 1;
+
+  .dashboard-onboardingChecklist && {
+    background: linear-gradient(
+      to bottom,
+      @color-primary-100 0%,
+      @color-primary-100 50%,
+      @color-white 50%,
+      @color-white 100%
+    ) !important;
+    border-top: solid 1px
+      ~"color-mix(in srgb, var(--body-background-color), white 12.5%)";
+  }
 }
 
 .s-main__header {

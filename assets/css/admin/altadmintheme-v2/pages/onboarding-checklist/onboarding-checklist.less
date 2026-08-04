@@ -1,0 +1,61 @@
+@import url("../../global/variables.less");
+@import url("../../global/mixins.less");
+
+.p-onboarding-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: @spacing-12;
+  margin: 0 auto;
+  max-width: @screen-md;
+  padding-top: @spacing-12;
+  width: 100%;
+}
+
+.p-onboarding-checklist__header {
+  margin: 0 auto;
+  max-width: @screen-sm;
+  text-align: center;
+}
+
+.p-onboarding-checklist__header-title {
+  color: @color-white !important;
+  font-family: @font-family-primary !important;
+  font-size: @font-size-5xl !important;
+  font-weight: @font-weight-bold !important;
+}
+
+.p-onboarding-checklist__header-description {
+  color: @color-white;
+  font-size: @font-size-lg !important;
+  margin-top: @spacing-6;
+}
+
+.p-onboarding-checklist__list {
+  margin: 0 auto;
+  max-width: @screen-md;
+  width: 100%;
+}
+
+.p-onboarding-checklist__skip {
+  text-align: center;
+}
+
+.p-onboarding-checklist__skip-link {
+  border-bottom: solid 1px @color-neutral-20;
+  color: @text-color !important;
+  display: inline-flex;
+  padding-bottom: @spacing-0-5;
+  transition: @transition-normal;
+
+  &:hover {
+    text-decoration: none !important;
+    border-color: @color-secondary-100 !important;
+  }
+}
+
+.p-onboarding-checklist__notice {
+  color: @text-color-muted;
+  font-size: @font-size-xs;
+  margin-top: @spacing-6;
+  text-align: center;
+}

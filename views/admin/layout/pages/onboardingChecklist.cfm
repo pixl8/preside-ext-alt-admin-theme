@@ -1,5 +1,5 @@
 <cfscript>
-	event.include( "/css/admin/altadmintheme/pages/onboarding-checklist/" );
+	event.include( "/css/admin/altadmintheme-v2/pages/onboarding-checklist/" );
 </cfscript>
 
 <cfparam name= "args.title"        default = "" />
