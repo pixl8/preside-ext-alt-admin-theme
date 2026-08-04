@@ -11,7 +11,7 @@
 			<cfif Len(attributes.title) || Len(attributes.titleIcon) || Len(attributes.description) || ArrayLen(attributes.actions)>
 				<div class="c-card__header">
 					<div class="c-card__header-wrapper-one">
-						<cfif Len(attributes.title) && Len(attributes.description)>
+						<cfif Len(attributes.icon) && Len(attributes.title)>
 							<div class="c-card__header-icon-title">
 						</cfif>
 								<cfif Len(attributes.titleIcon)>
@@ -20,7 +20,7 @@
 								<cfif Len(attributes.title)>
 									<span class="c-card__header-title">#encodeForHTML(attributes.title)#</span>
 								</cfif>
-							<cfif Len(attributes.title) && Len(attributes.description)>
+							<cfif Len(attributes.title) && Len(attributes.title)>
 								</div>
 							</cfif>
 							<cfif Len(attributes.description)>
