@@ -84,6 +84,7 @@ component {
 			, "fa-refresh"              = { path = basePath & "/refresh-cw.svg" }
 			, "fa-refresh-cw"           = { path = basePath & "/refresh-cw.svg" }
 			, "fa-tachometer"           = { path = basePath & "/gauge.svg" }
+			, "fa-dashboard"            = { path = basePath & "/layout-dashboard.svg" }
 			, "fa-trash"                = { path = basePath & "/trash.svg" }
 			, "fa-trash-o"              = { path = basePath & "/trash.svg" }
 			, "fa-trash red"            = { path = basePath & "/trash.svg" }
