@@ -68,7 +68,11 @@ component {
 			, "fa-medkit"               = { path = basePath & "/briefcase-medical.svg" }
 			, "fa-pencil"               = { path = basePath & "/pencil.svg" }
 			, "fa-plus"                 = { path = basePath & "/plus.svg" }
+			, "fa-hdd"                  = { path = basePath & "/hard-drive.svg" }
 			, "fa-google-drive"         = { path = basePath & "/hard-drive.svg" }
+			, "fa-google"               = { path = basePath & "/google.svg" }
+			, "fa-dropbox"              = { path = basePath & "/dropbox.svg" }
+			, "fa-windows"              = { path = basePath & "/microsoft.svg" }
 			, "fa-vimeo"                = { path = basePath & "/video.svg" }
 			, "fa-lock"                 = { path = basePath & "/lock.svg" }
 			, "fa-sign-in"              = { path = basePath & "/log-in.svg" }
@@ -80,9 +84,34 @@ component {
 			, "fa-refresh"              = { path = basePath & "/refresh-cw.svg" }
 			, "fa-refresh-cw"           = { path = basePath & "/refresh-cw.svg" }
 			, "fa-tachometer"           = { path = basePath & "/gauge.svg" }
+			, "fa-dashboard"            = { path = basePath & "/layout-dashboard.svg" }
 			, "fa-trash"                = { path = basePath & "/trash.svg" }
 			, "fa-trash-o"              = { path = basePath & "/trash.svg" }
 			, "fa-trash red"            = { path = basePath & "/trash.svg" }
+			, "fa-ban"                  = { path = basePath & "/ban.svg" }
+			, "fa-ban red"              = { path = basePath & "/ban.svg" }
+			, "fa-database"             = { path = basePath & "/database.svg" }
+			, "fa-file-text"            = { path = basePath & "/file-text.svg" }
+			, "fa-file-text-o"          = { path = basePath & "/file-text.svg" }
+			, "fa-hashtag"              = { path = basePath & "/hash.svg" }
+			, "fa-line-chart"           = { path = basePath & "/chart-line.svg" }
+			, "fa-list-ul"              = { path = basePath & "/list.svg" }
+			, "fa-paperclip"            = { path = basePath & "/paperclip.svg" }
+			, "fa-paragraph"            = { path = basePath & "/pilcrow.svg" }
+			, "fa-server"               = { path = basePath & "/server.svg" }
+			, "fa-tag"                  = { path = basePath & "/tag.svg" }
+			, "fa-tags"                 = { path = basePath & "/tags.svg" }
+			, "fa-tools"                = { path = basePath & "/toolbox.svg" }
+			, "fa-users"                = { path = basePath & "/users.svg" }
+			, "fa-play"                 = { path = basePath & "/play.svg" }
+			, "fa-plug"                 = { path = basePath & "/plug.svg" }
+			, "fa-plus-circle"          = { path = basePath & "/circle-plus.svg" }
+			, "fa-share-alt"            = { path = basePath & "/share-2.svg" }
+			, "fa-share-square-o"       = { path = basePath & "/square-arrow-out-up-right.svg" }
+			, "fa-stop"                 = { path = basePath & "/circle-stop.svg" }
+			, "fa-bookmark"             = { path = basePath & "/bookmark.svg" }
+			, "fa-thumbs-down"          = { path = basePath & "/thumbs-down.svg" }
+			, "fa-thumbs-up"            = { path = basePath & "/thumbs-up.svg" }
 			, "fa-user-tie"             = { path = basePath & "/user.svg" }
 			, "fa-user-times"           = { path = basePath & "/user-x.svg" }
 			, "fa-user"                 = { path = basePath & "/user.svg" }

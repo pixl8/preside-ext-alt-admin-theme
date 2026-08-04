@@ -11,19 +11,21 @@
 			<cfif Len(attributes.title) || Len(attributes.titleIcon) || Len(attributes.description) || ArrayLen(attributes.actions)>
 				<div class="c-card__header">
 					<div class="c-card__header-wrapper-one">
-						<cfif Len(attributes.titleIcon)>
-							<cf_adminui_icon class="c-card__header-icon" name="#attributes.titleIcon#" strokeWidth="2" />
+						<cfif Len(attributes.titleIcon) && Len(attributes.title)>
+							<div class="c-card__header-icon-title">
 						</cfif>
-						<cfif Len(attributes.title) || Len(attributes.description)>
-							<div class="c-card__header-title-description">
+								<cfif Len(attributes.titleIcon)>
+									<cf_adminui_icon class="c-card__header-icon" name="#attributes.titleIcon#" strokeWidth="2" />
+								</cfif>
 								<cfif Len(attributes.title)>
 									<span class="c-card__header-title">#encodeForHTML(attributes.title)#</span>
 								</cfif>
-								<cfif Len(attributes.description)>
-									<span class="c-card__header-description">#encodeForHTML(attributes.description)#</span>
-								</cfif>
-							</div>
-						</cfif>
+							<cfif Len(attributes.titleIcon) && Len(attributes.title)>
+								</div>
+							</cfif>
+							<cfif Len(attributes.description)>
+								<span class="c-card__header-description">#encodeForHTML(attributes.description)#</span>
+							</cfif>
 					</div>
 					<cfif ArrayLen(attributes.actions)>
 						<div class="c-card__header-wrapper-two">
