@@ -1,8 +1,10 @@
 <cfscript>
-	if ( getSetting( name="adminTheme.layout", defaultValue="v1" ) == "v2" ) {
-		include template="adminLoginV2.cfm";
-		abort;
-	}
+	useV2Layout = getSetting( name="adminTheme.layout", defaultValue="v1" ) == "v2";
+</cfscript>
+<cfif useV2Layout>
+	<cfinclude template="adminLoginV2.cfm">
+<cfelse>
+<cfscript>
 
 	body          = renderView();
 	notifications = renderView( 'admin/general/notifications' );
@@ -63,3 +65,4 @@
 		#bottomJs#
 	</body>
 </html></cfoutput>
+</cfif>
