@@ -1,8 +1,10 @@
 <cfscript>
-	if ( getSetting( name="adminTheme.layout", defaultValue="v1" ) == "v2" ) {
-		include template="adminV2.cfm";
-		abort;
-	}
+	useV2Layout = getSetting( name="adminTheme.layout", defaultValue="v1" ) == "v2";
+</cfscript>
+<cfif useV2Layout>
+	<cfinclude template="adminV2.cfm">
+<cfelse>
+<cfscript>
 
 	body             = renderView();
 	navbar           = renderView( "admin/util/topNav" );
@@ -131,3 +133,4 @@
 
 	</body>
 </html></cfoutput>
+</cfif>

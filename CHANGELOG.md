@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.5.4
+
+* fixes for issues with v2 layout and postRenderLayout not firing
+
 ## v1.5.3
 
 * add more lucide icons for v2 layouts
