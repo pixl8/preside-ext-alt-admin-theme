@@ -1,0 +1,51 @@
+@import url("../../global/variables.less");
+
+.generate-container-padding(@prefix, @i: 0) when (@i <= 15) {
+  &--@{prefix}-@{i} {
+    padding: (@i * @spacing-1);
+  }
+  .generate-container-padding(@prefix, (@i + 1));
+}
+
+.c-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+
+  &--size-xs {
+    max-width: @screen-xs;
+  }
+  &--size-sm {
+    max-width: @screen-sm;
+  }
+  &--size-md {
+    max-width: @screen-md;
+  }
+  &--size-lg {
+    max-width: @screen-lg;
+  }
+  &--size-xl {
+    max-width: @screen-xl;
+  }
+  &--size-2xl {
+    max-width: @screen-2xl;
+  }
+
+  .generate-container-padding(padding);
+
+  @media @mq-sm {
+    .generate-container-padding(padding-sm);
+  }
+  @media @mq-md {
+    .generate-container-padding(padding-md);
+  }
+  @media @mq-lg {
+    .generate-container-padding(padding-lg);
+  }
+  @media @mq-xl {
+    .generate-container-padding(padding-xl);
+  }
+  @media @mq-2xl {
+    .generate-container-padding(padding-2xl);
+  }
+}
