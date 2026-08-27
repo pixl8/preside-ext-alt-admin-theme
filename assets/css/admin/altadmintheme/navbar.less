@@ -197,6 +197,13 @@ html:not( .admin-toolbar-reveal, .admin-toolbar-none, .presidecms ) {
 			}
 		}
 		#topLevelNav {
+			// Read by the priority nav script (specific/adminTopNav)
+			--top-nav-layout : stacked;
+
+			@media @lg-min {
+				--top-nav-layout : inline;
+			}
+
 			.ace-nav {
 				> li, > li.open {
 					> a:not( .dropdown-toggle ) {
