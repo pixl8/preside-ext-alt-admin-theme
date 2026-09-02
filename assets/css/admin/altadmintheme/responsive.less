@@ -8,6 +8,30 @@
 				// padding-bottom: 45px;
 			}
 		}
+
+		// Single non-wrapping row, with the top level nav as the only flexible
+		// child so it absorbs the leftover space and nothing can drop onto a
+		// second line. Its overflow is collapsed into a "More" menu by the
+		// priority nav script (specific/adminTopNav).
+		@media @lg-min {
+			.navbar-container {
+				display    : flex;
+				flex-wrap  : nowrap;
+
+				> .navbar-header {
+					flex : 0 0 auto;
+				}
+
+				> #topLevelNav {
+					flex      : 1 1 auto;
+					min-width : 0;
+				}
+
+				> .mobile-trigger {
+					margin-left : auto;
+				}
+			}
+		}
 		.mobile-nav {
 			@media @lg-min {
 				display : block !important;
