@@ -1,0 +1,22 @@
+@import url("../../global/variables.less");
+@import url("../../global/mixins.less");
+
+.c-code {
+  background-color: @color-neutral-5;
+  border: solid 1px @color-neutral-10;
+  border-radius: @border-radius-md;
+  margin: 0 !important;
+  overflow-x: auto;
+  padding: @spacing-6;
+  text-align: left;
+}
+
+.c-code__content {
+  color: @text-color;
+  white-space: pre;
+}
+
+.c-code--wrap .c-code__content {
+  white-space: pre-wrap;
+  word-break: break-word;
+}

@@ -1,0 +1,114 @@
+@import url("../../global/variables.less");
+@import url("../../global/mixins.less");
+
+.c-pagination {
+  align-items: center;
+  display: flex;
+  gap: @spacing-3;
+  justify-content: space-between;
+  width: 100%;
+
+  &--align-start {
+    justify-content: flex-start;
+  }
+  &--align-center {
+    justify-content: center;
+  }
+  &--align-end {
+    justify-content: flex-end;
+  }
+}
+
+.c-pagination__control {
+  align-items: center;
+  background: transparent;
+  border: solid 1px @color-neutral-10;
+  border-radius: @border-radius-md;
+  color: @text-color-highlight;
+  cursor: pointer;
+  display: inline-flex;
+  flex-shrink: 0;
+  font-size: @font-size-sm;
+  font-weight: @font-weight-bold;
+  gap: @spacing-1;
+  padding: @spacing-2 @spacing-3;
+  text-decoration: none;
+  transition: @transition-normal;
+
+  &:hover {
+    background: @color-neutral-5;
+    border-color: @color-neutral-20;
+    text-decoration: none !important;
+  }
+
+  &:focus-visible {
+    border-color: @color-primary-100;
+    outline: solid 2px @color-primary-10;
+    outline-offset: 1px;
+  }
+
+  &.is-disabled {
+    color: @text-color-muted;
+    cursor: default;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+.c-pagination__control-icon {
+  .size(16);
+  color: @text-color;
+  flex-shrink: 0;
+}
+
+.c-pagination__control-text {
+  color: @text-color;
+}
+
+.c-pagination__status {
+  color: @text-color-muted;
+  font-size: @font-size-sm;
+  text-align: center;
+}
+
+.c-pagination__pages {
+  align-items: center;
+  display: flex;
+  gap: @spacing-1;
+}
+
+.c-pagination__page {
+  align-items: center;
+  border-radius: @border-radius-sm;
+  color: @text-color;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: @font-size-sm;
+  justify-content: center;
+  min-width: (@spacing-2 * 4);
+  padding: @spacing-1 @spacing-2;
+  text-decoration: none;
+  transition: @transition-normal;
+
+  &:hover {
+    background: @color-neutral-5;
+    text-decoration: none !important;
+  }
+
+  &:focus-visible {
+    outline: solid 2px @color-primary-10;
+    outline-offset: 1px;
+  }
+
+  &--current {
+    background: @color-primary-100;
+    color: @color-white;
+    cursor: default;
+    font-weight: @font-weight-bold;
+  }
+}
+
+.c-pagination__ellipsis {
+  color: @text-color-muted;
+  padding: 0 @spacing-1;
+}
