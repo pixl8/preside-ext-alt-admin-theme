@@ -1,13 +1,14 @@
 <cfinclude template="_adminuiHelpers.cfm" />
 
-<cfparam name="attributes.title"        type="string" default="" />
-<cfparam name="attributes.description"  type="string" default="" />
-<cfparam name="attributes.image"        type="string" default="" />
-<cfparam name="attributes.imageUrl"     type="string" default="" />
-<cfparam name="attributes.buttonText"   type="string" default="" />
-<cfparam name="attributes.buttonLink"   type="string" default="" />
-<cfparam name="attributes.buttonIcon"   type="string" default="" />
-<cfparam name="attributes.buttonTarget" type="string" default="_self" />
+<cfparam name="attributes.title"        type="string"  default="" />
+<cfparam name="attributes.description"  type="string"  default="" />
+<cfparam name="attributes.allowHtml"    type="boolean" default="false" /><!--- description is HTML-encoded unless this is true (opt in for trusted HTML) --->
+<cfparam name="attributes.image"        type="string"  default="" />
+<cfparam name="attributes.imageUrl"     type="string"  default="" />
+<cfparam name="attributes.buttonText"   type="string"  default="" />
+<cfparam name="attributes.buttonLink"   type="string"  default="" />
+<cfparam name="attributes.buttonIcon"   type="string"  default="" />
+<cfparam name="attributes.buttonTarget" type="string"  default="_self" />
 
 <cfif thisTag.executionMode is "start">
 	<cfoutput>
@@ -24,7 +25,7 @@
 			</cfif>
 
 			<cfif Len( Trim( attributes.description ) )>
-				<div class="c-empty-state__description">#encodeForHTML( attributes.description )#</div>
+				<div class="c-empty-state__description">#( attributes.allowHtml ? attributes.description : encodeForHTML( attributes.description ) )#</div>
 			</cfif>
 
 			<cfif Len( Trim( attributes.buttonText ) ) && Len( Trim( attributes.buttonLink ) )>
