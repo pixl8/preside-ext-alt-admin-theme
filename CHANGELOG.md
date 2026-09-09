@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.5.5
+
+* Make navbar responsive
+* Additional icons and v2 ui patterns
+
 ## v1.5.4
 
 * fixes for issues with v2 layout and postRenderLayout not firing
