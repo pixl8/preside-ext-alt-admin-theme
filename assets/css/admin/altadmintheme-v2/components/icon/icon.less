@@ -1,0 +1,71 @@
+@import url("../../global/variables.less");
+@import url("../../global/mixins.less");
+
+@icon-sizes: 8, 12, 14, 16, 20, 24, 28, 32, 40, 48;
+
+.generate-icon-sizes(@i: 1) when (@i <= length(@icon-sizes)) {
+  @s: extract(@icon-sizes, @i);
+  &--size-@{s} {
+    .size(@s);
+  }
+  .generate-icon-sizes(@i + 1);
+}
+
+.c-icon {
+  flex-shrink: 0;
+  vertical-align: -0.125em;
+
+  .generate-icon-sizes();
+
+  &--color-neutral-5 {
+    color: @color-neutral-5;
+  }
+  &--color-neutral-10 {
+    color: @color-neutral-10;
+  }
+  &--color-neutral-20 {
+    color: @color-neutral-20;
+  }
+  &--color-neutral-40 {
+    color: @color-neutral-40;
+  }
+  &--color-neutral-60 {
+    color: @color-neutral-60;
+  }
+  &--color-neutral-80 {
+    color: @color-neutral-80;
+  }
+  &--color-neutral-100 {
+    color: @color-neutral-100;
+  }
+
+  &--color-primary-100 {
+    color: @color-primary-100;
+  }
+  &--color-secondary-100 {
+    color: @color-secondary-100;
+  }
+  &--color-tertiary-100 {
+    color: @color-tertiary-100;
+  }
+
+  &--color-success-100 {
+    color: @color-success-100;
+  }
+  &--color-warning-100 {
+    color: @color-warning-100;
+  }
+  &--color-error-100 {
+    color: @color-error-100;
+  }
+  &--color-info-100 {
+    color: @color-info-100;
+  }
+
+  &--color-white {
+    color: @color-white;
+  }
+  &--color-black {
+    color: @color-black;
+  }
+}

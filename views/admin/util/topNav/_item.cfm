@@ -9,7 +9,8 @@
 	showMenuIcons = IsTrue( getSetting( "admin.topNavMenuIcons" ) );
 	active        = IsTrue( args.active ?: "" );
 	separator     = IsTrue( args.separator ?: "" );
-	hasSubMenu    = Len( Trim( subMenu ) ) || ArrayLen( subitems );
+	forceSubMenu  = IsTrue( args.forceSubMenu ?: "" );
+	hasSubMenu    = Len( Trim( subMenu ) ) || ArrayLen( subitems ) || forceSubMenu;
 </cfscript>
 <cfoutput>
 	<cfif !separator>
@@ -30,7 +31,7 @@
 					<cfif showMenuIcons && Len( Trim( itemIcon ) )>
 						<i class="fa fa-fw #itemIcon#"></i>&nbsp;
 					</cfif>
-					#itemTitle#
+					<span class="dropdown-menu-title">#itemTitle#</span>
 					<i class="fa fa-caret-down"></i>
 				</a>
 				<ul class="dropdown-menu dropdown-close dropdown-menu-left">
