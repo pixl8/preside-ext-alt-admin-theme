@@ -61,7 +61,7 @@ component {
 		return renderViewlet( event="admin.layout.renderMenuItems", args={
 			  menuItems       = prc._mainNavigationItems
 			, itemRenderer    = "/admin/layout/structure/header/navigation/_menuItem"
-			, subItemRenderer = "/admin/layout/structure/header/navigation/_menuSubItem"
+			, subItemRenderer = "/admin/layout/structure/header/navigation/_menuItem"
 		} );
 	}
 
