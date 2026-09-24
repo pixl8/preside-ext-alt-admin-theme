@@ -48,7 +48,7 @@
 	event.include( assetId="/js/admin/coretop/", group="top" );
 	topJs      = event.renderIncludes( type="js", delayed=false, group="top" );
 
-	htmlTitle = translateResource( uri="app:browser.title.prefix" ) & " " & ( prc.pageTitle ?: translateResource( uri="app:browser.title.tagline", defaultValue="" ) );
+	htmlTitle = stripTags( translateResource( uri="app:browser.title.prefix" ) & " " & ( prc.pageTitle ?: translateResource( uri="app:browser.title.tagline", defaultValue="" ) ) );
 	favicon   = getSetting( name="admin.favicon", defaultValue="" );
 
 	event?.addToContentSecurityPolicy( "img-src", "//www.gravatar.com" );
