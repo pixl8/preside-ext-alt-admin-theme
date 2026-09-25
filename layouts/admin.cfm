@@ -27,11 +27,7 @@
 	pageSlug       = Replace( ListRest( event.getCurrentEvent(), "." ), ".", "-", "all" );
 
 	event.include( "/css/admin/core/" );
-	event.include( "/css/admin/specific/#currentHandler#/", false );
-	event.include( "/css/admin/specific/#currentHandler#/#currentAction#/", false );
-	event.include( "/js/admin/presidecore/" );
-	event.include( "/js/admin/specific/#currentHandler#/", false );
-	event.include( "/js/admin/specific/#currentHandler#/#currentAction#/", false );
+	includeAltAdminThemeRequestAssets( event=event, handler=currentHandler, action=currentAction );
 
 	event.include( "i18n-resource-bundle" );
 
