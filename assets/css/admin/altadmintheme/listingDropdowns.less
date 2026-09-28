@@ -1,0 +1,320 @@
+@import url( "../lessglobals/globals.less" );
+
+@listing-dropdown-shadow : 0 2px 4px rgba( 0, 0, 0, 0.2 );
+
+.listing-dropdown-panel() {
+	background-color : var( --color-white );
+	border           : 1px solid var( --color-neutral-20 );
+	border-radius    : var( --button-border-radius );
+	box-shadow       : @listing-dropdown-shadow;
+	color            : var( --color-neutral-100 );
+}
+
+.listing-dropdown-heading() {
+	color          : var( --color-neutral-40 );
+	font-size      : var( --font-size-xs );
+	font-weight    : var( --font-weight-base );
+	text-transform : none;
+	letter-spacing : 0;
+
+	.fa {
+		color : var( --color-secondary-100 );
+	}
+}
+
+.listing-dropdown-item() {
+	color         : var( --color-neutral-100 );
+	border-radius : 0;
+
+	&:hover,
+	&:focus,
+	&.is-highlighted {
+		background-color : var( --color-neutral-5 );
+		color            : var( --color-neutral-100 );
+	}
+}
+
+.presidecms .object-listing-toolbar {
+	.listing-views-toggle {
+		border-color : var( --color-neutral-20 );
+		color        : var( --color-neutral-100 );
+
+		&:hover,
+		&:focus,
+		&.is-editing {
+			border-color : var( --color-secondary-100 );
+		}
+
+		.fa {
+			color : var( --color-neutral-60 );
+		}
+	}
+
+	.listing-views-dropdown {
+		.listing-dropdown-panel();
+		padding : 0;
+	}
+
+	.listing-views-group {
+		.listing-dropdown-heading();
+		padding : var( --spacing-4 ) var( --spacing-4 ) var( --spacing-2 );
+
+		&:not( :first-child ) {
+			border-top : 1px solid var( --color-neutral-20 );
+		}
+	}
+
+	.listing-views-empty {
+		color   : var( --color-neutral-60 );
+		padding : var( --spacing-3 ) var( --spacing-4 );
+	}
+
+	.listing-views-item {
+		padding : 0;
+
+		&.is-selected .listing-views-item-label {
+			color : var( --color-neutral-100 );
+		}
+	}
+
+	.listing-views-item-label {
+		.listing-dropdown-item();
+		padding : var( --spacing-2 ) var( --spacing-4 );
+	}
+
+	.listing-views-item-tools {
+		padding-right : var( --spacing-3 );
+
+		a {
+			color : var( --color-neutral-60 );
+
+			&:hover,
+			&:focus {
+				color : var( --color-link );
+			}
+		}
+	}
+
+	.listing-views-default-badge {
+		background-color : var( --color-secondary-100 );
+	}
+
+	.listing-views-actions {
+		margin-top : 0;
+		padding    : var( --spacing-2 ) var( --spacing-4 );
+		border-top : 1px solid var( --color-neutral-20 );
+	}
+
+	.listing-views-action {
+		color : var( --color-link );
+
+		&:hover,
+		&:focus {
+			color : var( --color-accent-110 );
+		}
+	}
+
+	.everything-bar-input-wrap {
+		.everything-bar-icon {
+			color : var( --color-neutral-60 );
+		}
+
+		.everything-bar-input {
+			border-color : var( --color-neutral-20 );
+			color        : var( --color-neutral-100 );
+
+			&:focus {
+				border-color : var( --color-secondary-100 );
+				box-shadow   : none;
+			}
+		}
+	}
+
+	.object-listing-everything-bar:has( .everything-bar-dropdown:not( .hide ) ) {
+		.everything-bar-input-wrap .everything-bar-input {
+			&,
+			&:focus {
+				border-color               : var( --color-secondary-100 );
+				border-bottom-color        : transparent;
+				border-bottom-width        : 0;
+				border-bottom-left-radius  : 0 !important;
+				border-bottom-right-radius : 0 !important;
+				box-shadow                 : none;
+				transition                 : none;
+			}
+		}
+	}
+
+	.everything-bar-dropdown {
+		.listing-dropdown-panel();
+		border-color  : var( --color-secondary-100 );
+		border-top    : none;
+		border-radius : 0 0 var( --button-border-radius ) var( --button-border-radius );
+		padding       : 0 0 var( --spacing-2 );
+	}
+
+	.everything-bar-group {
+		.listing-dropdown-heading();
+		width         : 100%;
+		margin        : 0;
+		padding       : var( --spacing-3 ) var( --spacing-4 ) var( --spacing-2 );
+		border-radius : 0;
+
+		&:hover,
+		&:focus,
+		&.is-highlighted {
+			background-color : var( --color-neutral-5 );
+			color            : var( --color-neutral-80 );
+		}
+
+		.everything-bar-disclosure {
+			color : var( --color-neutral-40 );
+		}
+
+		.everything-bar-group-count {
+			background-color : var( --color-neutral-10 );
+			color            : var( --color-neutral-60 );
+		}
+	}
+
+	.everything-bar-item {
+		.listing-dropdown-item();
+		margin  : 0;
+		padding : var( --spacing-2 ) var( --spacing-4 );
+
+		.fa {
+			color : var( --color-secondary-100 );
+		}
+	}
+
+	.everything-bar-section-items .everything-bar-item {
+		padding-left : calc( var( --spacing-4 ) + 26px );
+	}
+
+	.everything-bar-empty,
+	.everything-bar-value,
+	.everything-bar-locked-note {
+		color   : var( --color-neutral-60 );
+		padding : var( --spacing-3 ) var( --spacing-4 ) var( --spacing-2 );
+	}
+
+	.everything-bar-value-input {
+		border-color : var( --color-neutral-20 );
+
+		&:focus {
+			border-color : var( --color-secondary-100 );
+			box-shadow   : none;
+		}
+	}
+
+	.filter-links-container a {
+		color        : var( --color-link );
+		border-color : var( --color-neutral-20 );
+
+		&:hover,
+		&:focus {
+			color : var( --color-accent-110 );
+		}
+	}
+
+	.listing-column-picker {
+		.listing-dropdown-panel();
+	}
+
+	.listing-column-picker-footer {
+		border-color : var( --color-neutral-20 );
+	}
+}
+
+.presidecms .object-listing-wrap .dt-container .dtcc-dropdown.dropdown-menu {
+	--dtcc-dropdown_background              : var( --color-white );
+	--dtcc-dropdown_border                  : 1px solid var( --color-neutral-20 );
+	--dtcc-dropdown_border-radius           : var( --button-border-radius );
+	--dtcc-dropdown_box-shadow              : @listing-dropdown-shadow;
+	--dtcc-dropdown-button_color            : var( --color-neutral-100 );
+	--dtcc-dropdown-button_hover-background : var( --color-neutral-5 );
+	--dtcc-search-icon_color                : var( --color-secondary-100 );
+	--dtcc-search-input_border              : 1px solid var( --color-neutral-20 );
+	--dt-datetime-table_hover-background    : var( --color-neutral-5 );
+	--dt-datetime-table-selected_background : var( --color-secondary-100 );
+
+	.listing-dropdown-panel();
+
+	.dtcc-list-title {
+		.listing-dropdown-heading();
+	}
+
+	.dtcc-button {
+		color : var( --color-neutral-100 );
+
+		&:hover {
+			background-color : var( --color-neutral-5 );
+			color            : var( --color-neutral-100 );
+		}
+
+		&.dtcc-button_active {
+			color : var( --color-link );
+		}
+	}
+
+	.dtcc-search {
+		input,
+		select {
+			border-color : var( --color-neutral-20 );
+
+			&:focus {
+				border-color : var( --color-secondary-100 );
+				box-shadow   : none;
+			}
+		}
+	}
+
+	.dtcc-list-search {
+		border-color : var( --color-neutral-20 );
+
+		&:focus {
+			border-color : var( --color-secondary-100 );
+			box-shadow   : none;
+		}
+	}
+
+	.listing-colvis-list {
+		.listing-colvis-hidden {
+			border-top-color : var( --color-neutral-20 );
+		}
+
+		.listing-column-row.ui-sortable-helper {
+			background-color : var( --color-neutral-5 );
+		}
+
+		.listing-column-drag {
+			color : var( --color-neutral-40 );
+		}
+	}
+
+	.listing-colvis-reset {
+		color            : var( --color-link );
+		border-top-color : var( --color-neutral-20 );
+
+		&:hover,
+		&:focus {
+			background-color : var( --color-neutral-5 );
+		}
+	}
+
+	.listing-object-search {
+		.chosen-container-single .chosen-single,
+		.chosen-container-multi .chosen-choices {
+			border-color : var( --color-neutral-20 );
+		}
+
+		.chosen-drop {
+			border-color : var( --color-neutral-20 );
+		}
+
+		.chosen-container-active.chosen-with-drop .chosen-single,
+		.chosen-container-active .chosen-choices {
+			border-color : var( --color-secondary-100 );
+		}
+	}
+}
