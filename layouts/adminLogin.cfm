@@ -20,7 +20,7 @@
 	event.include( assetId="/js/admin/coretop/", group="top" );
 	topJs = event.renderIncludes( "js", "top" );
 
-	htmlTitle = translateResource( uri="app:browser.title.prefix" ) & " " & ( prc.pageTitle ?: translateResource( uri="app:browser.title.tagline", defaultValue="" ) );
+	htmlTitle = stripTags( translateResource( uri="app:browser.title.prefix" ) & " " & ( prc.pageTitle ?: translateResource( uri="app:browser.title.tagline", defaultValue="" ) ) );
 	favicon = getSetting( name="admin.favicon", defaultValue="/assets/images/icons/favicon.ico" );
 
 	header name="cache-control" value="no-store";
