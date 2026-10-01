@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.5.6
+
+* Admin browser tab title shows raw HTML when an object uses a label renderer
+
 ## v1.5.5
 
 * Make navbar responsive

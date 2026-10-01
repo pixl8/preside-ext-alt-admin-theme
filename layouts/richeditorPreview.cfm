@@ -10,7 +10,7 @@
 	event.include( assetId="/js/admin/coretop/", group="top" );
 	topJs      = event.renderIncludes( "js", "top" );
 
-	htmlTitle = translateResource( uri="app:browser.title.prefix" ) & " " & ( prc.pageTitle ?: translateResource( uri="app:browser.title.tagline", defaultValue="" ) );
+	htmlTitle = stripTags( translateResource( uri="app:browser.title.prefix" ) & " " & ( prc.pageTitle ?: translateResource( uri="app:browser.title.tagline", defaultValue="" ) ) );
 
 	header name="cache-control" value="no-store";
 	header name="expires"       value="Fri, 20 Nov 2015 00:00:00 GMT";
