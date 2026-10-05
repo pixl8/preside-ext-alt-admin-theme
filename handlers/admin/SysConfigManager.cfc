@@ -11,6 +11,10 @@ component extends="preside.system.base.AdminHandler" {
 	public void function prehandler( event, rc, prc ) {
 		super.preHandler( argumentCollection=arguments );
 
+		if ( !isFeatureEnabled( "systemConfiguration" ) ) {
+			event.notFound();
+		}
+
 		prc.categoryId = rc.category ?: "";
 		prc.tenantId   = rc.tenant   ?: "";
 		prc.tabId      = rc.tab      ?: "";
@@ -18,6 +22,10 @@ component extends="preside.system.base.AdminHandler" {
 		prc.tabsMax    = variables.maxTabCount;
 
 		_loadVariables( argumentCollection=arguments );
+
+		if ( !_userCanAccessCategory( argumentCollection=arguments, category=prc.category ) ) {
+			event.adminAccessDenied();
+		}
 	}
 
 	public void function editConfig( event, rc, prc ) {
@@ -175,14 +183,15 @@ component extends="preside.system.base.AdminHandler" {
 		setNextEvent( url=event.buildAdminLink( linkTo="sysConfigManager.editConfig", queryString="category=#prc.categoryId#&tab=#prc.tabId#&tenant=#prc.tenantId#" ) );
 	}
 
-	private void function _checkPermissions( event, rc, prc ) {
-		if ( !isFeatureEnabled( "systemConfiguration" ) ) {
-			event.notFound();
+	private boolean function _userCanAccessCategory( event, rc, prc, required any category ) {
+		if ( hasCmsPermission( permissionKey="systemConfiguration.manage" ) ) {
+			return true;
 		}
 
-		if ( !hasCmsPermission( permissionKey="systemConfiguration.manage" ) ) {
-			event.adminAccessDenied();
-		}
+		return formsService.userCanAccessForm(
+			  formName                 = arguments.category.getForm()
+			, allowedIfNoPermissionKey = false
+		);
 	}
 
 	private void function _loadVariables( event, rc, prc ) {
