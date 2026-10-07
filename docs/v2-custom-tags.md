@@ -152,6 +152,22 @@ Metric card with optional trend footer. Self-closing.
 
 ---
 
+## Code — `cf_adminui_code`
+
+Preformatted code or text block. Self-closing.
+
+| Attribute | Default | Notes |
+|-----------|---------|--------|
+| `text` | `""` | HTML-encoded |
+| `wrap` | `false` | Wrap long lines instead of scrolling horizontally |
+| `maxHeight` | `""` | `sm` (160px), `md` (320px) or `lg` (480px); taller content scrolls inside the block |
+
+```html
+<cf_adminui_code text="#toolOutput#" wrap="true" maxHeight="md" />
+```
+
+---
+
 ## Description list — `cf_adminui_description_list`
 
 Definition list from an items array. Self-closing.
@@ -377,6 +393,18 @@ Progress track with optional footer. Self-closing.
 | `label` | `""` | |
 | `value` | `""` | Display string (not the numeric progress) |
 | `skin` | `primary` | `primary`, `secondary`, `tertiary` |
+
+---
+
+## Prose — `cf_adminui_prose`
+
+Styles rendered rich text (markdown, rich editor HTML): headings, paragraphs, lists, tables, blockquotes, code, horizontal rules and images. No attributes. Body text uses `@font-size-sm` (matching card and timeline bodies) with headings stepped up through the font size scale, and the first and last children have no outer margin, so the block sits flush inside cards, stacks and timeline items. The body is output as-is, so only pass HTML that is already safe.
+
+```html
+<cf_adminui_prose>
+	#renderedMarkdown#
+</cf_adminui_prose>
+```
 
 ---
 

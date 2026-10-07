@@ -1,0 +1,167 @@
+@import url("../../global/variables.less");
+
+// Rendered rich text (markdown, rich editor HTML), sized to match the body text
+// of cards, stacks and timeline items.
+.c-prose {
+  font-size: @font-size-sm;
+  overflow-wrap: break-word;
+
+  > :first-child {
+    margin-top: 0 !important;
+  }
+
+  > :last-child {
+    margin-bottom: 0 !important;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: @text-color-highlight;
+    font-weight: @font-weight-bold;
+    margin: @spacing-6 0 @spacing-2;
+  }
+
+  h1 {
+    font-size: @font-size-xl;
+  }
+
+  h2 {
+    font-size: @font-size-lg;
+  }
+
+  h3 {
+    font-size: @font-size-md;
+  }
+
+  h4,
+  h5,
+  h6 {
+    font-size: @font-size-sm;
+  }
+
+  p,
+  ul,
+  ol,
+  blockquote,
+  pre,
+  table,
+  figure {
+    margin: 0 0 @spacing-3;
+  }
+
+  ul,
+  ol {
+    padding-left: @spacing-6;
+  }
+
+  li + li {
+    margin-top: @spacing-1;
+  }
+
+  li > p {
+    margin: 0;
+  }
+
+  li > ul,
+  li > ol {
+    margin: @spacing-1 0 0;
+  }
+
+  a {
+    overflow-wrap: anywhere;
+  }
+
+  blockquote {
+    border-left: solid 3px @color-neutral-20;
+    color: @text-color-muted;
+    padding: 0 0 0 @spacing-4;
+
+    &,
+    p {
+      font-size: @font-size-sm;
+    }
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  code {
+    background-color: @color-neutral-5;
+    border: solid 1px @color-neutral-10;
+    border-radius: @border-radius-sm;
+    color: @text-color-highlight;
+    font-size: @font-size-xs;
+    padding: 0 @spacing-1;
+  }
+
+  pre {
+    background-color: @color-neutral-5;
+    border: solid 1px @color-neutral-10;
+    border-radius: @border-radius-md;
+    font-size: @font-size-xs;
+    overflow-x: auto;
+    padding: @spacing-4;
+
+    code {
+      background-color: transparent;
+      border: 0;
+      font-size: inherit;
+      padding: 0;
+      white-space: pre;
+    }
+  }
+
+  table {
+    border-collapse: collapse;
+    display: block;
+    margin: 0 0 @spacing-3 !important;
+    max-width: 100%;
+    overflow-x: auto;
+    width: max-content !important;
+  }
+
+  th,
+  td {
+    border-bottom: 0 !important;
+    border-top: 0 !important;
+    font-size: @font-size-sm !important;
+    padding: @spacing-3 @spacing-4 !important;
+    text-align: left;
+    vertical-align: top;
+
+    &:first-child {
+      padding-left: 0 !important;
+    }
+
+    &:last-child {
+      padding-right: 0 !important;
+    }
+  }
+
+  th {
+    border-bottom: solid 1px @color-neutral-10 !important;
+    color: @text-color-highlight;
+    font-weight: @font-weight-bold !important;
+    white-space: nowrap;
+  }
+
+  tr:not(:last-child) td {
+    border-bottom: solid 1px @color-neutral-10 !important;
+  }
+
+  hr {
+    border: 0;
+    border-top: solid 1px @color-neutral-10;
+    margin: @spacing-6 0;
+  }
+
+  img {
+    height: auto;
+    max-width: 100%;
+  }
+}
