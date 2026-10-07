@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.5.7
+
+* Admin User Management Config Manager permission
+
 ## v1.5.6
 
 * Admin browser tab title shows raw HTML when an object uses a label renderer
