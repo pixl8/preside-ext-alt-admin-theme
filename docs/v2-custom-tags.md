@@ -185,6 +185,68 @@ See [Theming: empty-state illustrations](v2-theming.md#empty-state-illustrations
 
 ---
 
+## File upload — `cf_adminui_file_upload`
+
+Drag-and-drop multi-file uploader: a drop area showing the accepted types and limits, and a scrollable list of files with per-file progress, success and error states. Wraps Dropzone, which Preside core loads on every admin page. Self-closing. It has no frame or header of its own, so it fits any container; wrap it in `cf_adminui_card` when it needs either.
+
+Each file is sent in its own `POST` to `url` as the `paramName` field, together with `params` and the fields of the enclosing form (or the form named by `form`). A 2xx response counts as success, unless it is JSON with `success: false`. A JSON `message` in the response is shown under the file name either way, rendered as text, not HTML. Files rejected by the `accept`, `maxFileSize` or `maxFiles` checks stay in the list with an error and can be removed.
+
+| Attribute | Default | Notes |
+|-----------|---------|--------|
+| `url` | *(required)* | Upload endpoint. Throws if empty |
+| `id` | auto | Root element id |
+| `paramName` | `file` | Form field name for the file |
+| `accept` | `""` | Comma-separated extensions and/or MIME types, e.g. `pdf,docx,image/*`. Filters the file picker and rejects other files on add |
+| `showAcceptedTypes` | `false` | Lists the `accept` types in the hint. Best kept for short lists |
+| `maxFileSize` | `0` | Per-file limit in MB; `0` for no limit |
+| `maxFiles` | `0` | `0` for no limit |
+| `parallelUploads` | `3` | |
+| `params` | `{}` | Extra fields sent with every file |
+| `form` | `""` | Id of a form whose fields are sent with every file. Defaults to the form the tag sits in, if any |
+| `autoUpload` | `true` | `false` queues files until the page calls `upload()`, e.g. from its own submit button |
+| `hint` | generated | Replaces the generated hint, e.g. "Max 6 files · Up to 20 MB per file", or "PDF, DOCX · Max 6 files · Up to 20 MB per file" with `showAcceptedTypes` |
+| `listMaxHeight` | `md` | `sm`, `md`, `lg` or `none`. The file list scrolls once it is taller than this, with a fade at whichever edge has more to scroll to |
+| `class` | `""` | Extra classes on the root element |
+
+```html
+<cf_adminui_card title="Add your files" description="Bring in PDFs, images and other documents to upload." style="bordered">
+	<cf_adminui_file_upload
+		url         = "#event.buildAdminLink( linkTo='myObject.uploadFileAction' )#"
+		accept      = "pdf,docx,xlsx,png,jpg"
+		maxFileSize = "20"
+		maxFiles    = "6"
+	/>
+</cf_adminui_card>
+```
+
+### File upload events and JS API
+
+Events are dispatched on the root `.c-file-upload` element and bubble, with the following in `event.detail`:
+
+| Event | Detail |
+|-------|--------|
+| `fileupload:fileadded` | `file` |
+| `fileupload:fileremoved` | `file` |
+| `fileupload:filecomplete` | `file`, `success`, `message`, `response` (parsed JSON or text), `rejected` (`true` when the file failed the client-side checks and was never sent) |
+| `fileupload:queuecomplete` | `successful`, `failed`: the files uploaded since the previous `queuecomplete` |
+
+The root element also exposes `element.adminuiFileUpload`, with `upload()` (sends the pending files when `autoUpload="false"`), `getPendingFiles()` (accepted files waiting for `upload()`), `reset()` (cancels and clears every file), `setDropzoneVisible( visible )` (hides and disables the drop area, e.g. to show a result in its place once a batch is done; hiding it cancels anything still queued or uploading), `getFiles()` and `dropzone` (the underlying Dropzone instance).
+
+```js
+var uploader = document.getElementById( "my-upload" );
+
+document.getElementById( "my-form" ).addEventListener( "submit", function( e ){
+	e.preventDefault();
+	uploader.adminuiFileUpload.upload();
+} );
+
+uploader.addEventListener( "fileupload:queuecomplete", function( e ){
+	console.log( e.detail.successful.length + " uploaded, " + e.detail.failed.length + " failed" );
+} );
+```
+
+---
+
 ## Form — `cf_adminui_form`
 
 `<form class="c-form">` with attribute passthrough. Extra attributes (e.g. `method`, `action`, `data-auto-focus-form`) are passed through to the form element. Use `class` to append extra classes.

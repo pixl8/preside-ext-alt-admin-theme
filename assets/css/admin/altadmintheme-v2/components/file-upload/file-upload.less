@@ -1,0 +1,300 @@
+@import url("../../global/variables.less");
+@import url("../../global/mixins.less");
+
+// no frame or header of its own: wrap it in cf_adminui_card when it needs either
+.c-file-upload {
+  display: flex;
+  flex-direction: column;
+  gap: @spacing-4;
+}
+
+.c-file-upload__dropzone {
+  align-items: center;
+  background-color: @color-white;
+  border: dashed 1px @color-neutral-20;
+  border-radius: @border-radius-lg;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: @spacing-2;
+  justify-content: center;
+  padding: @spacing-12 @spacing-6;
+  text-align: center;
+  transition: @transition-normal;
+
+  > * {
+    pointer-events: none;
+  }
+
+  &[hidden] {
+    display: none;
+  }
+
+  &:hover {
+    background-color: @color-neutral-5;
+  }
+
+  &:focus-visible {
+    border-color: @color-primary-100;
+    outline: solid 2px @color-primary-100;
+    outline-offset: 2px;
+  }
+
+  &:hover,
+  &:focus-visible {
+    .c-file-upload__dropzone-icon {
+      transform: scale(1.08);
+    }
+  }
+
+  &.is-dragover {
+    background-color: @color-neutral-5;
+
+    .c-file-upload__dropzone-icon {
+      animation: file-upload-pulse 1.2s ease-in-out infinite;
+      color: @color-primary-100;
+    }
+  }
+}
+
+.c-file-upload__dropzone-icon {
+  .size(40);
+  color: @icon-color-highlight;
+  margin-bottom: @spacing-2;
+  transition:
+    color @transition-normal ease,
+    transform @transition-normal cubic-bezier(0.22, 1, 0.36, 1);
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none !important;
+    transform: none !important;
+    transition: color @transition-fast ease;
+  }
+}
+
+.c-file-upload__prompt {
+  color: @text-color-highlight;
+  font-size: @font-size-md;
+  font-weight: @font-weight-bold;
+}
+
+.c-file-upload__browse {
+  color: @color-primary-100;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.c-file-upload__hint {
+  color: @text-color-muted;
+  font-size: @font-size-sm;
+}
+
+// fades over the top / bottom edge of the list while there is more to scroll to that way
+.c-file-upload__list-wrapper {
+  position: relative;
+
+  &::before,
+  &::after {
+    .height(64);
+    content: "";
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    transition: opacity @transition-fast ease;
+    z-index: 1;
+  }
+
+  &::before {
+    background: linear-gradient(to bottom, @color-white 25%, transparent);
+    top: 0;
+  }
+
+  &::after {
+    background: linear-gradient(to top, @color-white 25%, transparent);
+    bottom: 0;
+  }
+
+  &.is-overflowing-top::before,
+  &.is-overflowing-bottom::after {
+    opacity: 1;
+  }
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.c-file-upload__list {
+  display: flex;
+  flex-direction: column;
+  gap: @spacing-2;
+  list-style: none;
+  margin: 0 !important;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0;
+
+  &--height-sm {
+    .max-height(240);
+  }
+
+  &--height-md {
+    .max-height(400);
+  }
+
+  &--height-lg {
+    .max-height(640);
+  }
+}
+
+.c-file-upload__item {
+  align-items: center;
+  background-color: @color-neutral-5;
+  border: solid 1px transparent;
+  border-radius: @border-radius-lg;
+  display: flex;
+  flex-shrink: 0;
+  gap: @spacing-3;
+  padding: @spacing-3;
+  transition: @transition-normal;
+
+  &.is-error {
+    background-color: @color-error-5;
+    border-color: @color-error-10;
+  }
+}
+
+.c-file-upload__preview {
+  .size(48);
+  align-items: center;
+  background-color: @color-white;
+  border-radius: @border-radius-md;
+  color: @icon-color;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.c-file-upload__preview-icon {
+  .size(24);
+}
+
+.c-file-upload__thumbnail {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.c-file-upload__details {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: @spacing-0-5;
+  min-width: 0;
+}
+
+.c-file-upload__name {
+  color: @text-color-highlight;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.c-file-upload__meta {
+  color: @text-color-muted;
+  font-size: @font-size-sm;
+}
+
+.c-file-upload__progress {
+  display: none;
+  margin-top: @spacing-2;
+
+  .is-uploading &,
+  .is-processing & {
+    display: block;
+  }
+}
+
+.c-file-upload__message {
+  color: @text-color-muted;
+  font-size: @font-size-xs;
+
+  &:empty {
+    display: none;
+  }
+
+  .is-success & {
+    color: @color-success-110;
+  }
+
+  .is-error & {
+    color: @color-error-100;
+  }
+}
+
+.c-file-upload__state-icon {
+  .size(20);
+  display: none;
+
+  &--success {
+    color: @color-success-100;
+
+    .is-success & {
+      display: block;
+    }
+  }
+
+  &--error {
+    color: @color-error-100;
+
+    .is-error & {
+      display: block;
+    }
+  }
+}
+
+.c-file-upload__remove {
+  align-items: center;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: @border-radius-md;
+  color: @icon-color;
+  cursor: pointer;
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  padding: @spacing-1;
+  transition: @transition-normal;
+
+  &:hover {
+    background-color: @color-neutral-10;
+    color: @icon-color-highlight;
+  }
+
+  &:focus-visible {
+    outline: solid 2px @color-primary-100;
+    outline-offset: 1px;
+  }
+
+  .is-success & {
+    display: none;
+  }
+}
+
+.c-file-upload__remove-icon {
+  .size(20);
+}
+
+@keyframes file-upload-pulse {
+  0%,
+  100% {
+    transform: scale(1.08);
+  }
+  50% {
+    transform: scale(1.18);
+  }
+}
