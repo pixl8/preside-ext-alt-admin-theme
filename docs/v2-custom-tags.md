@@ -168,7 +168,7 @@ Definition list from an items array. Self-closing.
 
 ## Empty state — `cf_adminui_empty_state`
 
-Empty-state panel with illustration and optional CTA. Self-closing.
+Empty-state panel with illustration and optional action buttons. Self-closing.
 
 | Attribute | Default | Notes |
 |-----------|---------|--------|
@@ -176,10 +176,21 @@ Empty-state panel with illustration and optional CTA. Self-closing.
 | `description` | `""` | |
 | `image` | `""` | Illustration name resolved by `AdminThemeEmptyStateIllustrationService` |
 | `imageUrl` | `""` | Direct image URL (wins over `image`) |
-| `buttonText` | `""` | CTA needs both text and link |
-| `buttonLink` | `""` | |
-| `buttonIcon` | `""` | |
-| `buttonTarget` | `_self` | |
+| `actions` | `[]` | Buttons, centred under the description. Each struct: `label`, `href`, `icon`, `style` (default `fill`), `skin` (default `primary`), `type` (default `a`; `button` for a JS-driven button), `target`, `attribs` |
+
+```html
+<cf_adminui_empty_state
+	image       = "files-uploaded"
+	title       = "Files uploaded"
+	description = "Your files have been added and queued for processing."
+	actions     = "#[
+		  { label='Back to the list', href=listLink, icon='arrow-left' }
+		, { label='Upload more files', type='button', style='outline', icon='upload', attribs={ 'data-upload-again'='' } }
+	]#"
+/>
+```
+
+**Deprecated:** `buttonText`, `buttonLink`, `buttonIcon` and `buttonTarget` (default `_self`) still work as a shorthand for a single action (`label`, `href`, `icon`, `target`), but are ignored when `actions` is set. Use `actions` in new code.
 
 See [Theming: empty-state illustrations](v2-theming.md#empty-state-illustrations).
 
