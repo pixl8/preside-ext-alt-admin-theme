@@ -9,6 +9,21 @@
     border: solid 1px @color-neutral-10;
   }
 
+  &--clickable-rows {
+    .c-table__row {
+      cursor: pointer;
+
+      &:hover .c-table__cell {
+        background: @color-neutral-5;
+      }
+
+      &:focus-visible {
+        outline: solid 2px @color-primary-100;
+        outline-offset: -2px;
+      }
+    }
+  }
+
   &:not(&--style-bordered) {
     .c-table__heading,
     .c-table__cell {

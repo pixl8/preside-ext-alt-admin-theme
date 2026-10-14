@@ -399,12 +399,23 @@ Simple static table with column headings. Self-closing. Below 640px wide the tab
 |-----------|---------|--------|
 | `headings` | `[]` | Column headings; HTML encoded |
 | `rows` | `[]` | Array of rows, each an array of cells; rendered without HTML encoding |
+| `rowAttribs` | `[]` | Passthrough HTML attributes per row (e.g. `data-*`), structs matched to `rows` by position |
+| `clickableRows` | `false` | Rows get a pointer, a hover state and keyboard focus (Enter and Space click the row) |
 | `style` | `""` | `bordered` adds an outer border and radius |
+
+With `clickableRows`, each row click dispatches `table:rowclick` on the component with `detail.index` (0-based) and `detail.row`. Links and controls inside a row keep their own behaviour.
 
 ```html
 <cf_adminui_table
 	headings = "#[ 'Title', 'Confidence' ]#"
 	rows     = "#[ [ EncodeForHtml( learning.title ), '86%' ] ]#"
+/>
+
+<cf_adminui_table
+	headings      = "#[ 'Title' ]#"
+	rows          = "#[ [ 'First' ], [ 'Second' ] ]#"
+	rowAttribs    = "#[ { 'data-id'=1 }, { 'data-id'=2 } ]#"
+	clickableRows = "true"
 />
 ```
 
