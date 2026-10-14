@@ -1,0 +1,31 @@
+@import url("../../global/variables.less");
+@import url("../../global/mixins.less");
+
+// widths in px, the values the tag's size attribute accepts
+@c-image-thumbnail-sizes: 32, 48, 64, 80, 96, 112, 128;
+
+.c-image-thumbnail {
+  background-color: @color-neutral-5;
+  border: solid 1px @color-neutral-10 !important; // core's ".presidecms img" reset outranks a single class
+  border-radius: @border-radius-sm;
+  display: block;
+  object-fit: cover;
+
+  each(@c-image-thumbnail-sizes, {
+    &--size-@{value} {
+      .width(@value);
+    }
+  });
+
+  &--ratio-16x9 {
+    aspect-ratio: 16 / 9;
+  }
+
+  &--ratio-4x3 {
+    aspect-ratio: 4 / 3;
+  }
+
+  &--ratio-1x1 {
+    aspect-ratio: 1;
+  }
+}
