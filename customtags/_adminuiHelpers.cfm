@@ -29,6 +29,18 @@
 	</cfscript>
 </cffunction>
 
+<cffunction name="_adminuiRenderContent" access="public" returntype="string" output="false">
+	<cfargument name="renderer" type="string" required="true" />
+	<cfargument name="data"     type="any"    required="true" />
+	<cfargument name="context"  type="any"    required="false" default="default" />
+
+	<cfscript>
+		var value = _getController()?.getWireBox().getInstance( "contentRendererService" ).render( argumentCollection=arguments );
+
+		return local.value ?: arguments.data;
+	</cfscript>
+</cffunction>
+
 <cffunction name="_adminuiGetRequestNonce" access="public" returntype="string" output="false">
 	<cfscript>
 		var value = _getController()?.getRequestContext().getRequestNonce();
