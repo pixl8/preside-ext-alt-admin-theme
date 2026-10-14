@@ -140,6 +140,23 @@
 	</cfscript>
 </cffunction>
 
+<cffunction name="_adminuiFormatTime" access="public" returntype="string" output="false">
+	<cfargument name="seconds" type="numeric" required="true" /><!--- formatted as m:ss, or h:mm:ss from an hour --->
+
+	<cfscript>
+		var total = Int( Max( 0, arguments.seconds ) );
+		var hours = Int( total / 3600 );
+		var mins  = Int( ( total MOD 3600 ) / 60 );
+		var secs  = total MOD 60;
+
+		if ( hours ) {
+			return hours & ":" & NumberFormat( mins, "00" ) & ":" & NumberFormat( secs, "00" );
+		}
+
+		return mins & ":" & NumberFormat( secs, "00" );
+	</cfscript>
+</cffunction>
+
 <cffunction name="_adminuiIncludeAsset" access="public" returntype="void" output="false">
 	<cfargument name="assetId" type="string" required="true" />
 
