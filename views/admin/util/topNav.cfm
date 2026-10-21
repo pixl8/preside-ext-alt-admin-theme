@@ -35,6 +35,12 @@
 	} else {
 		dependencyTrackerLink = "";
 	}
+
+	if ( FileExists( ExpandPath( "/preside/system/views/admin/layout/userNavItem.cfm" ) ) ) {
+		userNavItem = renderViewlet( event="admin.layout.userNavItem", args={ userMenu=userMenu } );
+	} else {
+		userNavItem = "<li>" & userMenu & "</li>";
+	}
 </cfscript>
 
 <cfoutput>
@@ -60,7 +66,7 @@
 					#systemMenu#
 					#systemAlertsMenu#
 					<li>#notificationsMenu#</li>
-					<li>#userMenu#</li>
+					#userNavItem#
 				</ul>
 			</div>
 		</div>
