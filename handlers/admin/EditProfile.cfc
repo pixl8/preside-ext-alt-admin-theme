@@ -40,6 +40,15 @@ component extends="preside.system.handlers.admin.EditProfile" {
 			, title  = translateResource( uri="cms:notifications.preferences.tab.title" )
 			, icon   = "fa-bell"
 		} );
+
+		if ( isTrue( labsService?.hasConfigurableExperiments() ) ) {
+			ArrayAppend( prc.adminSidebarItems, {
+				  active = currentEvent == "admin.editProfile.labs"
+				, link   = event.buildAdminLink( "editProfile.labs" )
+				, title  = translateResource( uri="cms:editProfile.labs.secondary.nav.title" )
+				, icon   = "fa-flask"
+			} );
+		}
 	}
 
 }

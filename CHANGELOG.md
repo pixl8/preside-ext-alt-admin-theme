@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.5.8
+
+* [ADMINTHEME-129](https://projects.pixl8.london/browse/ADMINTHEME-129) - Support new datatables labs experiment
+
 ## v1.5.7
 
 * Admin User Management Config Manager permission
