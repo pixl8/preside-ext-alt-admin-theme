@@ -4,7 +4,7 @@ Tags live in `customtags/` and are invoked as `cf_adminui_*` (filename without `
 
 **Preside requirement:** extension custom tags depend on [PRESIDECMS-682](https://presidecms.atlassian.net/browse/PRESIDECMS-682). Use at least **10.26.134**, **10.27.104**, **10.28.68**, **10.29.46**, **10.30.30**, or a **10.31+** build. See [V2 components system: Preside dependency](v2-components-system.md#preside-dependency).
 
-Shared helpers used by some tags live in `_adminuiHelpers.cfm` (settings, i18n, empty-state illustrations, icons). Custom tags do not inherit Preside view helpers, so those helpers talk to ColdBox via `application.cbBootstrap.getController()`.
+Shared helpers used by some tags live in `_adminuiHelpers.cfm` (settings, i18n, content rendering, empty-state illustrations, icons). Custom tags do not inherit Preside view helpers, so those helpers talk to ColdBox via `application.cbBootstrap.getController()`.
 
 ---
 
@@ -148,6 +148,22 @@ Metric card with optional trend footer. Self-closing.
 	trendLabel     = "vs last week"
 	trendDirection = "increase"
 />
+```
+
+---
+
+## Code — `cf_adminui_code`
+
+Preformatted code or text block. Self-closing.
+
+| Attribute | Default | Notes |
+|-----------|---------|--------|
+| `text` | `""` | HTML-encoded |
+| `wrap` | `false` | Wrap long lines instead of scrolling horizontally |
+| `maxHeight` | `""` | `sm` (160px), `md` (320px) or `lg` (480px); taller content scrolls inside the block |
+
+```html
+<cf_adminui_code text="#toolOutput#" wrap="true" maxHeight="md" />
 ```
 
 ---
@@ -380,6 +396,18 @@ Progress track with optional footer. Self-closing.
 
 ---
 
+## Prose — `cf_adminui_prose`
+
+Styles rendered rich text (markdown, rich editor HTML): headings, paragraphs, lists, tables, blockquotes, code, horizontal rules and images. No attributes. Body text uses `@font-size-sm` (matching card and timeline bodies) with headings stepped up through the font size scale, and the first and last children have no outer margin, so the block sits flush inside cards, stacks and timeline items. The body is output as-is, so only pass HTML that is already safe.
+
+```html
+<cf_adminui_prose>
+	#renderedMarkdown#
+</cf_adminui_prose>
+```
+
+---
+
 ## Stack — `cf_adminui_stack`, `cf_adminui_stack_item`
 
 Vertical stack layout.
@@ -388,6 +416,73 @@ Vertical stack layout.
 |-----|------------|
 | `cf_adminui_stack` | `style` (e.g. `bordered`), `hasSeparators` (boolean) |
 | `cf_adminui_stack_item` | `align` (`left` / `center` / `right`) |
+
+---
+
+## Table — `cf_adminui_table`
+
+Simple static table with column headings. Self-closing. Below 640px wide the table scrolls horizontally rather than squashing its columns.
+
+| Attribute | Default | Notes |
+|-----------|---------|--------|
+| `headings` | `[]` | Column headings; HTML encoded |
+| `rows` | `[]` | Array of rows, each an array of cells; rendered without HTML encoding |
+| `style` | `""` | `bordered` adds an outer border and radius |
+
+```html
+<cf_adminui_table
+	headings = "#[ 'Title', 'Confidence' ]#"
+	rows     = "#[ [ EncodeForHtml( learning.title ), '86%' ] ]#"
+/>
+```
+
+---
+
+## Timeline — `cf_adminui_timeline`, `cf_adminui_timeline_item`, `cf_adminui_timeline_separator`
+
+Vertical timeline for chronological events such as audit logs, activity feeds and chat threads. Items sit on a rail with an indicator, and self-closing separators split them into groups (typically by day). The rail breaks at each separator and after the last item.
+
+| Tag | Attributes |
+|-----|------------|
+| `cf_adminui_timeline` | `id` |
+| `cf_adminui_timeline_separator` | `label`, or `date` (rendered as Today / Yesterday / a formatted date when `label` is empty) |
+| `cf_adminui_timeline_item` | see below |
+
+**Item attributes:**
+
+| Attribute | Default | Notes |
+|-----------|---------|--------|
+| `icon` | `""` | Lucide icon name for the indicator |
+| `avatar` | `""` | Image URL for the indicator; takes precedence over `icon`. With neither, a dot is shown |
+| `skin` | `""` | `primary`, `success`, `warning`, `danger`, `info`; colours the icon or dot indicator |
+| `title` | `""` | |
+| `meta` | `""` | Muted text after the title, e.g. the user who performed the action |
+| `time` | `""` | Display text, right-aligned in the header |
+| `datetime` | `""` | Machine-readable date; set as `data-date` on the item and `datetime` on the `<time>` element |
+
+The item body is optional and accepts any markup, including other tags (badges, accordions, cards).
+
+Separators are flat siblings of the items rather than wrappers, so a loop can output one whenever the date changes, and "load more" responses can append to the same list.
+
+```html
+<cf_adminui_timeline>
+	<cfloop array="#messages#" item="message">
+		<cfif DateFormat( message.timestamp, "yyyy-mm-dd" ) != currentDay>
+			<cfset currentDay = DateFormat( message.timestamp, "yyyy-mm-dd" ) />
+			<cf_adminui_timeline_separator date="#message.timestamp#" />
+		</cfif>
+		<cf_adminui_timeline_item
+			icon     = "bot"
+			skin     = "primary"
+			title    = "Assistant"
+			time     = "#TimeFormat( message.timestamp, 'HH:nn' )#"
+			datetime = "#DateTimeFormat( message.timestamp, 'yyyy-mm-dd HH:nn:ss' )#"
+		>
+			#message.content#
+		</cf_adminui_timeline_item>
+	</cfloop>
+</cf_adminui_timeline>
+```
 
 ---
 
