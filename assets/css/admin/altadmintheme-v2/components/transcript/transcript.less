@@ -1,0 +1,140 @@
+@import url("../../global/variables.less");
+@import url("../../global/mixins.less");
+
+.c-transcript {
+  &--seekable {
+    .c-transcript__item {
+      cursor: pointer;
+
+      &:hover:not(.is-active) {
+        background: @color-neutral-5;
+      }
+    }
+
+    .c-transcript__time {
+      cursor: pointer;
+
+      &:hover {
+        color: @text-color-highlight;
+      }
+    }
+  }
+
+  &--collapsible {
+    .c-transcript__group {
+      border-top: solid 1px @color-neutral-10;
+      padding: @spacing-4 0;
+
+      &:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+
+      + .c-transcript__group {
+        margin-top: 0;
+      }
+
+      &[open] .c-transcript__group-chevron {
+        transform: rotate(180deg);
+      }
+    }
+
+    .c-transcript__group-header {
+      cursor: pointer;
+      list-style: none;
+      user-select: none;
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+    }
+  }
+}
+
+.c-transcript__group {
+  + .c-transcript__group {
+    margin-top: @spacing-6;
+  }
+}
+
+// !important: core's ".presidecms summary" display outranks a single class
+.c-transcript__group-header {
+  align-items: flex-start;
+  display: flex !important;
+  gap: @spacing-3;
+
+  + .c-transcript__items {
+    margin-top: @spacing-3 !important;
+  }
+}
+
+.c-transcript__group-text {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: @spacing-1;
+  min-width: 0;
+}
+
+.c-transcript__group-heading {
+  align-items: baseline;
+  column-gap: @spacing-2;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.c-transcript__group-title {
+  color: @text-color-highlight;
+  font-size: @font-size-sm;
+  font-weight: @font-weight-bold;
+}
+
+.c-transcript__group-time {
+  color: @text-color-muted;
+  font-size: @font-size-xs;
+  font-variant-numeric: tabular-nums;
+}
+
+.c-transcript__group-description {
+  color: @text-color-muted;
+  font-size: @font-size-sm;
+}
+
+.c-transcript__group-chevron {
+  .size(16);
+  color: @icon-color-muted;
+  flex-shrink: 0;
+  margin-top: @spacing-0-5;
+  transition: @transition-fast;
+}
+
+// !important: core's ".presidecms ol" margins outrank a single class
+.c-transcript__items {
+  list-style: none;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.c-transcript__item {
+  border-left: solid 3px transparent;
+  border-radius: @border-radius-md;
+  display: grid;
+  gap: @spacing-3;
+  grid-template-columns: @spacing-12 1fr;
+  padding: @spacing-2 @spacing-3;
+
+  &.is-active {
+    background: @color-neutral-10;
+    color: @text-color-highlight;
+  }
+}
+
+.c-transcript__time {
+  background: none;
+  border: 0;
+  color: @text-color-muted;
+  font-size: @font-size-xs;
+  font-variant-numeric: tabular-nums;
+  padding: 0.15em 0 0; // nudges the smaller time onto the text's baseline
+  text-align: left;
+}
