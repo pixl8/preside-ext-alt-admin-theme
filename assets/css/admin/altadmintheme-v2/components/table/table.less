@@ -1,0 +1,54 @@
+@import url("../../global/variables.less");
+@import url("../../global/mixins.less");
+
+.c-table {
+  overflow-x: auto;
+
+  &--style-bordered {
+    border-radius: @border-radius-lg;
+    border: solid 1px @color-neutral-10;
+  }
+
+  &:not(&--style-bordered) {
+    .c-table__heading,
+    .c-table__cell {
+      &:first-child {
+        padding-left: 0;
+      }
+
+      &:last-child {
+        padding-right: 0;
+      }
+    }
+  }
+}
+
+.c-table__table {
+  border-collapse: collapse;
+  margin: 0;
+  min-width: (640 / @root-rem) * 1rem;
+  width: 100%;
+}
+
+.c-table__heading {
+  border-bottom: solid 1px @color-neutral-10;
+  color: @text-color-highlight;
+  font-weight: @font-weight-bold;
+  padding: @spacing-3 @spacing-4;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.c-table__row {
+  &:not(:last-child) {
+    .c-table__cell {
+      border-bottom: solid 1px @color-neutral-10;
+    }
+  }
+}
+
+.c-table__cell {
+  color: @text-color;
+  padding: @spacing-3 @spacing-4;
+  vertical-align: top;
+}
