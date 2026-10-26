@@ -51,29 +51,60 @@
 
   .generate-columns(size);
 
+  &--sticky {
+    .generate-sticky-column();
+  }
+
   @media (min-width: @breakpoint-xs) {
     .generate-columns(size-xs);
   }
 
   @media (min-width: @breakpoint-sm) {
     .generate-columns(size-sm);
+
+    &--sticky-sm {
+      .generate-sticky-column();
+    }
   }
 
   @media (min-width: @breakpoint-md) {
     .generate-columns(size-md);
+
+    &--sticky-md {
+      .generate-sticky-column();
+    }
   }
 
   @media (min-width: @breakpoint-lg) {
     .generate-columns(size-lg);
+
+    &--sticky-lg {
+      .generate-sticky-column();
+    }
   }
 
   @media (min-width: @breakpoint-xl) {
     .generate-columns(size-xl);
+
+    &--sticky-xl {
+      .generate-sticky-column();
+    }
   }
 
   @media (min-width: @breakpoint-2xl) {
     .generate-columns(size-2xl);
+
+    &--sticky-2xl {
+      .generate-sticky-column();
+    }
   }
+}
+
+// align-self stops the column stretching to the row height, which would leave it no room to stick
+.generate-sticky-column() {
+  align-self: flex-start;
+  position: sticky;
+  top: var(--components-grid-column-sticky-top, @spacing-3);
 }
 
 .generate-column(@size) {

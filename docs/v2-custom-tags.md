@@ -272,6 +272,40 @@ uploader.addEventListener( "fileupload:queuecomplete", function( e ){
 } );
 ```
 
+## Figure — `cf_adminui_figure`
+
+Image with an optional caption row. Use a closing tag or `/>`.
+
+With `zoom`, the image becomes a button with a zoom icon in its top right corner. It opens a dialog showing just the image at its own proportions, at most 1280px wide (and never taller than the viewport) with a gutter around it. The dialog closes on its close button, Escape or a click on the backdrop.
+
+| Attribute | Default | Notes |
+|-----------|---------|--------|
+| `src` | `""` | Nothing renders without it |
+| `alt` | `""` | Also used for the zoomed image |
+| `zoom` | `false` | |
+| `zoomLabel` | i18n `admin.components.figure:zoom.label` | Accessible label of the zoom button |
+| `closeLabel` | i18n `admin.components.figure:close.label` | Accessible label of the dialog's close button |
+| `id` | `""` | The dialog id is `{id}-zoom`, or generated |
+| `class` | `""` | |
+
+### Figure caption — `cf_adminui_figure_caption`
+
+Fills one of the caption row's placeholders (`c-figure__caption-left`, `c-figure__caption-center`, `c-figure__caption-right`) with its body. Only filled placeholders are output; with a center one, the side columns are kept equal so it stays centred. Body content of `cf_adminui_figure` that is not inside a caption tag goes in the left placeholder.
+
+| Attribute | Default | Notes |
+|-----------|---------|--------|
+| `position` | `left` | `left`, `center`, `right` |
+
+```html
+<cf_adminui_figure src="#slideUrl#" alt="Slide 2" zoom="true">
+	<cf_adminui_figure_caption>
+		<cf_adminui_label text="Diagram" icon="git-fork" />
+		<span>Slide 2</span>
+	</cf_adminui_figure_caption>
+	<cf_adminui_figure_caption position="right">0:11 – 0:35</cf_adminui_figure_caption>
+</cf_adminui_figure>
+```
+
 ---
 
 ## Form — `cf_adminui_form`
@@ -342,8 +376,11 @@ Labeled text-like input (or hidden). Self-closing.
 | `xs` | `12` | |
 | `sm` / `md` / `lg` / `xl` / `xxl` | `""` | Responsive sizes (`xxl` maps to `2xl` in CSS) |
 | `align` | `""` | `left`, `center`, `right` |
+| `sticky` | `""` | Keeps the column in view while the page scrolls, from a breakpoint up: `xs` (always), `sm`, `md`, `lg`, `xl`, `xxl` |
 
 `grid` and `grid_row` accept an optional `class`.
+
+A sticky column sits `--components-grid-column-sticky-top` (default `@spacing-3`) from the top of the viewport; override it when a layout has a fixed header. Content taller than the viewport only scrolls fully into view at the end of the row.
 
 ```html
 <cf_adminui_grid>
@@ -352,6 +389,12 @@ Labeled text-like input (or hidden). Self-closing.
 		<cf_adminui_grid_column xs="12" md="6">Right</cf_adminui_grid_column>
 	</cf_adminui_grid_row>
 </cf_adminui_grid>
+
+<!--- sticks once the columns sit side by side --->
+<cf_adminui_grid_row>
+	<cf_adminui_grid_column lg="7">Long content</cf_adminui_grid_column>
+	<cf_adminui_grid_column lg="5" sticky="lg">Stays in view</cf_adminui_grid_column>
+</cf_adminui_grid_row>
 ```
 
 ---
@@ -394,6 +437,24 @@ See [Theming: icons](v2-theming.md#icons).
 | `buttonIcon` | `plus` | |
 | `buttonLink` | `""` | |
 | `buttonTarget` | `""` | |
+
+---
+
+## Image thumbnail — `cf_adminui_image_thumbnail`
+
+Small fixed-ratio image, e.g. in table cells. Self-closing; lazy loaded.
+
+| Attribute | Default | Notes |
+|-----------|---------|--------|
+| `src` | `""` | Nothing renders without it |
+| `alt` | `""` | |
+| `size` | `96` | Width in px: `32`, `48`, `64`, `80`, `96`, `112`, `128` |
+| `ratio` | `16x9` | `16x9`, `4x3`, `1x1`; the image is cropped to fit |
+| `class` | `""` | |
+
+```html
+<cf_adminui_image_thumbnail src="#frameUrl#" alt="" size="64" />
+```
 
 ---
 
@@ -509,6 +570,26 @@ Simple static table with column headings. Self-closing. Below 640px wide the tab
 />
 ```
 
+## Tabs — `cf_adminui_tabs`, `cf_adminui_tab`
+
+Tab list and panels, without Bootstrap. Nest `cf_adminui_tab` tags in `cf_adminui_tabs`; each tab's body is its panel. Supports the ARIA tabs keyboard pattern (arrow keys, Home, End) and dispatches `tabs:change` (`detail.tab`, `detail.panel`) on the component.
+
+| Tag | Attribute | Default | Notes |
+|-----|-----------|---------|--------|
+| `cf_adminui_tabs` | `maxHeight` | `""` | `sm` (160px), `md` (320px), `lg` (480px); panels scroll beyond it |
+| | `id` / `class` | `""` | |
+| `cf_adminui_tab` | `id` | *(required)* | Panel id; the tab button is `{id}-tab` |
+| | `title` | `""` | |
+| | `icon` | `""` | Icon name |
+| | `active` | `false` | Defaults to the first tab |
+
+```html
+<cf_adminui_tabs maxHeight="lg">
+	<cf_adminui_tab id="job-details" title="Details">…</cf_adminui_tab>
+	<cf_adminui_tab id="job-transcript" title="Transcript" active="true">…</cf_adminui_tab>
+</cf_adminui_tabs>
+```
+
 ---
 
 ## Timeline — `cf_adminui_timeline`, `cf_adminui_timeline_item`, `cf_adminui_timeline_separator`
@@ -555,6 +636,62 @@ Separators are flat siblings of the items rather than wrappers, so a loop can ou
 		</cf_adminui_timeline_item>
 	</cfloop>
 </cf_adminui_timeline>
+```
+
+## Transcript — `cf_adminui_transcript`
+
+Timestamped lines with an active state. Self-closing. Linked to a `cf_adminui_video` through `player`, it highlights the line being spoken (scrolling it into view inside a scrolling container such as a `maxHeight` tab panel) and clicking a line seeks the video to it and plays.
+
+| Attribute | Default | Notes |
+|-----------|---------|--------|
+| `items` | `[]` | Structs: `start` (seconds), `end`, `text`, `time` (label, defaults to `start` as `m:ss`), `active` |
+| `groups` | `[]` | Structs: `title`, `description`, `start`, `end`, `time` (label, defaults to `start – end`), `items`. Used instead of `items` to show a header per group |
+| `collapsible` | `false` | With `groups`: every group collapses to its header except the one holding the active line, which follows playback. Clicking a header expands it |
+| `player` | `""` | Id of a `cf_adminui_video` |
+| `id` / `class` | `""` | |
+
+Clicking a line also dispatches `transcript:seek` (`detail.time`) on the component, with or without a player.
+
+```html
+<cf_adminui_transcript player="demo-video" collapsible="true" groups="#[ {
+	  title       = 'Introduction'
+	, description = 'Welcome and agenda'
+	, start       = 0
+	, end         = 35
+	, items       = [ { start=0.8, text='Hi there.' } ]
+} ]#" />
+```
+
+---
+
+## Video — `cf_adminui_video`
+
+HTML5 player for uploaded video, which other components can sync to. Self-closing.
+
+| Attribute | Default | Notes |
+|-----------|---------|--------|
+| `src` | `""` | Nothing renders without it |
+| `poster` | `""` | |
+| `start` | `0` | Start time in seconds |
+| `preload` | `metadata` | `none`, `metadata`, `auto` |
+| `id` | `""` | Needed for components to sync to it |
+| `class` | `""` | |
+
+Events on the `.c-video` element:
+
+* dispatched: `video:timeupdate` as playback moves, with `detail.currentTime`, `detail.duration` and `detail.paused`
+* listened for: `video:seek` with `detail.time` (seconds) and optional `detail.play`
+
+Seek triggers need no script: clicking any element with `data-video-player="{video id}"` and `data-video-seek="{seconds}"` seeks that video and plays:
+
+```html
+<cf_adminui_video id="demo-video" src="#videoUrl#" poster="#posterUrl#" />
+
+<a href="##" data-video-player="demo-video" data-video-seek="75">Jump to 1:15</a>
+
+<script>
+	document.getElementById( "demo-video" ).dispatchEvent( new CustomEvent( "video:seek", { detail: { time: 75, play: true } } ) );
+</script>
 ```
 
 ---
