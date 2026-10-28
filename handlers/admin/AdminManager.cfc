@@ -172,6 +172,12 @@ component extends="preside.system.base.AdminHandler" {
 	}
 
 	public void function getUserRecordsForAjaxDataTables( event, rc, prc ) {
+		if ( !hasCmsPermission( permissionKey="usermanager.read" ) ) {
+			event.adminAccessDenied();
+		}
+
+		restrictDataTableSortColumns( event );
+
 		runEvent(
 			  event          = "admin.DataManager._getObjectRecordsForAjaxDataTables"
 			, prePostExempt  = true
@@ -185,6 +191,12 @@ component extends="preside.system.base.AdminHandler" {
 	}
 
 	public void function getGroupRecordsForAjaxDataTables( event, rc, prc ) {
+		if ( !hasCmsPermission( permissionKey="groupmanager.read" ) ) {
+			event.adminAccessDenied();
+		}
+
+		restrictDataTableSortColumns( event );
+
 		runEvent(
 			  event          = "admin.DataManager._getObjectRecordsForAjaxDataTables"
 			, prePostExempt  = true
