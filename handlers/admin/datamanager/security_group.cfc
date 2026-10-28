@@ -147,6 +147,12 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	}
 
 	public void function getUsersForAjaxDataTable( event, rc, prc ) {
+		if ( !hasCmsPermission( "groupmanager.read" ) ) {
+			event.adminAccessDenied();
+		}
+
+		restrictDataTableSortColumns( event );
+
 		runEvent(
 			  event          = "admin.DataManager._getObjectRecordsForAjaxDataTables"
 			, prePostExempt  = true
@@ -158,7 +164,6 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 				, useMultiActions = false
 				, actionsView     = "admin.datamanager.security_group._getUsersActionsViewForAjaxDataTables"
 				, useCache        = false
-				, orderBy         = rc.order_by ?: ""
 			}
 		);
 	}
