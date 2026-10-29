@@ -5,11 +5,29 @@
 	args.col3            = args.col3 ?: [];
 	args.infoDescription = args.infoDescription ?: "";
 	args.infoCardStyle   = args.infoCardStyle  ?: "default";
+	args.infoColSizes    = args.infoColSizes ?: [ 4, 4, 4 ];
+	args.infoCardLayout  = args.infoCardLayout ?: "columns"; // columns, or compact
 
-	allItems = [];
-	allItems.append( args.col1, true );
-	allItems.append( args.col2, true );
-	allItems.append( args.col3, true );
+	layout = args.infoCardLayout == "compact" ? "compact" : "columns";
+	groups = [];
+
+	if ( layout == "compact" ) {
+		allItems = [];
+		ArrayAppend( allItems, args.col1, true );
+		ArrayAppend( allItems, args.col2, true );
+		ArrayAppend( allItems, args.col3, true );
+
+		if ( ArrayLen( allItems ) ) {
+			ArrayAppend( groups, { items=allItems, size=0 } );
+		}
+	} else {
+		for ( i=1; i<=3; i++ ) {
+			colSize = Val( args.infoColSizes[ i ] ?: 0 );
+			if ( colSize && ArrayLen( args[ "col#i#" ] ) ) {
+				ArrayAppend( groups, { items=args[ "col#i#" ], size=colSize } );
+			}
+		}
+	}
 
 	function _parseFaIcon( value ) {
 		var tagMatch = reFindNoCase( '<i\s+class="([^"]*)"[^>]*>\s*</i>', value, 1, true );
@@ -41,29 +59,33 @@
 		</div>
 	</cfif>
 
-	<cfif ArrayLen( allItems )>
-		<dl class="s-main__body-meta-items">
-			<cfloop array="#allItems#" index="n" item="item">
-				<cfif args.infoCardStyle == "definitionList" && IsStruct( item )>
-					<cfset parsed = _parseFaIcon( item.value )>
-					<cfset isScrollable = IsBoolean( item.scrollable ?: "" ) && item.scrollable>
-					<div class="s-main__body-meta-item<cfif isScrollable> s-main__body-meta-item--scrollable</cfif>">
-						<dt class="s-main__body-meta-item-title">#item.title#</dt>
-						<dd class="s-main__body-meta-item-value">
-							<cfif parsed.hasIcon><cf_adminui_icon class="s-main__body-meta-item-value-icon" name="#parsed.iconName#" strokeWidth="2" /> </cfif>
-							#parsed.text#
-						</dd>
-					</div>
-				<cfelse>
-					<cfset parsed = _parseFaIcon( IsSimpleValue( item ) ? item : "" )>
-					<div class="s-main__body-meta-item">
-						<dd class="s-main__body-meta-item-value">
-							<cfif parsed.hasIcon><cf_adminui_icon class="s-main__body-meta-item-value-icon" name="#parsed.iconName#" strokeWidth="2" /> </cfif>
-							#parsed.text#
-						</dd>
-					</div>
-				</cfif>
+	<cfif ArrayLen( groups )>
+		<div class="s-main__body-meta-items s-main__body-meta-items--#layout#">
+			<cfloop array="#groups#" index="g" item="group">
+				<dl class="s-main__body-meta-group<cfif group.size> s-main__body-meta-group--size-#group.size#</cfif>">
+					<cfloop array="#group.items#" index="n" item="item">
+						<cfif args.infoCardStyle == "definitionList" && IsStruct( item )>
+							<cfset parsed = _parseFaIcon( item.value )>
+							<cfset isScrollable = IsBoolean( item.scrollable ?: "" ) && item.scrollable>
+							<div class="s-main__body-meta-item<cfif isScrollable> s-main__body-meta-item--scrollable</cfif>">
+								<dt class="s-main__body-meta-item-title">#item.title#</dt>
+								<dd class="s-main__body-meta-item-value">
+									<cfif parsed.hasIcon><cf_adminui_icon class="s-main__body-meta-item-value-icon" name="#parsed.iconName#" strokeWidth="2" /> </cfif>
+									#parsed.text#
+								</dd>
+							</div>
+						<cfelse>
+							<cfset parsed = _parseFaIcon( IsSimpleValue( item ) ? item : "" )>
+							<div class="s-main__body-meta-item">
+								<dd class="s-main__body-meta-item-value">
+									<cfif parsed.hasIcon><cf_adminui_icon class="s-main__body-meta-item-value-icon" name="#parsed.iconName#" strokeWidth="2" /> </cfif>
+									#parsed.text#
+								</dd>
+							</div>
+						</cfif>
+					</cfloop>
+				</dl>
 			</cfloop>
-		</dl>
+		</div>
 	</cfif>
 </cfoutput>

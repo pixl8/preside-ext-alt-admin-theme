@@ -47,6 +47,7 @@ The Preside login provider prompt has v2 markup in `views/admin/loginProvider/pr
 
 With **both** `layout == "v2"` and `v2Components == true`, `preViewRecord` sets `prc.infoCardPlacement = "sidebar"` so view-record info cards use the v2 sidebar treatment (`views/admin/datamanager/_infoCardV2.cfm`). Otherwise placement stays `inline`.
 
+The sidebar info card lays its items out in columns by default, mirroring the classic card's `col1`–`col3` and `infoColSizes`. To render every item in a single horizontally scrolling row instead, annotate the object with `@datamanagerInfoCardLayout compact`.
 Related v2 / dual views include:
 
 * `_listingActionsV2.cfm` / `_listingActionsSidebar.cfm`
