@@ -8,6 +8,9 @@
  *   seeks that player and plays, e.g. table rows or links, with no page script
  *
  * Also cues the player to its data-start time once the metadata has loaded.
+ *
+ * Init happens on page load, when a bootbox modal is shown, and whenever content is
+ * swapped in place (the "presideContentReloaded" event).
  */
 ( function() {
   'use strict';
@@ -91,5 +94,12 @@
     document.addEventListener( 'DOMContentLoaded', initAll );
   } else {
     initAll();
+  }
+
+  if ( window.presideJQuery ) {
+    window.presideJQuery( 'body' ).on( 'onShowPresideBootboxModal', function( e, modal ) {
+      window.presideJQuery( modal ).on( 'shown.bs.modal', initAll );
+    } );
+    window.presideJQuery( 'body' ).on( 'presideContentReloaded', initAll );
   }
 } )();
