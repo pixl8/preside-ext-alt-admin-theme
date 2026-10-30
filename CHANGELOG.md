@@ -1,8 +1,14 @@
 # Changelog
 
+## v1.5.9
+
+* Various new ux modules for our admin ui tag collection including timelines,video tabs and so on
+* v2 layout info card update: default to a three column panel with option for a minimal one line approach
+* Fixes for responsive nav issues
+
 ## v1.5.8
 
-* [ADMINTHEME-129](https://projects.pixl8.london/browse/ADMINTHEME-129) - Support new datatables labs experiment
+* Support new datatables labs experiment
 
 ## v1.5.7
 

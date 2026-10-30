@@ -21,6 +21,19 @@ component extends="coldbox.system.Interceptor" {
 		prc.infoCardPlacement = useSidebarInfoCard ? "sidebar" : "inline";
 	}
 
+	public void function preRenderDataManagerObjectInfoCard( event, interceptData ) {
+		var objectName = interceptData.objectName ?: "";
+
+		if ( StructKeyExists( interceptData, "infoCardLayout" ) || !Len( objectName ) ) {
+			return;
+		}
+
+		interceptData.infoCardLayout = presideObjectService.getObjectAttribute(
+			  objectName    = objectName
+			, attributeName = "datamanagerInfoCardLayout"
+		);
+	}
+
 	public void function preLayoutRender( event, interceptData ) {
 		if( event.isAdminRequest() || event.isAdminUser() ) {
 			if ( !event.isAdminRequest() ) {

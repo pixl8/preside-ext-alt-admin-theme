@@ -1,10 +1,11 @@
-<cfparam name="attributes.xs"    type="string" default="12" />
-<cfparam name="attributes.sm"    type="string" default="" />
-<cfparam name="attributes.md"    type="string" default="" />
-<cfparam name="attributes.lg"    type="string" default="" />
-<cfparam name="attributes.xl"    type="string" default="" />
-<cfparam name="attributes.xxl"   type="string" default="" />
-<cfparam name="attributes.align" type="string" default="" />
+<cfparam name="attributes.xs"     type="string" default="12" />
+<cfparam name="attributes.sm"     type="string" default="" />
+<cfparam name="attributes.md"     type="string" default="" />
+<cfparam name="attributes.lg"     type="string" default="" />
+<cfparam name="attributes.xl"     type="string" default="" />
+<cfparam name="attributes.xxl"    type="string" default="" />
+<cfparam name="attributes.align"  type="string" default="" />
+<cfparam name="attributes.sticky" type="string" default="" /><!--- breakpoint from which the column sticks: xs (always), sm, md, lg, xl, xxl --->
 
 <cfif thisTag.executionMode is "start">
 	<cfscript>
@@ -32,6 +33,20 @@
 
 		if ( Len(Trim(attributes.align)) ) {
 			local.classes.append("c-grid__col--align-#encodeForHTMLAttribute( attributes.align )#");
+		}
+
+		// xs is the base size, so sticky="xs" sticks at every width, as xs sizes do
+		local.stickyClasses = {
+			  xs  = "c-grid__col--sticky"
+			, sm  = "c-grid__col--sticky-sm"
+			, md  = "c-grid__col--sticky-md"
+			, lg  = "c-grid__col--sticky-lg"
+			, xl  = "c-grid__col--sticky-xl"
+			, xxl = "c-grid__col--sticky-2xl"
+		};
+
+		if ( StructKeyExists( local.stickyClasses, attributes.sticky ) ) {
+			ArrayAppend( local.classes, local.stickyClasses[ attributes.sticky ] );
 		}
 
 		local.classString = ArrayToList(local.classes, " ");

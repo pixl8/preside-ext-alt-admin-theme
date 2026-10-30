@@ -9,14 +9,34 @@
   overflow-x: auto;
   padding: @spacing-6;
   text-align: left;
+
+  &--wrap {
+    .c-code__content {
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  }
+
+  &--max-height-sm,
+  &--max-height-md,
+  &--max-height-lg {
+    overflow-y: auto;
+  }
+
+  &--max-height-sm {
+    .max-height(160);
+  }
+
+  &--max-height-md {
+    .max-height(320);
+  }
+
+  &--max-height-lg {
+    .max-height(480);
+  }
 }
 
 .c-code__content {
   color: @text-color;
   white-space: pre;
-}
-
-.c-code--wrap .c-code__content {
-  white-space: pre-wrap;
-  word-break: break-word;
 }
