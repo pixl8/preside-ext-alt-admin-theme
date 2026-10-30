@@ -5,6 +5,7 @@
 <cfparam name="attributes.end"      type="numeric" default="0" /><!--- end time in seconds (0 = play to the end) --->
 <cfparam name="attributes.autoplay" type="boolean" default="false" />
 <cfparam name="attributes.dnt"      type="boolean" default="true" /><!--- do-not-track --->
+<cfparam name="attributes.id"       type="string"  default="" /><!--- when set, emits video:timeupdate and accepts video:seek --->
 <cfparam name="attributes.class"    type="string"  default="" />
 
 <cfif thisTag.executionMode is "start" and Len( Trim( attributes.videoId ) )>
@@ -15,7 +16,7 @@
 		local.src        = "https://player.vimeo.com/video/" & encodeForHTMLAttribute( attributes.videoId ) & "?dnt=" & ( attributes.dnt ? "1" : "0" );
 	</cfscript>
 	<cfoutput>
-		<div class="#local.classNames#" data-vimeo-id="#encodeForHTMLAttribute( attributes.videoId )#" data-start="#Val( attributes.start )#" data-end="#Val( attributes.end )#" data-autoplay="#( attributes.autoplay ? 'true' : 'false' )#">
+		<div class="#local.classNames#"<cfif Len( Trim( attributes.id ) )> id="#encodeForHTMLAttribute( attributes.id )#"</cfif> data-vimeo-id="#encodeForHTMLAttribute( attributes.videoId )#" data-start="#Val( attributes.start )#" data-end="#Val( attributes.end )#" data-autoplay="#( attributes.autoplay ? 'true' : 'false' )#">
 			<iframe class="c-vimeo__player" src="#local.src#" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
 		</div>
 	</cfoutput>

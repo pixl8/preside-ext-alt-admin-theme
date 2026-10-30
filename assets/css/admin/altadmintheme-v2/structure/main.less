@@ -71,21 +71,64 @@
 
 .s-main__body-meta-items {
   display: flex;
-  overflow: auto;
   margin: 0 !important;
+
+  &--compact {
+    overflow: auto;
+
+    .s-main__body-meta-item {
+      border-right: solid 1px @color-neutral-10;
+      min-width: max-content;
+      padding: @spacing-3 @spacing-6;
+
+      &--scrollable {
+        min-width: 0;
+        max-width: 400px;
+
+        &::after {
+          bottom: @spacing-2;
+        }
+      }
+    }
+  }
+
+  &--columns {
+    flex-direction: column;
+
+    .s-main__body-meta-group {
+      flex-direction: column;
+      gap: @spacing-4;
+      padding: @spacing-4 @spacing-6;
+
+      + .s-main__body-meta-group {
+        border-top: solid 1px @color-neutral-10;
+      }
+    }
+
+    .s-main__body-meta-item {
+      gap: @spacing-1;
+    }
+
+    .s-main__body-meta-item-value {
+      align-items: flex-start;
+      display: flex;
+      overflow-wrap: anywhere;
+    }
+  }
+}
+
+.s-main__body-meta-group {
+  display: flex;
+  margin: 0 !important;
+  min-width: 0;
 }
 
 .s-main__body-meta-item {
   display: inline-flex;
   flex-direction: column;
-  min-width: max-content;
-  border-right: solid 1px @color-neutral-10;
   gap: @spacing-2;
-  padding: @spacing-3 @spacing-6;
 
   &--scrollable {
-    min-width: 0;
-    max-width: 400px;
     position: relative;
 
     .s-main__body-meta-item-value {
@@ -98,7 +141,7 @@
     &::after {
       content: "";
       position: absolute;
-      bottom: @spacing-2;
+      bottom: 0;
       left: 0;
       right: 0;
       .height(24);
@@ -133,6 +176,19 @@
   .s-main__header-title {
     font-size: @font-size-3xl !important;
   }
+
+  .s-main__body-meta-items--columns {
+    flex-direction: row;
+
+    .s-main__body-meta-group {
+      .generate-body-meta-group-sizes();
+
+      + .s-main__body-meta-group {
+        border-left: solid 1px @color-neutral-10;
+        border-top: 0;
+      }
+    }
+  }
 }
 
 @media @mq-xl {
@@ -144,7 +200,8 @@
     padding: @spacing-3 @spacing-8;
   }
 
-  .s-main__body-meta-item {
+  .s-main__body-meta-items--compact .s-main__body-meta-item,
+  .s-main__body-meta-items--columns .s-main__body-meta-group {
     &:first-child {
       padding-left: @spacing-8;
     }
@@ -153,4 +210,11 @@
   .s-main__body-content {
     padding: @spacing-8;
   }
+}
+
+.generate-body-meta-group-sizes(@i: 1) when (@i <= 12) {
+  &--size-@{i} {
+    flex: @i 1 0%;
+  }
+  .generate-body-meta-group-sizes((@i + 1));
 }

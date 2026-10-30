@@ -4,7 +4,7 @@ Tags live in `customtags/` and are invoked as `cf_adminui_*` (filename without `
 
 **Preside requirement:** extension custom tags depend on [PRESIDECMS-682](https://presidecms.atlassian.net/browse/PRESIDECMS-682). Use at least **10.26.134**, **10.27.104**, **10.28.68**, **10.29.46**, **10.30.30**, or a **10.31+** build. See [V2 components system: Preside dependency](v2-components-system.md#preside-dependency).
 
-Shared helpers used by some tags live in `_adminuiHelpers.cfm` (settings, i18n, empty-state illustrations, icons). Custom tags do not inherit Preside view helpers, so those helpers talk to ColdBox via `application.cbBootstrap.getController()`.
+Shared helpers used by some tags live in `_adminuiHelpers.cfm` (settings, i18n, content rendering, empty-state illustrations, icons). Custom tags do not inherit Preside view helpers, so those helpers talk to ColdBox via `application.cbBootstrap.getController()`.
 
 ---
 
@@ -152,6 +152,22 @@ Metric card with optional trend footer. Self-closing.
 
 ---
 
+## Code — `cf_adminui_code`
+
+Preformatted code or text block. Self-closing.
+
+| Attribute | Default | Notes |
+|-----------|---------|--------|
+| `text` | `""` | HTML-encoded |
+| `wrap` | `false` | Wrap long lines instead of scrolling horizontally |
+| `maxHeight` | `""` | `sm` (160px), `md` (320px) or `lg` (480px); taller content scrolls inside the block |
+
+```html
+<cf_adminui_code text="#toolOutput#" wrap="true" maxHeight="md" />
+```
+
+---
+
 ## Description list — `cf_adminui_description_list`
 
 Definition list from an items array. Self-closing.
@@ -168,7 +184,7 @@ Definition list from an items array. Self-closing.
 
 ## Empty state — `cf_adminui_empty_state`
 
-Empty-state panel with illustration and optional CTA. Self-closing.
+Empty-state panel with illustration and optional action buttons. Self-closing.
 
 | Attribute | Default | Notes |
 |-----------|---------|--------|
@@ -176,12 +192,119 @@ Empty-state panel with illustration and optional CTA. Self-closing.
 | `description` | `""` | |
 | `image` | `""` | Illustration name resolved by `AdminThemeEmptyStateIllustrationService` |
 | `imageUrl` | `""` | Direct image URL (wins over `image`) |
-| `buttonText` | `""` | CTA needs both text and link |
-| `buttonLink` | `""` | |
-| `buttonIcon` | `""` | |
-| `buttonTarget` | `_self` | |
+| `actions` | `[]` | Buttons, centred under the description. Each struct: `label`, `href`, `icon`, `style` (default `fill`), `skin` (default `primary`), `type` (default `a`; `button` for a JS-driven button), `target`, `attribs` |
+
+```html
+<cf_adminui_empty_state
+	image       = "files-uploaded"
+	title       = "Files uploaded"
+	description = "Your files have been added and queued for processing."
+	actions     = "#[
+		  { label='Back to the list', href=listLink, icon='arrow-left' }
+		, { label='Upload more files', type='button', style='outline', icon='upload', attribs={ 'data-upload-again'='' } }
+	]#"
+/>
+```
+
+**Deprecated:** `buttonText`, `buttonLink`, `buttonIcon` and `buttonTarget` (default `_self`) still work as a shorthand for a single action (`label`, `href`, `icon`, `target`), but are ignored when `actions` is set. Use `actions` in new code.
 
 See [Theming: empty-state illustrations](v2-theming.md#empty-state-illustrations).
+
+---
+
+## File upload — `cf_adminui_file_upload`
+
+Drag-and-drop multi-file uploader: a drop area showing the accepted types and limits, and a scrollable list of files with per-file progress, success and error states. Wraps Dropzone, which Preside core loads on every admin page. Self-closing. It has no frame or header of its own, so it fits any container; wrap it in `cf_adminui_card` when it needs either.
+
+Each file is sent in its own `POST` to `url` as the `paramName` field, together with `params` and the fields of the enclosing form (or the form named by `form`). A 2xx response counts as success, unless it is JSON with `success: false`. A JSON `message` in the response is shown under the file name either way, rendered as text, not HTML. Files rejected by the `accept`, `maxFileSize` or `maxFiles` checks stay in the list with an error and can be removed.
+
+| Attribute | Default | Notes |
+|-----------|---------|--------|
+| `url` | *(required)* | Upload endpoint. Throws if empty |
+| `id` | auto | Root element id |
+| `paramName` | `file` | Form field name for the file |
+| `accept` | `""` | Comma-separated extensions and/or MIME types, e.g. `pdf,docx,image/*`. Filters the file picker and rejects other files on add |
+| `showAcceptedTypes` | `false` | Lists the `accept` types in the hint. Best kept for short lists |
+| `maxFileSize` | `0` | Per-file limit in MB; `0` for no limit |
+| `maxFiles` | `0` | `0` for no limit |
+| `parallelUploads` | `3` | |
+| `params` | `{}` | Extra fields sent with every file |
+| `form` | `""` | Id of a form whose fields are sent with every file. Defaults to the form the tag sits in, if any |
+| `autoUpload` | `true` | `false` queues files until the page calls `upload()`, e.g. from its own submit button |
+| `hint` | generated | Replaces the generated hint, e.g. "Max 6 files · Up to 20 MB per file", or "PDF, DOCX · Max 6 files · Up to 20 MB per file" with `showAcceptedTypes` |
+| `listMaxHeight` | `md` | `sm`, `md`, `lg` or `none`. The file list scrolls once it is taller than this, with a fade at whichever edge has more to scroll to |
+| `class` | `""` | Extra classes on the root element |
+
+```html
+<cf_adminui_card title="Add your files" description="Bring in PDFs, images and other documents to upload." style="bordered">
+	<cf_adminui_file_upload
+		url         = "#event.buildAdminLink( linkTo='myObject.uploadFileAction' )#"
+		accept      = "pdf,docx,xlsx,png,jpg"
+		maxFileSize = "20"
+		maxFiles    = "6"
+	/>
+</cf_adminui_card>
+```
+
+### File upload events and JS API
+
+Events are dispatched on the root `.c-file-upload` element and bubble, with the following in `event.detail`:
+
+| Event | Detail |
+|-------|--------|
+| `fileupload:fileadded` | `file` |
+| `fileupload:fileremoved` | `file` |
+| `fileupload:filecomplete` | `file`, `success`, `message`, `response` (parsed JSON or text), `rejected` (`true` when the file failed the client-side checks and was never sent) |
+| `fileupload:queuecomplete` | `successful`, `failed`: the files uploaded since the previous `queuecomplete` |
+
+The root element also exposes `element.adminuiFileUpload`, with `upload()` (sends the pending files when `autoUpload="false"`), `getPendingFiles()` (accepted files waiting for `upload()`), `reset()` (cancels and clears every file), `setDropzoneVisible( visible )` (hides and disables the drop area, e.g. to show a result in its place once a batch is done; hiding it cancels anything still queued or uploading), `getFiles()` and `dropzone` (the underlying Dropzone instance).
+
+```js
+var uploader = document.getElementById( "my-upload" );
+
+document.getElementById( "my-form" ).addEventListener( "submit", function( e ){
+	e.preventDefault();
+	uploader.adminuiFileUpload.upload();
+} );
+
+uploader.addEventListener( "fileupload:queuecomplete", function( e ){
+	console.log( e.detail.successful.length + " uploaded, " + e.detail.failed.length + " failed" );
+} );
+```
+
+## Figure — `cf_adminui_figure`
+
+Image with an optional caption row. Use a closing tag or `/>`.
+
+With `zoom`, the image becomes a button with a zoom icon in its top right corner. It opens a dialog showing just the image at its own proportions, at most 1280px wide (and never taller than the viewport) with a gutter around it. The dialog closes on its close button, Escape or a click on the backdrop.
+
+| Attribute | Default | Notes |
+|-----------|---------|--------|
+| `src` | `""` | Nothing renders without it |
+| `alt` | `""` | Also used for the zoomed image |
+| `zoom` | `false` | |
+| `zoomLabel` | i18n `admin.components.figure:zoom.label` | Accessible label of the zoom button |
+| `closeLabel` | i18n `admin.components.figure:close.label` | Accessible label of the dialog's close button |
+| `id` | `""` | The dialog id is `{id}-zoom`, or generated |
+| `class` | `""` | |
+
+### Figure caption — `cf_adminui_figure_caption`
+
+Fills one of the caption row's placeholders (`c-figure__caption-left`, `c-figure__caption-center`, `c-figure__caption-right`) with its body. Only filled placeholders are output; with a center one, the side columns are kept equal so it stays centred. Body content of `cf_adminui_figure` that is not inside a caption tag goes in the left placeholder.
+
+| Attribute | Default | Notes |
+|-----------|---------|--------|
+| `position` | `left` | `left`, `center`, `right` |
+
+```html
+<cf_adminui_figure src="#slideUrl#" alt="Slide 2" zoom="true">
+	<cf_adminui_figure_caption>
+		<cf_adminui_label text="Diagram" icon="git-fork" />
+		<span>Slide 2</span>
+	</cf_adminui_figure_caption>
+	<cf_adminui_figure_caption position="right">0:11 – 0:35</cf_adminui_figure_caption>
+</cf_adminui_figure>
+```
 
 ---
 
@@ -253,8 +376,11 @@ Labeled text-like input (or hidden). Self-closing.
 | `xs` | `12` | |
 | `sm` / `md` / `lg` / `xl` / `xxl` | `""` | Responsive sizes (`xxl` maps to `2xl` in CSS) |
 | `align` | `""` | `left`, `center`, `right` |
+| `sticky` | `""` | Keeps the column in view while the page scrolls, from a breakpoint up: `xs` (always), `sm`, `md`, `lg`, `xl`, `xxl` |
 
 `grid` and `grid_row` accept an optional `class`.
+
+A sticky column sits `--components-grid-column-sticky-top` (default `@spacing-3`) from the top of the viewport; override it when a layout has a fixed header. Content taller than the viewport only scrolls fully into view at the end of the row.
 
 ```html
 <cf_adminui_grid>
@@ -263,6 +389,12 @@ Labeled text-like input (or hidden). Self-closing.
 		<cf_adminui_grid_column xs="12" md="6">Right</cf_adminui_grid_column>
 	</cf_adminui_grid_row>
 </cf_adminui_grid>
+
+<!--- sticks once the columns sit side by side --->
+<cf_adminui_grid_row>
+	<cf_adminui_grid_column lg="7">Long content</cf_adminui_grid_column>
+	<cf_adminui_grid_column lg="5" sticky="lg">Stays in view</cf_adminui_grid_column>
+</cf_adminui_grid_row>
 ```
 
 ---
@@ -305,6 +437,24 @@ See [Theming: icons](v2-theming.md#icons).
 | `buttonIcon` | `plus` | |
 | `buttonLink` | `""` | |
 | `buttonTarget` | `""` | |
+
+---
+
+## Image thumbnail — `cf_adminui_image_thumbnail`
+
+Small fixed-ratio image, e.g. in table cells. Self-closing; lazy loaded.
+
+| Attribute | Default | Notes |
+|-----------|---------|--------|
+| `src` | `""` | Nothing renders without it |
+| `alt` | `""` | |
+| `size` | `96` | Width in px: `32`, `48`, `64`, `80`, `96`, `112`, `128` |
+| `ratio` | `16x9` | `16x9`, `4x3`, `1x1`; the image is cropped to fit |
+| `class` | `""` | |
+
+```html
+<cf_adminui_image_thumbnail src="#frameUrl#" alt="" size="64" />
+```
 
 ---
 
@@ -380,6 +530,18 @@ Progress track with optional footer. Self-closing.
 
 ---
 
+## Prose — `cf_adminui_prose`
+
+Styles rendered rich text (markdown, rich editor HTML): headings, paragraphs, lists, tables, blockquotes, code, horizontal rules and images. No attributes. Body text uses `@font-size-sm` (matching card and timeline bodies) with headings stepped up through the font size scale, and the first and last children have no outer margin, so the block sits flush inside cards, stacks and timeline items. The body is output as-is, so only pass HTML that is already safe.
+
+```html
+<cf_adminui_prose>
+	#renderedMarkdown#
+</cf_adminui_prose>
+```
+
+---
+
 ## Stack — `cf_adminui_stack`, `cf_adminui_stack_item`
 
 Vertical stack layout.
@@ -388,6 +550,160 @@ Vertical stack layout.
 |-----|------------|
 | `cf_adminui_stack` | `style` (e.g. `bordered`), `hasSeparators` (boolean) |
 | `cf_adminui_stack_item` | `align` (`left` / `center` / `right`) |
+
+---
+
+## Table — `cf_adminui_table`
+
+Simple static table with column headings. Self-closing. Below 640px wide the table scrolls horizontally rather than squashing its columns.
+
+| Attribute | Default | Notes |
+|-----------|---------|--------|
+| `headings` | `[]` | Column headings; HTML encoded |
+| `rows` | `[]` | Array of rows, each an array of cells; rendered without HTML encoding |
+| `rowAttribs` | `[]` | Passthrough HTML attributes per row (e.g. `data-*`), structs matched to `rows` by position |
+| `clickableRows` | `false` | Rows get a pointer, a hover state and keyboard focus (Enter and Space click the row) |
+| `style` | `""` | `bordered` adds an outer border and radius |
+
+With `clickableRows`, each row click dispatches `table:rowclick` on the component with `detail.index` (0-based) and `detail.row`. Links and controls inside a row keep their own behaviour.
+
+```html
+<cf_adminui_table
+	headings = "#[ 'Title', 'Confidence' ]#"
+	rows     = "#[ [ EncodeForHtml( learning.title ), '86%' ] ]#"
+/>
+
+<cf_adminui_table
+	headings      = "#[ 'Title' ]#"
+	rows          = "#[ [ 'First' ], [ 'Second' ] ]#"
+	rowAttribs    = "#[ { 'data-id'=1 }, { 'data-id'=2 } ]#"
+	clickableRows = "true"
+/>
+```
+
+## Tabs — `cf_adminui_tabs`, `cf_adminui_tab`
+
+Tab list and panels, without Bootstrap. Nest `cf_adminui_tab` tags in `cf_adminui_tabs`; each tab's body is its panel. Supports the ARIA tabs keyboard pattern (arrow keys, Home, End) and dispatches `tabs:change` (`detail.tab`, `detail.panel`) on the component.
+
+| Tag | Attribute | Default | Notes |
+|-----|-----------|---------|--------|
+| `cf_adminui_tabs` | `maxHeight` | `""` | `sm` (160px), `md` (320px), `lg` (480px); panels scroll beyond it |
+| | `id` / `class` | `""` | |
+| `cf_adminui_tab` | `id` | *(required)* | Panel id; the tab button is `{id}-tab` |
+| | `title` | `""` | |
+| | `icon` | `""` | Icon name |
+| | `active` | `false` | Defaults to the first tab |
+
+```html
+<cf_adminui_tabs maxHeight="lg">
+	<cf_adminui_tab id="job-details" title="Details">…</cf_adminui_tab>
+	<cf_adminui_tab id="job-transcript" title="Transcript" active="true">…</cf_adminui_tab>
+</cf_adminui_tabs>
+```
+
+---
+
+## Timeline — `cf_adminui_timeline`, `cf_adminui_timeline_item`, `cf_adminui_timeline_separator`
+
+Vertical timeline for chronological events such as audit logs, activity feeds and chat threads. Items sit on a rail with an indicator, and self-closing separators split them into groups (typically by day). The rail breaks at each separator and after the last item.
+
+| Tag | Attributes |
+|-----|------------|
+| `cf_adminui_timeline` | `id` |
+| `cf_adminui_timeline_separator` | `label`, or `date` (rendered as Today / Yesterday / a formatted date when `label` is empty) |
+| `cf_adminui_timeline_item` | see below |
+
+**Item attributes:**
+
+| Attribute | Default | Notes |
+|-----------|---------|--------|
+| `icon` | `""` | Lucide icon name for the indicator |
+| `avatar` | `""` | Image URL for the indicator; takes precedence over `icon`. With neither, a dot is shown |
+| `skin` | `""` | `primary`, `success`, `warning`, `danger`, `info`; colours the icon or dot indicator |
+| `title` | `""` | |
+| `meta` | `""` | Muted text after the title, e.g. the user who performed the action |
+| `time` | `""` | Display text, right-aligned in the header |
+| `datetime` | `""` | Machine-readable date; set as `data-date` on the item and `datetime` on the `<time>` element |
+
+The item body is optional and accepts any markup, including other tags (badges, accordions, cards).
+
+Separators are flat siblings of the items rather than wrappers, so a loop can output one whenever the date changes, and "load more" responses can append to the same list.
+
+```html
+<cf_adminui_timeline>
+	<cfloop array="#messages#" item="message">
+		<cfif DateFormat( message.timestamp, "yyyy-mm-dd" ) != currentDay>
+			<cfset currentDay = DateFormat( message.timestamp, "yyyy-mm-dd" ) />
+			<cf_adminui_timeline_separator date="#message.timestamp#" />
+		</cfif>
+		<cf_adminui_timeline_item
+			icon     = "bot"
+			skin     = "primary"
+			title    = "Assistant"
+			time     = "#TimeFormat( message.timestamp, 'HH:nn' )#"
+			datetime = "#DateTimeFormat( message.timestamp, 'yyyy-mm-dd HH:nn:ss' )#"
+		>
+			#message.content#
+		</cf_adminui_timeline_item>
+	</cfloop>
+</cf_adminui_timeline>
+```
+
+## Transcript — `cf_adminui_transcript`
+
+Timestamped lines with an active state. Self-closing. Linked to a `cf_adminui_video` through `player`, it highlights the line being spoken (scrolling it into view inside a scrolling container such as a `maxHeight` tab panel) and clicking a line seeks the video to it and plays.
+
+| Attribute | Default | Notes |
+|-----------|---------|--------|
+| `items` | `[]` | Structs: `start` (seconds), `end`, `text`, `time` (label, defaults to `start` as `m:ss`), `active` |
+| `groups` | `[]` | Structs: `title`, `description`, `start`, `end`, `time` (label, defaults to `start – end`), `items`. Used instead of `items` to show a header per group |
+| `collapsible` | `false` | With `groups`: every group collapses to its header except the one holding the active line, which follows playback. Clicking a header expands it |
+| `player` | `""` | Id of a `cf_adminui_video` |
+| `id` / `class` | `""` | |
+
+Clicking a line also dispatches `transcript:seek` (`detail.time`) on the component, with or without a player.
+
+```html
+<cf_adminui_transcript player="demo-video" collapsible="true" groups="#[ {
+	  title       = 'Introduction'
+	, description = 'Welcome and agenda'
+	, start       = 0
+	, end         = 35
+	, items       = [ { start=0.8, text='Hi there.' } ]
+} ]#" />
+```
+
+---
+
+## Video — `cf_adminui_video`
+
+HTML5 player for uploaded video, which other components can sync to. Self-closing.
+
+| Attribute | Default | Notes |
+|-----------|---------|--------|
+| `src` | `""` | Nothing renders without it |
+| `poster` | `""` | |
+| `start` | `0` | Start time in seconds |
+| `preload` | `metadata` | `none`, `metadata`, `auto` |
+| `id` | `""` | Needed for components to sync to it |
+| `class` | `""` | |
+
+Events on the `.c-video` element:
+
+* dispatched: `video:timeupdate` as playback moves, with `detail.currentTime`, `detail.duration` and `detail.paused`
+* listened for: `video:seek` with `detail.time` (seconds) and optional `detail.play`
+
+Seek triggers need no script: clicking any element with `data-video-player="{video id}"` and `data-video-seek="{seconds}"` seeks that video and plays:
+
+```html
+<cf_adminui_video id="demo-video" src="#videoUrl#" poster="#posterUrl#" />
+
+<a href="##" data-video-player="demo-video" data-video-seek="75">Jump to 1:15</a>
+
+<script>
+	document.getElementById( "demo-video" ).dispatchEvent( new CustomEvent( "video:seek", { detail: { time: 75, play: true } } ) );
+</script>
+```
 
 ---
 

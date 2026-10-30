@@ -29,6 +29,18 @@
 	</cfscript>
 </cffunction>
 
+<cffunction name="_adminuiRenderContent" access="public" returntype="string" output="false">
+	<cfargument name="renderer" type="string" required="true" />
+	<cfargument name="data"     type="any"    required="true" />
+	<cfargument name="context"  type="any"    required="false" default="default" />
+
+	<cfscript>
+		var value = _getController()?.getWireBox().getInstance( "contentRendererService" ).render( argumentCollection=arguments );
+
+		return local.value ?: arguments.data;
+	</cfscript>
+</cffunction>
+
 <cffunction name="_adminuiGetRequestNonce" access="public" returntype="string" output="false">
 	<cfscript>
 		var value = _getController()?.getRequestContext().getRequestNonce();
@@ -137,6 +149,23 @@
 		ArrayAppend( pages, total );
 
 		return pages;
+	</cfscript>
+</cffunction>
+
+<cffunction name="_adminuiFormatTime" access="public" returntype="string" output="false">
+	<cfargument name="seconds" type="numeric" required="true" /><!--- formatted as m:ss, or h:mm:ss from an hour --->
+
+	<cfscript>
+		var total = Int( Max( 0, arguments.seconds ) );
+		var hours = Int( total / 3600 );
+		var mins  = Int( ( total MOD 3600 ) / 60 );
+		var secs  = total MOD 60;
+
+		if ( hours ) {
+			return hours & ":" & NumberFormat( mins, "00" ) & ":" & NumberFormat( secs, "00" );
+		}
+
+		return mins & ":" & NumberFormat( secs, "00" );
 	</cfscript>
 </cffunction>
 
