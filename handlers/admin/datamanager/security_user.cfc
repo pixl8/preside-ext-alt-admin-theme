@@ -256,6 +256,9 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	}
 
 	public void function getGroupsForAjaxDataTable( event, rc, prc ) {
+		_checkPermissions( event=event, key="usermanager.read" );
+		restrictDataTableSortColumns( event );
+
 		runEvent(
 			  event          = "admin.DataManager._getObjectRecordsForAjaxDataTables"
 			, prePostExempt  = true
@@ -268,7 +271,7 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 				, useMultiActions = false
 				, actionsView     = "admin.datamanager.security_user._getGroupsActionsViewForAjaxDataTables"
 				, useCache        = false
-				, orderBy         = rc.order_by ?: ""
+				, orderBy         = isTrue( rc.is_dashboard ?: "" ) ? "is_assigned desc" : ""
 			}
 		);
 	}
@@ -323,6 +326,9 @@ component extends="preside.system.base.EnhancedDataManagerBase" {
 	}
 
 	public void function getNotificationsForAjaxDataTable( event, rc, prc ) {
+		_checkPermissions( event=event, key="usermanager.read" );
+		restrictDataTableSortColumns( event );
+
 		var userId = rc.recordId ?: "";
 
 		var extraFilters = [ { filter={ topic=notificationService.listTopics( userId=userId ) } } ];
