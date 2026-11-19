@@ -12,6 +12,40 @@
 
 .c-grid {
   width: 100%;
+
+  &--fill {
+    .generate-filling-grid();
+  }
+
+  @media (min-width: @breakpoint-sm) {
+    &--fill-sm {
+      .generate-filling-grid();
+    }
+  }
+
+  @media (min-width: @breakpoint-md) {
+    &--fill-md {
+      .generate-filling-grid();
+    }
+  }
+
+  @media (min-width: @breakpoint-lg) {
+    &--fill-lg {
+      .generate-filling-grid();
+    }
+  }
+
+  @media (min-width: @breakpoint-xl) {
+    &--fill-xl {
+      .generate-filling-grid();
+    }
+  }
+
+  @media (min-width: @breakpoint-2xl) {
+    &--fill-2xl {
+      .generate-filling-grid();
+    }
+  }
 }
 
 .c-grid__row {
@@ -55,6 +89,10 @@
     .generate-sticky-column();
   }
 
+  &--scroll {
+    .generate-scrolling-column();
+  }
+
   @media (min-width: @breakpoint-xs) {
     .generate-columns(size-xs);
   }
@@ -65,6 +103,10 @@
     &--sticky-sm {
       .generate-sticky-column();
     }
+
+    &--scroll-sm {
+      .generate-scrolling-column();
+    }
   }
 
   @media (min-width: @breakpoint-md) {
@@ -72,6 +114,10 @@
 
     &--sticky-md {
       .generate-sticky-column();
+    }
+
+    &--scroll-md {
+      .generate-scrolling-column();
     }
   }
 
@@ -81,6 +127,10 @@
     &--sticky-lg {
       .generate-sticky-column();
     }
+
+    &--scroll-lg {
+      .generate-scrolling-column();
+    }
   }
 
   @media (min-width: @breakpoint-xl) {
@@ -88,6 +138,10 @@
 
     &--sticky-xl {
       .generate-sticky-column();
+    }
+
+    &--scroll-xl {
+      .generate-scrolling-column();
     }
   }
 
@@ -97,6 +151,20 @@
     &--sticky-2xl {
       .generate-sticky-column();
     }
+
+    &--scroll-2xl {
+      .generate-scrolling-column();
+    }
+  }
+}
+
+// The row's negative margins reach a gutter past the top and bottom of the grid, so it is two
+// gutters taller to fill it
+.generate-filling-grid() {
+  height: 100%;
+
+  > .c-grid__row {
+    height: calc(100% + @grid-gutter * 2);
   }
 }
 
@@ -105,6 +173,13 @@
   align-self: flex-start;
   position: sticky;
   top: var(--components-grid-column-sticky-top, @spacing-3);
+}
+
+// max-height caps the column at its row, even when the row wraps; only a fill grid gives the row a
+// height, so elsewhere the column grows with its content as usual
+.generate-scrolling-column() {
+  max-height: 100%;
+  overflow-y: auto;
 }
 
 .generate-column(@size) {
