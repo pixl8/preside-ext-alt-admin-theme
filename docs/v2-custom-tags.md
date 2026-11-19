@@ -369,6 +369,14 @@ Labeled text-like input (or hidden). Self-closing.
 
 12-column flex grid. Nest: grid → row → column → content.
 
+**Grid attributes:**
+
+| Attribute | Default | Notes |
+|-----------|---------|--------|
+| `fill` | `""` | Fills its container's height from a breakpoint up, so `scroll` columns have a height to scroll within: `xs` (always), `sm`, `md`, `lg`, `xl`, `xxl` |
+
+A fill grid needs a container with a set height, such as a full-screen modal body, and holds a single row.
+
 **Column attributes:**
 
 | Attribute | Default | Notes |
@@ -377,10 +385,13 @@ Labeled text-like input (or hidden). Self-closing.
 | `sm` / `md` / `lg` / `xl` / `xxl` | `""` | Responsive sizes (`xxl` maps to `2xl` in CSS) |
 | `align` | `""` | `left`, `center`, `right` |
 | `sticky` | `""` | Keeps the column in view while the page scrolls, from a breakpoint up: `xs` (always), `sm`, `md`, `lg`, `xl`, `xxl` |
+| `scroll` | `""` | Scrolls the column on its own inside a `fill` grid, from a breakpoint up: `xs` (always), `sm`, `md`, `lg`, `xl`, `xxl` |
 
 `grid` and `grid_row` accept an optional `class`.
 
 A sticky column sits `--components-grid-column-sticky-top` (default `@spacing-3`) from the top of the viewport; override it when a layout has a fixed header. Content taller than the viewport only scrolls fully into view at the end of the row.
+
+In a `fill` grid, give `scroll` to every column whose content can be taller than the grid: a column without it grows past the grid and the container scrolls again. Leave it off a column that always fits and holds something that pokes outside it, such as a popover, since a scrolling column clips its content at its edges. Below the `fill` and `scroll` breakpoints, the columns stack and the container scrolls as usual.
 
 ```html
 <cf_adminui_grid>
@@ -395,6 +406,14 @@ A sticky column sits `--components-grid-column-sticky-top` (default `@spacing-3`
 	<cf_adminui_grid_column lg="7">Long content</cf_adminui_grid_column>
 	<cf_adminui_grid_column lg="5" sticky="lg">Stays in view</cf_adminui_grid_column>
 </cf_adminui_grid_row>
+
+<!--- in a full-screen modal: each column scrolls on its own once they sit side by side --->
+<cf_adminui_grid fill="lg">
+	<cf_adminui_grid_row>
+		<cf_adminui_grid_column lg="7" scroll="lg">Transcript</cf_adminui_grid_column>
+		<cf_adminui_grid_column lg="5" scroll="lg">Media</cf_adminui_grid_column>
+	</cf_adminui_grid_row>
+</cf_adminui_grid>
 ```
 
 ---

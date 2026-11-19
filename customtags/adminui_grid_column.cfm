@@ -6,6 +6,7 @@
 <cfparam name="attributes.xxl"    type="string" default="" />
 <cfparam name="attributes.align"  type="string" default="" />
 <cfparam name="attributes.sticky" type="string" default="" /><!--- breakpoint from which the column sticks: xs (always), sm, md, lg, xl, xxl --->
+<cfparam name="attributes.scroll" type="string" default="" /><!--- breakpoint from which the column scrolls on its own inside a fill grid: xs (always), sm, md, lg, xl, xxl --->
 
 <cfif thisTag.executionMode is "start">
 	<cfscript>
@@ -47,6 +48,19 @@
 
 		if ( StructKeyExists( local.stickyClasses, attributes.sticky ) ) {
 			ArrayAppend( local.classes, local.stickyClasses[ attributes.sticky ] );
+		}
+
+		local.scrollClasses = {
+			  xs  = "c-grid__col--scroll"
+			, sm  = "c-grid__col--scroll-sm"
+			, md  = "c-grid__col--scroll-md"
+			, lg  = "c-grid__col--scroll-lg"
+			, xl  = "c-grid__col--scroll-xl"
+			, xxl = "c-grid__col--scroll-2xl"
+		};
+
+		if ( StructKeyExists( local.scrollClasses, attributes.scroll ) ) {
+			ArrayAppend( local.classes, local.scrollClasses[ attributes.scroll ] );
 		}
 
 		local.classString = ArrayToList(local.classes, " ");
