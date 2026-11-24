@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.5.10
+
+* Admin user and group data tables order by
+
 ## v1.5.9
 
 * Various new ux modules for our admin ui tag collection including timelines,video tabs and so on
