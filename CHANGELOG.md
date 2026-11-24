@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.2.7
+
+* Admin user and group data tables order by
+
 ## v1.2.6
 
 * Show admin users belonging to an admin group
