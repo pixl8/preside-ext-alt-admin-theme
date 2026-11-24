@@ -1,0 +1,148 @@
+@import url("../../global/variables.less");
+@import url("../../global/mixins.less");
+
+// The <dialog> is the backdrop and the panel sits inside it. Modals open with show(), not showModal(), so they
+// stay out of the browser's top layer and Preside's own Bootstrap modals (the asset picker, confirmations) can
+// still open above them. 1030 is the fixed navbar's and Bootstrap's backdrop's z-index: coming later in the page
+// puts a modal above the navbar, and a Bootstrap backdrop, added later still, above the modal.
+.c-modal {
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  box-sizing: border-box;
+  color: @text-color;
+  height: 100%;
+  inset: 0;
+  margin: 0;
+  max-height: none;
+  max-width: none;
+  padding: @spacing-6 @spacing-4;
+  position: fixed;
+  width: 100%;
+  z-index: 1030;
+
+  &[open] {
+    display: grid;
+    place-items: center;
+  }
+
+  &--size-sm .c-modal__panel {
+    width: min(400px, 100%);
+  }
+
+  &--size-lg .c-modal__panel {
+    width: min(860px, 100%);
+  }
+
+  &--size-xl .c-modal__panel {
+    width: min(1080px, 100%);
+  }
+
+  &--size-full .c-modal__panel {
+    width: min(1400px, 100%);
+  }
+
+  // as tall as the screen allows, for content that scrolls inside itself
+  &--fill .c-modal__panel {
+    height: 100%;
+  }
+
+  // no padding or scrolling round the body, for content that brings its own
+  &--flush .c-modal__body {
+    overflow: hidden;
+    padding: 0;
+  }
+}
+
+.has-c-modal {
+  overflow: hidden;
+}
+
+.c-modal__panel {
+  background: @color-white;
+  border-radius: @border-radius-lg;
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow: hidden;
+  width: min(560px, 100%);
+}
+
+.c-modal__header {
+  align-items: flex-start;
+  border-bottom: solid 1px @color-neutral-10;
+  display: flex;
+  flex: none;
+  gap: @spacing-4;
+  justify-content: space-between;
+  padding: @spacing-4 @spacing-4 @spacing-4 @spacing-6;
+}
+
+.c-modal__heading {
+  display: flex;
+  flex-direction: column;
+  gap: @spacing-1;
+  min-width: 0;
+  padding-top: @spacing-1;
+}
+
+// within the heading, to win over the admin's own h2 and p styles (.presidecms h2)
+.c-modal__heading .c-modal__title {
+  color: @text-color-highlight;
+  font-family: inherit;
+  font-size: @font-size-lg;
+  font-weight: @font-weight-bold;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.c-modal__heading .c-modal__description {
+  color: @text-color-muted;
+  font-size: @font-size-sm;
+  margin: 0;
+}
+
+.c-modal__close {
+  .size(32);
+  align-items: center;
+  background: transparent;
+  border-radius: @border-radius-md;
+  border: none;
+  color: @icon-color-muted;
+  cursor: pointer;
+  display: inline-flex;
+  flex: none;
+  justify-content: center;
+  margin-left: auto;
+  padding: 0;
+  transition: @transition-fast;
+
+  &:hover,
+  &:focus-visible {
+    background: @color-neutral-5;
+    color: @icon-color-highlight;
+  }
+}
+
+.c-modal__close-icon {
+  .size(18);
+}
+
+.c-modal__body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: @spacing-6;
+}
+
+.c-modal__footer {
+  align-items: center;
+  background: @color-neutral-5;
+  border-top: solid 1px @color-neutral-10;
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  gap: @spacing-2;
+  justify-content: flex-end;
+  padding: @spacing-3 @spacing-6;
+}

@@ -493,6 +493,48 @@ Numbered step checklist.
 
 ---
 
+## Modal — `cf_adminui_modal`, `cf_adminui_modal_footer`
+
+`<dialog>` modal with a header (title, description, close button), a body and an optional footer. The tag's content is the body; `cf_adminui_modal_footer` holds the footer's buttons. **`id` is required.**
+
+| Attribute | Default | Notes |
+|-----------|---------|--------|
+| `id` | *(required)* | Throws if empty |
+| `title` | `""` | |
+| `description` | `""` | Shown under the title |
+| `size` | `md` | `sm` (400px), `md` (560px), `lg` (860px), `xl` (1080px), `full` (1400px) |
+| `fill` | `false` | The panel is as tall as the screen allows, for content that scrolls inside itself |
+| `flush` | `false` | No padding or scrolling round the body, for content that brings its own |
+| `open` | `false` | Renders the modal open |
+| `closeLabel` | i18n `admin.components.modal:close.label` | |
+| `class` | `""` | Extra classes on the `<dialog>` |
+
+Any element with `data-modal-open="{id}"` opens it. Inside, `data-modal-close` closes it, as do a click on the backdrop and Escape.
+
+```html
+<cf_adminui_button type="button" text="Rename" attribs="#{ 'data-modal-open'='rename-modal' }#" />
+
+<cf_adminui_modal id="rename-modal" title="Rename the layout" size="sm">
+	<input type="text" name="title" />
+	<cf_adminui_modal_footer>
+		<button type="button" class="btn" data-modal-close>Cancel</button>
+		<button type="submit" class="btn btn-primary">Save</button>
+	</cf_adminui_modal_footer>
+</cf_adminui_modal>
+```
+
+### From script — `window.AdminUiModal`
+
+For modals whose content is only known when they open. The script comes with the tag; a page that only opens modals from script includes it with `event.include( "/js/admin/specific/components/modal/" )`.
+
+* `AdminUiModal.open( "id" )` opens a modal the tag rendered.
+* `AdminUiModal.open( options )` builds a modal with the same markup, opens it and removes it once it closes. Options: `title`, `description`, `body` and `footer` (markup or nodes), `size`, `fill`, `flush`, `className`, `closeLabel`, `id`, `onClose`. Returns the `<dialog>`.
+* `AdminUiModal.close( modal )` closes a modal, given the dialog, its id or any element inside it.
+
+A modal dispatches `modal:open` (bubbling) when it opens and the dialog's own `close` when it closes. Modals open with `show()`, not `showModal()`, so that Preside's Bootstrap modals, such as the asset picker, can still open above them.
+
+---
+
 ## Popover menu — `cf_adminui_popover_menu`
 
 Native `<dialog popover>` menu. Self-closing. **`id` is required.**
