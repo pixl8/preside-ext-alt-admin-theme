@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.4.2
+
+* Admin user and group data tables order by
+
 ## v1.4.1
 
 * Fix colouring of progress bars
