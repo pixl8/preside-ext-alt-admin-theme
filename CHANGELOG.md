@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.3.4
+
+* Fix failed build
+
 ## v1.3.3
 
 * Admin user and group data tables order by
