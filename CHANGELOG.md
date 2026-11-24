@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.2.7
+## v1.2.8
 
 * Admin user and group data tables order by
 
