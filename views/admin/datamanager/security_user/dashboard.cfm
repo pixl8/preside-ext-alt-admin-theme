@@ -53,7 +53,7 @@
 							, allowFilter     = false
 							, allowDataExport = false
 							, allowSearch     = false
-							, datasourceUrl   = event.buildAdminLink( linkTo="datamanager.security_user.getGroupsForAjaxDataTable", queryString="record_id=#recordId#&order_by=is_assigned+desc&is_dashboard=true" )
+							, datasourceUrl   = event.buildAdminLink( linkTo="datamanager.security_user.getGroupsForAjaxDataTable", queryString="record_id=#recordId#&is_dashboard=true" )
 						} )#
 					</div>
 				</div>
