@@ -136,6 +136,8 @@
   color: @text-color;
   font-size: @font-size-sm;
   margin-top: @spacing-1;
+  // Long unbroken strings (URLs, JSON payloads) wrap instead of spilling out of the item
+  overflow-wrap: break-word;
 
   &:first-child {
     margin-top: 0;
