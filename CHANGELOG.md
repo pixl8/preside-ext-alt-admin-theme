@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.5.12
+
+* Text overflow fix in v2 panels
+
 ## v1.5.11
 
 * Fix failed build
